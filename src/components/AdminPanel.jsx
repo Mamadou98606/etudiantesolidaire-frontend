@@ -19,10 +19,6 @@ import {
   Search,
   Filter,
   Download,
-  Eye,
-  Edit,
-  Trash2,
-  UserCheck,
   UserX,
   Calendar,
   Mail,
@@ -122,16 +118,55 @@ const AdminPanel = () => {
     setStats({ total, active, inactive, recent, recentLogin });
   };
 
+  // Suspendre un utilisateur
+  const handleSuspend = async (userId) => {
+    try {
+      const response = await fetch(`https://etudiantesolidaire-backend.onrender.com/users/${userId}/suspend`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) throw new Error(`Erreur ${response.status}`);
+
+      setUsers(prev => {
+        const updated = prev.map(u => u.id === userId ? { ...u, is_active: false } : u);
+        calculateStats(updated);
+        return updated;
+      });
+    } catch (err) {
+      console.error('Erreur lors de la suspension:', err);
+    }
+  };
+
+  // Supprimer un utilisateur
+  const handleDelete = async (userId) => {
+    try {
+      const response = await fetch(`https://etudiantesolidaire-backend.onrender.com/users/${userId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) throw new Error(`Erreur ${response.status}`);
+
+      setUsers(prev => {
+        const updated = prev.filter(u => u.id !== userId);
+        calculateStats(updated);
+        return updated;
+      });
+    } catch (err) {
+      console.error('Erreur lors de la suppression:', err);
+    }
+  };
+
   // Filtrer les utilisateurs
   const loginCutoff = new Date();
   loginCutoff.setDate(loginCutoff.getDate() - 7);
 
   const filteredUsers = users.filter(user => {
-    const matchesSearch =
-      user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.last_name?.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesFilter =
       filterStatus === 'all' ||
@@ -297,7 +332,7 @@ const AdminPanel = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
-                  placeholder="Rechercher par nom, email, nom d'utilisateur..."
+                  placeholder="Rechercher par nom ou e-mail"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -438,6 +473,48 @@ const AdminPanel = () => {
                       <Button variant="outline" size="sm">
                         <Edit className="w-4 h-4" />
                       </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <UserX className="w-4 h-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Suspension de l'utilisateur</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Êtes-vous sûr de vouloir suspendre {user.username} ?
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Annuler</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleSuspend(user.id)}>
+                              Suspendre
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="destructive" size="sm">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Supprimer l'utilisateur</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Cette action est définitive. Supprimer {user.username} ?
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Annuler</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleDelete(user.id)} className="bg-red-600 hover:bg-red-700">
+                              Supprimer
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
                 </div>
