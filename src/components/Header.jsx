@@ -32,23 +32,35 @@ export default function Header({ navigationItems, isAuthenticated, setIsAuthenti
 
       {/* Navigation pour les grands écrans */}
       <nav className="hidden md:flex items-center gap-6">
-        {navigationItems.slice(1, 7).map((item) => (
-          <NavLink
-            key={item.name}
-            to={item.href}
-            className={({ isActive }) =>
-              isActive ? "text-secondary font-bold" : "hover:text-secondary"
-            }
-          >
-            {item.name}
-          </NavLink>
-        ))}
+        {navigationItems.slice(1, 9).map((item) => {
+          if (item.name === "Prendre RDV") {
+            return (
+              <Link key={item.name} to={item.href}>
+                <Button variant="secondary" className="font-bold">
+                  {item.name}
+                </Button>
+              </Link>
+            );
+          }
+          return (
+            <NavLink
+              key={item.name}
+              to={item.href}
+              className={({ isActive }) =>
+                isActive ? "text-secondary font-bold" : "hover:text-secondary"
+              }
+            >
+              {item.name}
+            </NavLink>
+          );
+        })}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost">Plus ▼</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {navigationItems.slice(7).map((item) => (
+            {navigationItems.slice(9).map((item) => (
               <DropdownMenuItem key={item.name} asChild>
                 <Link to={item.href}>{item.name}</Link>
               </DropdownMenuItem>
