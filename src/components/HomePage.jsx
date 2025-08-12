@@ -1,74 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// ========================================
+// FICHIER ADAPTÉ : src/components/HomePage.jsx (REMPLACEMENT)
+// ========================================
+//
+// INSTRUCTIONS :
+// 1. SAUVEGARDER votre HomePage.jsx actuel (renommez-le HomePage.jsx.old)
+// 2. Remplacer tout le contenu de "src/components/HomePage.jsx" par le contenu ci-dessous
+// 3. Sauvegarder
+//
+// ========================================
+
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Calendar, Clock, ArrowRight, BookOpen, CheckCircle, Globe, Users } from "lucide-react";
+import { useAuth } from '../contexts/AuthContext';
 
-import heroImage from "../assets/hero-illustration.png";
-import orientationIcon from "../assets/orientation-icon.png";
-import demarchesIcon from "../assets/demarches-icon.png";
-import vieEtudianteIcon from "../assets/vie-etudiante-icon.png";
-import emploiIcon from "../assets/emploi-icon.png";
-
-export default function HomePage() {
-  const [user, setUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
-
-  // Vérifier l'authentification au chargement
-  useEffect(() => {
-    checkAuthStatus();
-  }, []);
-
-  const checkAuthStatus = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/check-auth", {
-        credentials: "include",
-      });
-      const data = await response.json();
-
-      if (data.authenticated) {
-        setUser(data.user);
-      }
-    } catch (error) {
-      console.error("Erreur lors de la vérification de l'authentification:", error);
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
-  const handleAuthSuccess = (userData) => {
-    setUser(userData);
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-  };
+export default function HomePage({ onNavigate }) {
+  const { user, isAuthenticated } = useAuth();
 
   const services = [
     {
       title: "Orientation",
       description: "Trouvez votre voie parmi les formations françaises",
-      icon: orientationIcon,
+      icon: BookOpen,
       features: ["BTS", "Licence", "Master", "CAP", "Titre professionnel"],
+      path: "orientation"
     },
     {
       title: "Démarches administratives",
       description: "Simplifiez vos démarches visa et titre de séjour",
-      icon: demarchesIcon,
+      icon: CheckCircle,
       features: ["Visa étudiant", "Titre de séjour", "Autorisation de travail"],
+      path: "demarches"
     },
     {
       title: "Vie étudiante",
       description: "Tout pour réussir votre intégration en France",
-      icon: vieEtudianteIcon,
+      icon: Globe,
       features: ["Logement", "Santé", "Transport", "Culture"],
+      path: "vivre-france"
     },
     {
       title: "Emploi",
       description: "Préparez votre insertion professionnelle",
-      icon: emploiIcon,
+      icon: Users,
       features: ["Jobs étudiants", "Stages", "CDI/CDD", "Changement de statut"],
+      path: "travailler"
     },
   ];
 
@@ -100,9 +78,23 @@ export default function HomePage() {
     },
   ];
 
-  if (authLoading) {
-    return <div className="p-10 text-center">Chargement...</div>;
-  }
+  const handleServiceClick = (path) => {
+    if (onNavigate) {
+      onNavigate(path);
+    }
+  };
+
+  const handleDashboardClick = () => {
+    if (onNavigate) {
+      onNavigate('dashboard');
+    }
+  };
+
+  const handleBlogClick = () => {
+    if (onNavigate) {
+      onNavigate('blog');
+    }
+  };
 
   return (
     <div>
@@ -119,21 +111,30 @@ export default function HomePage() {
               De l'orientation aux démarches administratives, en passant par la vie étudiante et l'emploi.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" asChild>
-                {user ? (
-                  <Link to="/espace-perso">Mon espace personnel</Link>
-                ) : (
-                  <Link to="/login">Commencer mon parcours</Link>
-                )}
+              <Button size="lg" onClick={isAuthenticated ? handleDashboardClick : () => onNavigate('qui-sommes-nous')}>
+                {isAuthenticated ? 'Mon espace personnel' : 'Commencer mon parcours'}
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={() => handleServiceClick('orientation')}>
                 <Calendar className="mr-2 h-5 w-5" />
                 Calendrier des échéances
               </Button>
             </div>
+            {isAuthenticated && user && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <p className="text-green-700">
+                  👋 Bonjour {user.first_name || user.username} ! Bienvenue sur votre plateforme.
+                </p>
+              </div>
+            )}
           </div>
-          <div>
-            <img src={heroImage} alt="Étudiants" className="rounded-2xl shadow-xl" />
+          <div className="flex items-center justify-center">
+            {/* Placeholder pour l'image hero */}
+            <div className="w-full h-96 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-2xl shadow-xl flex items-center justify-center">
+              <div className="text-center">
+                <BookOpen className="w-24 h-24 text-blue-600 mx-auto mb-4" />
+                <p className="text-blue-700 font-semibold">Votre réussite commence ici</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -161,10 +162,14 @@ export default function HomePage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, i) => (
-              <Card key={i} className="hover:shadow-lg transition">
+              <Card
+                key={i}
+                className="hover:shadow-lg transition cursor-pointer"
+                onClick={() => handleServiceClick(service.path)}
+              >
                 <CardHeader className="text-center">
                   <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-blue-50 flex items-center justify-center">
-                    <img src={service.icon} alt={service.title} className="w-12 h-12" />
+                    <service.icon className="w-12 h-12 text-blue-600" />
                   </div>
                   <CardTitle>{service.title}</CardTitle>
                   <CardDescription>{service.description}</CardDescription>
@@ -175,6 +180,9 @@ export default function HomePage() {
                       <li key={idx}>• {f}</li>
                     ))}
                   </ul>
+                  <div className="mt-4 text-blue-600 font-medium hover:text-blue-700 flex items-center">
+                    En savoir plus <ArrowRight className="w-4 h-4 ml-1" />
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -192,11 +200,13 @@ export default function HomePage() {
                 Restez informé des dernières actualités
               </p>
             </div>
-            <Button variant="outline">Voir toutes les actualités</Button>
+            <Button variant="outline" onClick={handleBlogClick}>
+              Voir toutes les actualités
+            </Button>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {recentNews.map((news, i) => (
-              <Card key={i} className="hover:shadow-lg transition">
+              <Card key={i} className="hover:shadow-lg transition cursor-pointer" onClick={handleBlogClick}>
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant="secondary">{news.category}</Badge>
@@ -222,20 +232,24 @@ export default function HomePage() {
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-12 text-center text-white">
             <h2 className="text-3xl font-bold mb-4">Prêt à commencer votre parcours ?</h2>
             <p className="text-xl mb-8 opacity-90">
-              Créez votre espace personnel et accédez à tous nos outils
+              {isAuthenticated
+                ? "Accédez à votre espace personnel et découvrez tous nos outils"
+                : "Créez votre espace personnel et accédez à tous nos outils"
+              }
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                {user ? (
-                  <Link to="/espace-perso">Mon espace personnel</Link>
-                ) : (
-                  <Link to="/login">Créer mon compte</Link>
-                )}
+              <Button
+                size="lg"
+                variant="secondary"
+                onClick={isAuthenticated ? handleDashboardClick : () => onNavigate('qui-sommes-nous')}
+              >
+                {isAuthenticated ? 'Mon espace personnel' : 'Créer mon compte'}
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="border-white text-white hover:bg-white hover:text-blue-600"
+                onClick={() => handleServiceClick('orientation')}
               >
                 Découvrir nos services
               </Button>
