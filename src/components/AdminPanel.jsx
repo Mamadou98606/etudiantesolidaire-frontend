@@ -63,7 +63,7 @@ const AdminPanel = () => {
     setError(null);
     
     try {
-      const response = await fetch('https://etudiantesolidaire-backend.onrender.com/users', {
+      const response = await fetch('https://etudiantesolidaire-backend.onrender.com/api/users', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -129,7 +129,7 @@ const AdminPanel = () => {
   // Suspendre un utilisateur
   const handleSuspend = async (userId) => {
     try {
-      const response = await fetch(`https://etudiantesolidaire-backend.onrender.com/users/${userId}/suspend`, {
+      const response = await fetch(`https://etudiantesolidaire-backend.onrender.com/api/users/${userId}/suspend`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -151,7 +151,7 @@ const AdminPanel = () => {
   // Supprimer un utilisateur
   const handleDelete = async (userId) => {
     try {
-      const response = await fetch(`https://etudiantesolidaire-backend.onrender.com/users/${userId}`, {
+      const response = await fetch(`https://etudiantesolidaire-backend.onrender.com/api/users/${userId}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {
