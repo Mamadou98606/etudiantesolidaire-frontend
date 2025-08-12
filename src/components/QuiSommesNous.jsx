@@ -16,22 +16,22 @@ import {
 function QuiSommesNous({ onBack }) {
   const teamMembers = [
     {
-      name: "Marie Dubois",
+      name: "Adama CAMARA DIABY",
       role: "Directrice générale",
-      description: "Experte en accompagnement des étudiants internationaux depuis 10 ans"
+      description: "Experte en accompagnement des étudiants internationaux depuis 5 ans"
     },
     {
-      name: "Ahmed Ben Ali",
+      name: "Mouctar DAIBY",
       role: "Responsable démarches administratives",
       description: "Spécialiste des procédures visa et titre de séjour"
     },
     {
-      name: "Sofia Rodriguez",
+      name: "Mamadou GUIRASSY",
       role: "Conseillère orientation",
       description: "Accompagne les étudiants dans leur choix de formation"
     },
     {
-      name: "Jean-Pierre Martin",
+      name: "Kady GUIRASSY",
       role: "Responsable partenariats",
       description: "Développe les relations avec les établissements d'enseignement"
     }
@@ -272,8 +272,8 @@ function QuiSommesNous({ onBack }) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  123 Avenue des Étudiants<br />
-                  75005 Paris, France
+                  Rue Daubenton<br />
+                  59100 Lille, France
                 </p>
               </CardContent>
             </Card>
@@ -302,7 +302,7 @@ function QuiSommesNous({ onBack }) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  +33 1 23 45 67 89<br />
+                  +33 7 00 00 00 00<br />
                   Lun-Ven: 9h-18h
                 </p>
               </CardContent>
