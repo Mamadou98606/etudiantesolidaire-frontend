@@ -11,7 +11,6 @@ import Demarches from './components/Demarches';
 import Etudes from './components/Etudes';
 import Travailler from './components/Travailler';
 import VivreFrance from './components/VivreFrance';
-import QuiSommesNous from './components/QuiSommesNous';
 import EspacePerso from './components/EspacePerso';
 import Login from './components/Login';
 
