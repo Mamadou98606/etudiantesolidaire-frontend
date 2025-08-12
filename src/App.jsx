@@ -13,7 +13,29 @@ import Travailler from './components/Travailler';
 import VivreFrance from './components/VivreFrance';
 import UserDashboard from './components/UserDashboard';
 import AuthModal from './components/AuthModal';
-
+import {
+  Menu,
+  X,
+  GraduationCap,
+  FileText,
+  BookOpen,
+  Briefcase,
+  Home,
+  Calendar,
+  User,
+  ChevronDown,
+  MapPin,
+  Clock,
+  Users,
+  Star,
+  ArrowRight
+} from 'lucide-react'
+import heroImage from './assets/hero-illustration.png'
+import orientationIcon from './assets/orientation-icon.png'
+import demarchesIcon from './assets/demarches-icon.png'
+import vieEtudianteIcon from './assets/vie-etudiante-icon.png'
+import emploiIcon from './assets/emploi-icon.png'
+import './App.css'
 
 // Importez les NOUVEAUX composants
 import Blog from './components/Blog';
