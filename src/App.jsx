@@ -13,7 +13,7 @@ import UserDashboard from './components/UserDashboard';
 import Blog from './components/Blog';
 import Temoignages from './components/Temoignages';
 import PriseRDV from './components/PriseRDV';
-
+import './App.css'
 import { navigationItems } from './navigation';
 
 export default function App() {
