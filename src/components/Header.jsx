@@ -23,14 +23,6 @@ function MountainIcon(props) {
 }
 
 export default function Header({ navigationItems, isAuthenticated, setIsAuthenticated }) {
-  // Prendre RDV est à l'index 9 (d'après ta liste)
-  // On affiche les liens 1 à 8 dans la nav normale (index 1 inclus, index 9 exclu)
-  // On met Témoignages (index 8) dans le menu Plus
-
-  const visibleNavItems = navigationItems.slice(1, 9); // jusqu'à 'Prendre RDV' exclu
-  const prendreRDVItem = navigationItems.find(item => item.name === "Prendre RDV");
-  const moreItems = navigationItems.slice(9); // à partir de Témoignages
-
   return (
     <header className="bg-primary text-primary-foreground py-4 px-6 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-2">
@@ -40,7 +32,7 @@ export default function Header({ navigationItems, isAuthenticated, setIsAuthenti
 
       {/* Navigation pour les grands écrans */}
       <nav className="hidden md:flex items-center gap-6">
-        {visibleNavItems.map(item => (
+        {navigationItems.slice(1, navigationItems.length - 1).map((item) => (
           <NavLink
             key={item.name}
             to={item.href}
@@ -52,29 +44,13 @@ export default function Header({ navigationItems, isAuthenticated, setIsAuthenti
           </NavLink>
         ))}
 
-        {/* Bouton très visible pour Prendre RDV */}
-        {prendreRDVItem && (
-          <Link to={prendreRDVItem.href}>
-            <Button variant="secondary" className="font-bold ml-4">
-              {prendreRDVItem.name}
+        {/* Bouton Prendre RDV bien visible */}
+        {navigationItems.length > 0 && (
+          <NavLink to={navigationItems[navigationItems.length - 1].href}>
+            <Button variant="secondary" className="ml-4">
+              {navigationItems[navigationItems.length - 1].name}
             </Button>
-          </Link>
-        )}
-
-        {/* Menu Plus (juste Témoignages) */}
-        {moreItems.length > 0 && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="ml-4">Plus ▼</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {moreItems.map(item => (
-                <DropdownMenuItem key={item.name} asChild>
-                  <Link to={item.href}>{item.name}</Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          </NavLink>
         )}
       </nav>
 
