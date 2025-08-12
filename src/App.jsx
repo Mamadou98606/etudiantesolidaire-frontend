@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { navigationItems } from './navigation';
+
 import Header from './components/Header';
-
-
-// Pages
-import './App.css'
 import HomePage from './components/HomePage';
 import QuiSommesNous from './components/QuiSommesNous';
 import Orientation from './components/Orientation';
@@ -14,11 +10,11 @@ import Etudes from './components/Etudes';
 import Travailler from './components/Travailler';
 import VivreFrance from './components/VivreFrance';
 import UserDashboard from './components/UserDashboard';
-import AuthModal from './components/AuthModal';
 import Blog from './components/Blog';
-import PriseRDV from './components/PriseRDV';
 import Temoignages from './components/Temoignages';
+import PriseRDV from './components/PriseRDV';
 
+import { navigationItems } from './navigation';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,7 +27,7 @@ export default function App() {
           isAuthenticated={isAuthenticated}
           setIsAuthenticated={setIsAuthenticated}
         />
-        <main className="flex-1">
+        <main className="flex-1 p-4">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
@@ -41,7 +37,6 @@ export default function App() {
             <Route path="/travailler" element={<Travailler />} />
             <Route path="/vivre-en-france" element={<VivreFrance />} />
             <Route path="/espace-perso" element={<UserDashboard />} />
-            <Route path="/login" element={<AuthModal setAuth={setIsAuthenticated} />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/temoignages" element={<Temoignages />} />
             <Route path="/prendre-rdv" element={<PriseRDV />} />

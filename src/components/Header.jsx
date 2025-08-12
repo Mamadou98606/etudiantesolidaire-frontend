@@ -1,112 +1,85 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-
-function MenuIcon(props) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>
-  );
-}
-
-function MountainIcon(props) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
+import AuthModal from './AuthModal';
 
 export default function Header({ navigationItems, isAuthenticated, setIsAuthenticated }) {
-  return (
-    <header className="bg-primary text-primary-foreground py-4 px-6 flex items-center justify-between">
-      <Link to="/" className="flex items-center gap-2">
-        <MountainIcon className="h-6 w-6" />
-        <span className="text-lg font-bold">Etudiant Solidaire</span>
-      </Link>
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState('login'); // 'login' ou 'register'
 
-      {/* Navigation pour les grands écrans */}
-      <nav className="hidden md:flex items-center gap-6">
-        {navigationItems.slice(1, navigationItems.length - 1).map((item) => (
+  const openLogin = () => {
+    setAuthMode('login');
+    setAuthModalOpen(true);
+  };
+
+  const openRegister = () => {
+    setAuthMode('register');
+    setAuthModalOpen(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    // Ici tu peux ajouter la déconnexion serveur si besoin
+  };
+
+  const onAuthSuccess = (user) => {
+    setIsAuthenticated(true);
+    setAuthModalOpen(false);
+    // Tu peux stocker les infos utilisateur si nécessaire
+  };
+
+  return (
+    <header className="bg-primary text-primary-foreground py-4 px-6 flex items-center justify-between shadow">
+      <Link to="/" className="text-xl font-bold">Etudiant Solidaire</Link>
+
+      <nav className="flex gap-4">
+        {navigationItems.map(item => (
           <NavLink
             key={item.name}
             to={item.href}
             className={({ isActive }) =>
-              isActive ? "text-secondary font-bold" : "hover:text-secondary"
+              isActive ? 'font-bold text-secondary' : 'hover:text-secondary'
             }
           >
             {item.name}
           </NavLink>
         ))}
-
-        {/* Bouton Prendre RDV bien visible */}
-        {navigationItems.length > 0 && (
-          <NavLink to={navigationItems[navigationItems.length - 1].href}>
-            <Button variant="secondary" className="ml-4">
-              {navigationItems[navigationItems.length - 1].name}
-            </Button>
-          </NavLink>
-        )}
       </nav>
 
       <div className="flex items-center gap-4">
         {isAuthenticated ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <img
-                  src="/placeholder.svg"
-                  width="32"
-                  height="32"
-                  className="rounded-full"
-                  alt="Avatar"
-                />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Link to="/espace-perso">Mon Espace</Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setIsAuthenticated(false)}>
-                Déconnexion
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <>
+            <Link to="/espace-perso" className="font-medium">Mon Espace</Link>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+            >
+              Déconnexion
+            </button>
+          </>
         ) : (
-          <Link to="/login">
-            <Button variant="secondary">Connexion</Button>
-          </Link>
+          <>
+            <button
+              onClick={openRegister}
+              className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+            >
+              Créer un compte
+            </button>
+            <button
+              onClick={openLogin}
+              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+            >
+              Connexion
+            </button>
+          </>
         )}
-
-        {/* Menu pour les petits écrans (mobile) */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <MenuIcon className="h-6 w-6" />
-              <span className="sr-only">Ouvrir le menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <div className="grid gap-4 p-6">
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="font-medium hover:text-primary"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </SheetContent>
-        </Sheet>
       </div>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onAuthSuccess={onAuthSuccess}
+        initialMode={authMode}
+      />
     </header>
   );
 }
