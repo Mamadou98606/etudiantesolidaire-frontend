@@ -11,7 +11,7 @@ import Demarches from './components/Demarches';
 import Etudes from './components/Etudes';
 import Travailler from './components/Travailler';
 import VivreFrance from './components/VivreFrance';
-import EspacePerso from './components/EspacePerso';
+import UserDashboard from './components/UserDashboard';
 import Login from './components/Login';
 
 // Importez les NOUVEAUX composants
@@ -131,14 +131,15 @@ export default function App() {
         <main className="flex-1">
           <Routes>
             {/* L'attribut "element" prend le composant à afficher */}
-            <Route path="/" element={<QuiSommesNous/>} />
+            <Route path="/" element={<QuiSommesNous />} />
             <Route path="/orientation" element={<Orientation />} />
             <Route path="/demarches" element={<Demarches />} />
             <Route path="/etudes" element={<Etudes />} />
             <Route path="/travailler" element={<Travailler />} />
             <Route path="/vivre-en-france" element={<VivreFrance />} />
             <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
-            <Route path="/espace-perso" element={<EspacePerso />} />
+            <Route path="/espace-perso" element={<UserDashboard />} />
+
             <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
 
             {/* Nouvelles routes */}
