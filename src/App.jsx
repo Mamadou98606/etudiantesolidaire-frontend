@@ -35,6 +35,12 @@ import Travailler from './components/Travailler.jsx'
 import VivreFrance from './components/VivreFrance.jsx'
 import AuthModal from './components/AuthModal.jsx'
 import UserDashboard from './components/UserDashboard.jsx'
+// NOUVEAUX IMPORTS AJOUTÉS
+import Blog from './components/Blog.jsx'
+import BlogPost from './components/BlogPost.jsx'
+import BlogEditor from './components/BlogEditor.jsx'
+import Temoignages from './components/Temoignages.jsx'
+import PriseRDV from './components/PriseRDV.jsx'
 
 function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -43,6 +49,8 @@ function HomePage() {
   const [showDashboard, setShowDashboard] = useState(false)
   const [user, setUser] = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
+  // NOUVEL ÉTAT AJOUTÉ
+  const [currentView, setCurrentView] = useState('home')
 
   // Vérifier l'authentification au chargement
   useEffect(() => {
@@ -55,7 +63,7 @@ function HomePage() {
         credentials: 'include'
       })
       const data = await response.json()
-      
+
       if (data.authenticated) {
         setUser(data.user)
       }
@@ -64,6 +72,19 @@ function HomePage() {
     } finally {
       setAuthLoading(false)
     }
+  }
+
+  // NOUVELLES CONDITIONS DE RENDU AJOUTÉES
+  if (currentView === 'blog') {
+    return <Blog onBack={() => setCurrentView('home')} />
+  }
+
+  if (currentView === 'temoignages') {
+    return <Temoignages onBack={() => setCurrentView('home')} />
+  }
+
+  if (currentView === 'rdv') {
+    return <PriseRDV onBack={() => setCurrentView('home')} />
   }
 
   const handleAuthSuccess = (userData) => {
@@ -77,18 +98,22 @@ function HomePage() {
   }
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
-  
+
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown)
   }
 
+  // NAVIGATION ITEMS MODIFIÉE
   const navigationItems = [
     { name: 'Qui sommes-nous ?', href: '/qui-sommes-nous' },
     { name: 'Orientation', href: '/orientation' },
     { name: 'Démarches', href: '/demarches' },
     { name: 'Études', href: '/etudes' },
     { name: 'Travailler', href: '/travailler' },
-    { name: 'Vivre en France', href: '/vivre-en-france' }
+    { name: 'Vivre en France', href: '/vivre-en-france' },
+    { name: 'Blog', action: () => setCurrentView('blog') },
+    { name: 'Témoignages', action: () => setCurrentView('temoignages') },
+    { name: 'Prendre RDV', action: () => setCurrentView('rdv') }
   ]
 
   const services = [
@@ -158,7 +183,7 @@ function HomePage() {
               <span className="text-xl font-bold text-foreground">etudiantesolidaire</span>
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - MODIFIÉE */}
             <nav className="hidden md:flex items-center space-x-6">
               {navigationItems.map((item) => (
                 <div key={item.name} className="relative">
@@ -185,6 +210,14 @@ function HomePage() {
                         </div>
                       )}
                     </div>
+                  ) : item.action ? (
+                    // NOUVEAU : Bouton pour les nouvelles fonctionnalités
+                    <button
+                      onClick={item.action}
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {item.name}
+                    </button>
                   ) : (
                     <Link
                       to={item.href}
@@ -231,18 +264,29 @@ function HomePage() {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Navigation - MODIFIÉE */}
           {isMenuOpen && (
             <div className="md:hidden py-4 border-t">
               <nav className="flex flex-col space-y-4">
                 {navigationItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {item.name}
-                  </Link>
+                  item.action ? (
+                    // NOUVEAU : Bouton pour mobile
+                    <button
+                      key={item.name}
+                      onClick={item.action}
+                      className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {item.name}
+                    </button>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  )
                 ))}
                 <div className="flex flex-col space-y-2 pt-4 border-t">
                   {user ? (
@@ -286,7 +330,7 @@ function HomePage() {
                 <span className="text-blue-600"> simplifié</span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                De l'orientation aux démarches administratives, en passant par la vie étudiante et l'emploi. 
+                De l'orientation aux démarches administratives, en passant par la vie étudiante et l'emploi.
                 Nous vous accompagnons à chaque étape de votre réussite en France.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -340,7 +384,7 @@ function HomePage() {
               Une plateforme complète pour vous accompagner dans toutes les étapes de votre parcours étudiant en France
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <Card key={index} className="group hover:shadow-lg transition-all duration-300 cursor-pointer">
@@ -381,11 +425,11 @@ function HomePage() {
                 Restez informé des dernières actualités et échéances importantes
               </p>
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => setCurrentView('blog')}>
               Voir toutes les actualités
             </Button>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {recentNews.map((news, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
@@ -421,31 +465,18 @@ function HomePage() {
               Créez votre espace personnel et accédez à tous nos outils d'accompagnement
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-lg px-8" onClick={() => setShowAuthModal(true)}>
+              <Button size="lg" variant="secondary" className="text-lg px-8" onClick={() => user ? setShowDashboard(true) : setShowAuthModal(true)}>
                 {user ? 'Mon espace personnel' : 'Créer mon compte'}
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-blue-600">
-                Découvrir nos services
+              <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-blue-700" onClick={() => setCurrentView('rdv')}>
+                <Calendar className="mr-2 h-5 w-5" />
+                Prendre rendez-vous
               </Button>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Modales */}
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)}
-        onAuthSuccess={handleAuthSuccess}
-      />
-      
-      {showDashboard && user && (
-        <UserDashboard 
-          user={user}
-          onLogout={handleLogout}
-          onClose={() => setShowDashboard(false)}
-        />
-      )}
 
       {/* Footer */}
       <footer className="bg-muted py-16 px-4">
@@ -453,49 +484,65 @@ function HomePage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <GraduationCap className="h-8 w-8 text-blue-600" />
-                <span className="text-xl font-bold">etudiantesolidaire</span>
+                <GraduationCap className="h-6 w-6 text-blue-600" />
+                <span className="text-lg font-bold">etudiantesolidaire</span>
               </div>
-              <p className="text-muted-foreground">
-                Votre plateforme de référence pour réussir vos études en France
+              <p className="text-sm text-muted-foreground">
+                Votre partenaire pour réussir vos études en France
               </p>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-4">Services</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground transition-colors">Orientation</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">Démarches</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">Vie étudiante</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">Emploi</a></li>
+              <h4 className="font-semibold mb-4">Services</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-foreground">Orientation</a></li>
+                <li><a href="#" className="hover:text-foreground">Démarches</a></li>
+                <li><a href="#" className="hover:text-foreground">Vie étudiante</a></li>
+                <li><a href="#" className="hover:text-foreground">Emploi</a></li>
               </ul>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-4">Ressources</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">Guides</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">FAQ</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">Contact</a></li>
+              <h4 className="font-semibold mb-4">Ressources</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><button onClick={() => setCurrentView('blog')} className="hover:text-foreground">Blog</button></li>
+                <li><button onClick={() => setCurrentView('temoignages')} className="hover:text-foreground">Témoignages</button></li>
+                <li><a href="#" className="hover:text-foreground">FAQ</a></li>
+                <li><a href="#" className="hover:text-foreground">Guides</a></li>
               </ul>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-4">Légal</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground transition-colors">Mentions légales</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">Politique de confidentialité</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">CGU</a></li>
+              <h4 className="font-semibold mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><button onClick={() => setCurrentView('rdv')} className="hover:text-foreground">Prendre RDV</button></li>
+                <li><a href="mailto:contact@etudiantesolidaire.com" className="hover:text-foreground">Email</a></li>
+                <li><a href="#" className="hover:text-foreground">Support</a></li>
               </ul>
             </div>
           </div>
-          
-          <div className="border-t mt-12 pt-8 text-center text-muted-foreground">
+
+          <div className="border-t mt-12 pt-8 text-center text-sm text-muted-foreground">
             <p>&copy; 2024 etudiantesolidaire. Tous droits réservés.</p>
           </div>
         </div>
       </footer>
+
+      {/* Modals */}
+      {showAuthModal && (
+        <AuthModal
+          onClose={() => setShowAuthModal(false)}
+          onAuthSuccess={handleAuthSuccess}
+        />
+      )}
+
+      {showDashboard && user && (
+        <UserDashboard
+          user={user}
+          onClose={() => setShowDashboard(false)}
+          onLogout={handleLogout}
+        />
+      )}
     </div>
   )
 }
@@ -504,18 +551,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/qui-sommes-nous" element={<QuiSommesNous onBack={() => window.history.back()} />} />
-        <Route path="/orientation" element={<Orientation onBack={() => window.history.back()} />} />
-        <Route path="/demarches" element={<Demarches onBack={() => window.history.back()} />} />
-        <Route path="/etudes" element={<Etudes onBack={() => window.history.back()} />} />
-        <Route path="/travailler" element={<Travailler onBack={() => window.history.back()} />} />
-        <Route path="/vivre-en-france" element={<VivreFrance onBack={() => window.history.back()} />} />
+        <Route path="/*" element={<HomePage />} />
       </Routes>
     </Router>
   )
 }
 
 export default App
-
 
