@@ -80,6 +80,7 @@ class AuthService {
         if (data.user) {
           this.user = data.user;
           localStorage.setItem('user_data', JSON.stringify(data.user));
+          // Aucun besoin de mettre à jour last_login ici : le backend s'en charge
         }
         return { success: true, data };
       } else {

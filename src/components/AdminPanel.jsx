@@ -14,15 +14,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { 
-  Users, 
-  Search, 
-  Filter, 
-  Download, 
-  Eye, 
-  Edit, 
-  Trash2, 
-  UserCheck, 
+import {
+  Users,
+  Search,
+  Filter,
+  Download,
+  Eye,
+  Edit,
+  Trash2,
+  UserCheck,
   UserX,
   Calendar,
   Mail,
@@ -30,7 +30,8 @@ import {
   GraduationCap,
   BookOpen,
   RefreshCw,
-  AlertCircle
+  AlertCircle,
+  Clock
 } from 'lucide-react';
 
 const AdminPanel = () => {
@@ -39,11 +40,13 @@ const AdminPanel = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [loginFilter, setLoginFilter] = useState('all');
   const [stats, setStats] = useState({
     total: 0,
     active: 0,
     inactive: 0,
-    recent: 0
+    recent: 0,
+    recentLogin: 0
   });
 
   // Charger les utilisateurs
@@ -52,7 +55,7 @@ const AdminPanel = () => {
     setError(null);
     
     try {
-      const response = await fetch('https://etudiantesolidaire-backend.onrender.com/users', {
+      const response = await fetch('https://etudiantesolidaire-backend.onrender.com/users/login-history', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -111,24 +114,35 @@ const AdminPanel = () => {
       if (!user.created_at) return false;
       return new Date(user.created_at) > sevenDaysAgo;
     }).length;
+    const recentLogin = usersList.filter(user => {
+      if (!user.last_login) return false;
+      return new Date(user.last_login) > sevenDaysAgo;
+    }).length;
 
-    setStats({ total, active, inactive, recent });
+    setStats({ total, active, inactive, recent, recentLogin });
   };
 
   // Filtrer les utilisateurs
+  const loginCutoff = new Date();
+  loginCutoff.setDate(loginCutoff.getDate() - 7);
+
   const filteredUsers = users.filter(user => {
-    const matchesSearch = 
+    const matchesSearch =
       user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.last_name?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesFilter = 
+    const matchesFilter =
       filterStatus === 'all' ||
       (filterStatus === 'active' && user.is_active) ||
       (filterStatus === 'inactive' && !user.is_active);
 
-    return matchesSearch && matchesFilter;
+    const matchesLogin =
+      loginFilter !== 'recent' ||
+      (user.last_login && new Date(user.last_login) >= loginCutoff);
+
+    return matchesSearch && matchesFilter && matchesLogin;
   });
 
   // Formater la date
@@ -313,6 +327,14 @@ const AdminPanel = () => {
               >
                 <UserX className="w-4 h-4 mr-1" />
                 Inactifs ({stats.inactive})
+              </Button>
+              <Button
+                variant={loginFilter === 'recent' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setLoginFilter(loginFilter === 'recent' ? 'all' : 'recent')}
+              >
+                <Clock className="w-4 h-4 mr-1" />
+                Connexions 7j ({stats.recentLogin})
               </Button>
             </div>
           </div>
