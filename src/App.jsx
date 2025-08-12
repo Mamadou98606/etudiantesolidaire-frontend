@@ -12,7 +12,8 @@ import Etudes from './components/Etudes';
 import Travailler from './components/Travailler';
 import VivreFrance from './components/VivreFrance';
 import UserDashboard from './components/UserDashboard';
-import Login from './components/Login';
+import AuthModal from './components/AuthModal';
+
 
 // Importez les NOUVEAUX composants
 import Blog from './components/Blog';
@@ -139,8 +140,8 @@ export default function App() {
             <Route path="/vivre-en-france" element={<VivreFrance />} />
             <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
             <Route path="/espace-perso" element={<UserDashboard />} />
+            <Route path="/login" element={<AuthModal setAuth={setIsAuthenticated} />} />
 
-            <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
 
             {/* Nouvelles routes */}
             <Route path="/blog" element={<Blog />} />
