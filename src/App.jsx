@@ -3,16 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Link, NavLink } from 'react-rou
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-
-// Importez TOUS vos composants de page ici
-import QuiSommesNous from './components/QuiSommesNous'; // Assurez-vous que ce composant existe
-import Orientation from './components/Orientation';
-import Demarches from './components/Demarches';
-import Etudes from './components/Etudes';
-import Travailler from './components/Travailler';
-import VivreFrance from './components/VivreFrance';
-import UserDashboard from './components/UserDashboard';
-import AuthModal from './components/AuthModal';
 import {
   Menu,
   X,
@@ -37,7 +27,15 @@ import vieEtudianteIcon from './assets/vie-etudiante-icon.png'
 import emploiIcon from './assets/emploi-icon.png'
 import './App.css'
 
-// Importez les NOUVEAUX composants
+// Importez TOUS vos composants de page ici
+import QuiSommesNous from './components/QuiSommesNous'; // Assurez-vous que ce composant existe
+import Orientation from './components/Orientation';
+import Demarches from './components/Demarches';
+import Etudes from './components/Etudes';
+import Travailler from './components/Travailler';
+import VivreFrance from './components/VivreFrance';
+import UserDashboard from './components/UserDashboard';
+import AuthModal from './components/AuthModal';
 import Blog from './components/Blog';
 import Temoignages from './components/Temoignages';
 import PriseRDV from './components/PriseRDV';
