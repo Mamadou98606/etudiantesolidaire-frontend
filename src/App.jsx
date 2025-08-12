@@ -5,6 +5,7 @@ import Header from './components/Header';
 
 
 // Pages
+import './App.css'
 import HomePage from './components/HomePage';
 import QuiSommesNous from './components/QuiSommesNous';
 import Orientation from './components/Orientation';
