@@ -5,7 +5,7 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
 // Importez TOUS vos composants de page ici
-import Home from './components/Home'; // Assurez-vous que ce composant existe
+import QuiSommesNous from './components/QuiSommesNous'; // Assurez-vous que ce composant existe
 import Orientation from './components/Orientation';
 import Demarches from './components/Demarches';
 import Etudes from './components/Etudes';
@@ -132,7 +132,7 @@ export default function App() {
         <main className="flex-1">
           <Routes>
             {/* L'attribut "element" prend le composant à afficher */}
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<QuiSommesNous/>} />
             <Route path="/orientation" element={<Orientation />} />
             <Route path="/demarches" element={<Demarches />} />
             <Route path="/etudes" element={<Etudes />} />
