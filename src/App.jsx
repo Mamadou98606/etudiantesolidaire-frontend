@@ -26,7 +26,7 @@ import './App.css';
 import { navigationItems } from './navigation';
 
 // Header avec authentification et React Router
-const Header = ({ onAuthClick }) => {
+const Header = ({ onLoginClick, onRegisterClick }) => {
   const { isAuthenticated, user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -174,13 +174,13 @@ const Header = ({ onAuthClick }) => {
             ) : (
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={onAuthClick}
+                  onClick={() => onLoginClick()}
                   className="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
                 >
                   Connexion
                 </button>
                 <button
-                  onClick={onAuthClick}
+                  onClick={() => onRegisterClick()}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium transition-colors"
                 >
                   S'inscrire
@@ -246,10 +246,10 @@ const Header = ({ onAuthClick }) => {
                   </div>
                 ) : (
                   <div className="space-y-1">
-                    <button onClick={() => { onAuthClick(); setIsMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:bg-blue-50 transition-colors">
+                    <button onClick={() => { onLoginClick(); setIsMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:bg-blue-50 transition-colors">
                       Connexion
                     </button>
-                    <button onClick={() => { onAuthClick(); setIsMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                    <button onClick={() => { onRegisterClick(); setIsMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors">
                       S'inscrire
                     </button>
                   </div>
@@ -268,7 +268,13 @@ const AppContent = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login');
 
-  const handleAuthClick = () => {
+  const handleLoginClick = () => {
+    setAuthModalMode('login');
+    setShowAuthModal(true);
+  };
+
+  const handleRegisterClick = () => {
+    setAuthModalMode('register');
     setShowAuthModal(true);
   };
 
@@ -279,7 +285,10 @@ const AppContent = () => {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <Header onAuthClick={handleAuthClick} />
+        <Header
+          onLoginClick={handleLoginClick}
+          onRegisterClick={handleRegisterClick}
+        />
         <main className="flex-1 p-4">
           <Routes>
             <Route path="/" element={<HomePage />} />
