@@ -152,7 +152,8 @@ export default function App() {
         <main className="flex-1">
           <Routes>
             {/* L'attribut "element" prend le composant à afficher */}
-            <Route path="/" element={<QuiSommesNous />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
             <Route path="/orientation" element={<Orientation />} />
             <Route path="/demarches" element={<Demarches />} />
             <Route path="/etudes" element={<Etudes />} />

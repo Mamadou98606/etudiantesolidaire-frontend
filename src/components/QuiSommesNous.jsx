@@ -2,10 +2,10 @@ import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
-import { 
-  Users, 
-  Target, 
-  Heart, 
+import {
+  Users,
+  Target,
+  Heart,
   Award,
   MapPin,
   Mail,
@@ -76,8 +76,8 @@ function QuiSommesNous({ onBack }) {
       <div className="container mx-auto px-4">
         {/* Header avec bouton retour */}
         <div className="mb-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={onBack}
             className="mb-4"
           >
@@ -98,9 +98,9 @@ function QuiSommesNous({ onBack }) {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-blue-700 leading-relaxed">
-                etudiantesolidaire accompagne les étudiants étrangers à chaque étape de leur parcours d'études en France. 
-                Nous simplifions les démarches administratives, facilitons l'orientation académique et soutenons 
-                l'intégration sociale et professionnelle. Notre objectif est de faire de votre expérience étudiante 
+                etudiantesolidaire accompagne les étudiants étrangers à chaque étape de leur parcours d'études en France.
+                Nous simplifions les démarches administratives, facilitons l'orientation académique et soutenons
+                l'intégration sociale et professionnelle. Notre objectif est de faire de votre expérience étudiante
                 en France un succès complet.
               </p>
             </CardContent>
@@ -120,7 +120,7 @@ function QuiSommesNous({ onBack }) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Devenir la plateforme de référence pour l'accompagnement des étudiants internationaux en France, 
+                  Devenir la plateforme de référence pour l'accompagnement des étudiants internationaux en France,
                   en digitalisant et simplifiant toutes les étapes du parcours étudiant.
                 </p>
               </CardContent>
@@ -134,7 +134,7 @@ function QuiSommesNous({ onBack }) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Avoir accompagné plus de 100,000 étudiants étrangers dans leur réussite académique et 
+                  Avoir accompagné plus de 100,000 étudiants étrangers dans leur réussite académique et
                   professionnelle en France, avec un taux de satisfaction de 98%.
                 </p>
               </CardContent>
@@ -221,12 +221,12 @@ function QuiSommesNous({ onBack }) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Lancement de la plateforme avec une équipe de 3 personnes et l'accompagnement 
+                  Lancement de la plateforme avec une équipe de 3 personnes et l'accompagnement
                   des premiers 500 étudiants étrangers.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -236,12 +236,12 @@ function QuiSommesNous({ onBack }) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Développement des services d'orientation et de placement professionnel. 
+                  Développement des services d'orientation et de placement professionnel.
                   Partenariats avec 50+ établissements d'enseignement supérieur.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -251,7 +251,7 @@ function QuiSommesNous({ onBack }) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Lancement de la plateforme digitale complète avec espace personnel, 
+                  Lancement de la plateforme digitale complète avec espace personnel,
                   calendrier interactif et outils d'orientation automatisés.
                 </p>
               </CardContent>
@@ -277,7 +277,7 @@ function QuiSommesNous({ onBack }) {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -292,7 +292,7 @@ function QuiSommesNous({ onBack }) {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
