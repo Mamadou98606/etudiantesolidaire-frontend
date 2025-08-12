@@ -28,6 +28,7 @@ import emploiIcon from './assets/emploi-icon.png'
 import './App.css'
 
 // Importez TOUS vos composants de page ici
+import HomePage from './components/HomePage';
 import QuiSommesNous from './components/QuiSommesNous'; // Assurez-vous que ce composant existe
 import Orientation from './components/Orientation';
 import Demarches from './components/Demarches';
