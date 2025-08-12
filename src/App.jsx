@@ -16,8 +16,9 @@ import VivreFrance from './components/VivreFrance';
 import UserDashboard from './components/UserDashboard';
 import AuthModal from './components/AuthModal';
 import Blog from './components/Blog';
-import Temoignages from './components/Temoignages';
 import PriseRDV from './components/PriseRDV';
+import Temoignages from './components/Temoignages';
+
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
