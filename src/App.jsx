@@ -21,6 +21,7 @@ import PriseRDV from './components/PriseRDV';
 import AdminPanel from './components/AdminPanel';
 import AuthModal from './components/AuthModal';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 
 import './App.css';
 import { navigationItems } from './navigation';
@@ -304,9 +305,9 @@ const AppContent = () => {
               </ProtectedRoute>
             } />
             <Route path="/admin" element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <AdminPanel />
-              </ProtectedRoute>
+              </AdminRoute>
             } />
             <Route path="/blog" element={<Blog />} />
             <Route path="/temoignages" element={<Temoignages />} />
