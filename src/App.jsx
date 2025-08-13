@@ -20,10 +20,8 @@ import AdminPanel from './components/AdminPanel';
 import AuthModal from './components/AuthModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
-import { Toaster } from 'sonner';
 
 import './App.css';
-import { navigationItems } from './navigation';
 
 const Header = ({ onLoginClick, onRegisterClick }) => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -143,7 +141,7 @@ const Header = ({ onLoginClick, onRegisterClick }) => {
                       >
                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 06 0z" />
                         </svg>
                         Administration
                       </button>
@@ -273,10 +271,7 @@ const AppContent = () => {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <Header
-          onLoginClick={handleLoginClick}
-          onRegisterClick={handleRegisterClick}
-        />
+        <Header onLoginClick={handleLoginClick} onRegisterClick={handleRegisterClick} />
         <main className="flex-1 p-4">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -286,16 +281,22 @@ const AppContent = () => {
             <Route path="/etudes" element={<Etudes />} />
             <Route path="/travailler" element={<Travailler />} />
             <Route path="/vivre-en-france" element={<VivreFrance />} />
-            <Route path="/espace-perso" element={
-              <ProtectedRoute>
-                <UserDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin" element={
-              <AdminRoute>
-                <AdminPanel />
-              </AdminRoute>
-            } />
+            <Route
+              path="/espace-perso"
+              element={
+                <ProtectedRoute>
+                  <UserDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminPanel />
+                </AdminRoute>
+              }
+            />
             <Route path="/blog" element={<Blog />} />
             <Route path="/temoignages" element={<Temoignages />} />
             <Route path="/prendre-rdv" element={<PriseRDV />} />
@@ -319,7 +320,6 @@ const AppContent = () => {
 export default function App() {
   return (
     <AuthProvider>
-      <Toaster position="top-right" richColors />
       <AppContent />
     </AuthProvider>
   );
