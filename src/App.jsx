@@ -22,6 +22,7 @@ import AdminPanel from './components/AdminPanel';
 import AuthModal from './components/AuthModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
+import { Toaster } from 'sonner';
 
 import './App.css';
 import { navigationItems } from './navigation';
@@ -264,6 +265,14 @@ const Header = ({ onLoginClick, onRegisterClick }) => {
   );
 };
 
+export default function App() {
+  return (
+    <AuthProvider>
+      <Toaster position="top-right" richColors />
+      <AppContent />
+    </AuthProvider>
+  );
+}
 // Composant principal avec routes
 const AppContent = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
