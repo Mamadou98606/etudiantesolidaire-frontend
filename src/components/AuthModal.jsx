@@ -1,21 +1,9 @@
-// ========================================
-// FICHIER 5 : src/components/AuthModal.jsx (REMPLACEMENT)
-// ========================================
-//
-// INSTRUCTIONS :
-// 1. SAUVEGARDER votre AuthModal.jsx actuel (renommez-le AuthModal.jsx.old)
-// 2. Remplacer tout le contenu de "src/components/AuthModal.jsx" par le contenu ci-dessous
-// 3. Sauvegarder
-//
-// ========================================
-
 import React, { useState, useEffect } from 'react';
 import { X, Eye, EyeOff, User, Mail, Lock, Globe, GraduationCap, BookOpen } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { toast } from 'sonner';
 
 const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode }) => {
-  const { login, register, loading, error, clearError } = useAuth();
+  const { login, register, error, clearError } = useAuth();
 
   // États du formulaire
   const [formData, setFormData] = useState({
@@ -34,6 +22,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false); // spinner local fiable
 
   // Options pour les sélecteurs
   const studyLevels = [
@@ -65,19 +54,15 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
     clearError();
   }, [mode, clearError]);
 
-  // Fermer le modal quand on clique à l'extérieur
+  // Fermer le modal quand on clique à l'extérieur / ESC
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
-
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     }
-
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
@@ -88,8 +73,6 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
-    // Effacer l'erreur pour ce champ
     if (formErrors[name]) {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -97,8 +80,6 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
 
   const handleSelectChange = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }));
-
-    // Effacer l'erreur pour ce champ
     if (formErrors[name]) {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -109,14 +90,11 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
     const errors = {};
 
     if (mode === 'register') {
-      // Validation pour l'inscription
-      if (!formData.username.trim()) {
-        errors.username = 'Le nom d\'utilisateur est requis';
-      }
+      if (!formData.username.trim()) errors.username = "Le nom d'utilisateur est requis";
       if (!formData.email.trim()) {
-        errors.email = 'L\'email est requis';
+        errors.email = "L'email est requis";
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        errors.email = 'Format d\'email invalide';
+        errors.email = "Format d'email invalide";
       }
       if (!formData.password) {
         errors.password = 'Le mot de passe est requis';
@@ -128,20 +106,11 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
       } else if (formData.password !== formData.confirmPassword) {
         errors.confirmPassword = 'Les mots de passe ne correspondent pas';
       }
-      if (!formData.first_name.trim()) {
-        errors.first_name = 'Le prénom est requis';
-      }
-      if (!formData.last_name.trim()) {
-        errors.last_name = 'Le nom est requis';
-      }
+      if (!formData.first_name.trim()) errors.first_name = 'Le prénom est requis';
+      if (!formData.last_name.trim()) errors.last_name = 'Le nom est requis';
     } else {
-      // Validation pour la connexion
-      if (!formData.username.trim()) {
-        errors.username = 'Le nom d\'utilisateur est requis';
-      }
-      if (!formData.password) {
-        errors.password = 'Le mot de passe est requis';
-      }
+      if (!formData.username.trim()) errors.username = "Le nom d'utilisateur est requis";
+      if (!formData.password) errors.password = 'Le mot de passe est requis';
     }
 
     setFormErrors(errors);
@@ -151,16 +120,13 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
   // Soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
 
-    if (!validateForm()) {
-      return;
-    }
-
+    setSubmitting(true);
+    setSuccessMessage('');
     try {
       let result;
-
       if (mode === 'register') {
-        // Inscription
         result = await register({
           username: formData.username,
           email: formData.email,
@@ -172,7 +138,6 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
           field_of_study: formData.field_of_study
         });
       } else {
-        // Connexion
         result = await login({
           username: formData.username,
           password: formData.password
@@ -180,20 +145,15 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
       }
 
       if (result.success) {
-        if (mode === 'register') {
-          toast.success('Compte créé avec succès !');
-        } else {
-          toast.success('Connexion réussie !');
-        }
-        setSuccessMessage(result.message || '');
-        setTimeout(() => {
-          onSuccess();
-        }, 1000);
+        setSuccessMessage(mode === 'register' ? 'Compte créé avec succès !' : 'Connexion réussie !');
+        setTimeout(() => onSuccess(), 900);
       } else {
-        toast.error(result.error || (mode === 'register' ? "Erreur d'inscription" : 'Erreur de connexion'));
+        setSuccessMessage(result.error || (mode === 'register' ? "Erreur lors de l'inscription" : 'Erreur lors de la connexion'));
       }
-    } catch (error) {
-      console.error('Erreur lors de la soumission:', error);
+    } catch (err) {
+      setSuccessMessage("Erreur réseau. Réessayez.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -231,7 +191,6 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                 <p className="text-green-700 text-sm">{successMessage}</p>
               </div>
             )}
-
             {error && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-700 text-sm">{error}</p>
@@ -253,14 +212,11 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                     type="text"
                     value={formData.username}
                     onChange={handleInputChange}
-                    className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.username ? 'border-red-500' : 'border-gray-300'
-                      }`}
+                    className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.username ? 'border-red-500' : 'border-gray-300'}`}
                     placeholder="Votre nom d'utilisateur"
                   />
                 </div>
-                {formErrors.username && (
-                  <p className="mt-1 text-sm text-red-600">{formErrors.username}</p>
-                )}
+                {formErrors.username && <p className="mt-1 text-sm text-red-600">{formErrors.username}</p>}
               </div>
 
               {/* Champs supplémentaires pour l'inscription */}
@@ -268,9 +224,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                 <>
                   {/* Email */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email
-                    </label>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <input
@@ -279,61 +233,46 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.email ? 'border-red-500' : 'border-gray-300'
-                          }`}
+                        className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.email ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder="votre@email.com"
                       />
                     </div>
-                    {formErrors.email && (
-                      <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>
-                    )}
+                    {formErrors.email && <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>}
                   </div>
 
                   {/* Prénom et Nom */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 mb-1">
-                        Prénom
-                      </label>
+                      <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
                       <input
                         id="first_name"
                         name="first_name"
                         type="text"
                         value={formData.first_name}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.first_name ? 'border-red-500' : 'border-gray-300'
-                          }`}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.first_name ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder="Prénom"
                       />
-                      {formErrors.first_name && (
-                        <p className="mt-1 text-sm text-red-600">{formErrors.first_name}</p>
-                      )}
+                      {formErrors.first_name && <p className="mt-1 text-sm text-red-600">{formErrors.first_name}</p>}
                     </div>
                     <div>
-                      <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 mb-1">
-                        Nom
-                      </label>
+                      <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 mb-1">Nom</label>
                       <input
                         id="last_name"
                         name="last_name"
                         type="text"
                         value={formData.last_name}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.last_name ? 'border-red-500' : 'border-gray-300'
-                          }`}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.last_name ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder="Nom"
                       />
-                      {formErrors.last_name && (
-                        <p className="mt-1 text-sm text-red-600">{formErrors.last_name}</p>
-                      )}
+                      {formErrors.last_name && <p className="mt-1 text-sm text-red-600">{formErrors.last_name}</p>}
                     </div>
                   </div>
 
                   {/* Nationalité */}
                   <div>
-                    <label htmlFor="nationality" className="block text-sm font-medium text-gray-700 mb-1">
-                      Nationalité
-                    </label>
+                    <label htmlFor="nationality" className="block text-sm font-medium text-gray-700 mb-1">Nationalité</label>
                     <div className="relative">
                       <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <input
@@ -350,9 +289,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
 
                   {/* Niveau d'études */}
                   <div>
-                    <label htmlFor="study_level" className="block text-sm font-medium text-gray-700 mb-1">
-                      Niveau d'études
-                    </label>
+                    <label htmlFor="study_level" className="block text-sm font-medium text-gray-700 mb-1">Niveau d'études</label>
                     <div className="relative">
                       <GraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <select
@@ -364,9 +301,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                       >
                         <option value="">Sélectionnez votre niveau</option>
                         {studyLevels.map((level) => (
-                          <option key={level} value={level}>
-                            {level}
-                          </option>
+                          <option key={level} value={level}>{level}</option>
                         ))}
                       </select>
                     </div>
@@ -374,9 +309,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
 
                   {/* Domaine d'études */}
                   <div>
-                    <label htmlFor="field_of_study" className="block text-sm font-medium text-gray-700 mb-1">
-                      Domaine d'études
-                    </label>
+                    <label htmlFor="field_of_study" className="block text-sm font-medium text-gray-700 mb-1">Domaine d'études</label>
                     <div className="relative">
                       <BookOpen className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <select
@@ -388,9 +321,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                       >
                         <option value="">Sélectionnez votre domaine</option>
                         {fieldsOfStudy.map((field) => (
-                          <option key={field} value={field}>
-                            {field}
-                          </option>
+                          <option key={field} value={field}>{field}</option>
                         ))}
                       </select>
                     </div>
@@ -400,9 +331,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
 
               {/* Mot de passe */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                  Mot de passe
-                </label>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
@@ -411,8 +340,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password}
                     onChange={handleInputChange}
-                    className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.password ? 'border-red-500' : 'border-gray-300'
-                      }`}
+                    className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.password ? 'border-red-500' : 'border-gray-300'}`}
                     placeholder="Votre mot de passe"
                   />
                   <button
@@ -423,9 +351,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
-                {formErrors.password && (
-                  <p className="mt-1 text-sm text-red-600">{formErrors.password}</p>
-                )}
+                {formErrors.password && <p className="mt-1 text-sm text-red-600">{formErrors.password}</p>}
               </div>
 
               {/* Confirmation mot de passe (inscription seulement) */}
@@ -442,8 +368,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                       type={showConfirmPassword ? 'text' : 'password'}
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                      className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'}`}
                       placeholder="Confirmez votre mot de passe"
                     />
                     <button
@@ -454,25 +379,23 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                       {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
                   </div>
-                  {formErrors.confirmPassword && (
-                    <p className="mt-1 text-sm text-red-600">{formErrors.confirmPassword}</p>
-                  )}
+                  {formErrors.confirmPassword && <p className="mt-1 text-sm text-red-600">{formErrors.confirmPassword}</p>}
                 </div>
               )}
 
               {/* Bouton de soumission */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={submitting}
                 className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                {loading ? (
+                {submitting ? (
                   <div className="flex items-center justify-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                     {mode === 'login' ? 'Connexion...' : 'Inscription...'}
                   </div>
                 ) : (
-                  mode === 'login' ? 'Se connecter' : 'S\'inscrire'
+                  mode === 'login' ? 'Se connecter' : "S'inscrire"
                 )}
               </button>
             </form>
@@ -511,4 +434,3 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
 };
 
 export default AuthModal;
-
