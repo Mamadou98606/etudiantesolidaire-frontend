@@ -1,7 +1,7 @@
 // ========================================
 // FICHIER 5 : src/components/AuthModal.jsx (REMPLACEMENT)
 // ========================================
-// 
+//
 // INSTRUCTIONS :
 // 1. SAUVEGARDER votre AuthModal.jsx actuel (renommez-le AuthModal.jsx.old)
 // 2. Remplacer tout le contenu de "src/components/AuthModal.jsx" par le contenu ci-dessous
@@ -12,10 +12,11 @@
 import React, { useState, useEffect } from 'react';
 import { X, Eye, EyeOff, User, Mail, Lock, Globe, GraduationCap, BookOpen } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { toast } from 'sonner';
 
 const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode }) => {
   const { login, register, loading, error, clearError } = useAuth();
-  
+
   // États du formulaire
   const [formData, setFormData] = useState({
     username: '',
@@ -28,7 +29,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
     study_level: '',
     field_of_study: ''
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formErrors, setFormErrors] = useState({});
@@ -87,7 +88,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Effacer l'erreur pour ce champ
     if (formErrors[name]) {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
@@ -96,7 +97,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
 
   const handleSelectChange = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Effacer l'erreur pour ce champ
     if (formErrors[name]) {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
@@ -150,14 +151,14 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
   // Soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     try {
       let result;
-      
+
       if (mode === 'register') {
         // Inscription
         result = await register({
@@ -179,10 +180,17 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
       }
 
       if (result.success) {
-        setSuccessMessage(result.message);
+        if (mode === 'register') {
+          toast.success('Compte créé avec succès !');
+        } else {
+          toast.success('Connexion réussie !');
+        }
+        setSuccessMessage(result.message || '');
         setTimeout(() => {
           onSuccess();
         }, 1000);
+      } else {
+        toast.error(result.error || (mode === 'register' ? "Erreur d'inscription" : 'Erreur de connexion'));
       }
     } catch (error) {
       console.error('Erreur lors de la soumission:', error);
@@ -194,11 +202,11 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Overlay */}
-      <div 
+      <div
         className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all">
@@ -245,9 +253,8 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                     type="text"
                     value={formData.username}
                     onChange={handleInputChange}
-                    className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      formErrors.username ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.username ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="Votre nom d'utilisateur"
                   />
                 </div>
@@ -272,9 +279,8 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                          formErrors.email ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.email ? 'border-red-500' : 'border-gray-300'
+                          }`}
                         placeholder="votre@email.com"
                       />
                     </div>
@@ -295,9 +301,8 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                         type="text"
                         value={formData.first_name}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                          formErrors.first_name ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.first_name ? 'border-red-500' : 'border-gray-300'
+                          }`}
                         placeholder="Prénom"
                       />
                       {formErrors.first_name && (
@@ -314,9 +319,8 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                         type="text"
                         value={formData.last_name}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                          formErrors.last_name ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.last_name ? 'border-red-500' : 'border-gray-300'
+                          }`}
                         placeholder="Nom"
                       />
                       {formErrors.last_name && (
@@ -407,9 +411,8 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password}
                     onChange={handleInputChange}
-                    className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      formErrors.password ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.password ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="Votre mot de passe"
                   />
                   <button
@@ -439,9 +442,8 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                       type={showConfirmPassword ? 'text' : 'password'}
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        formErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                      }`}
+                      className={`w-full pl-10 pr-12 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${formErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       placeholder="Confirmez votre mot de passe"
                     />
                     <button
