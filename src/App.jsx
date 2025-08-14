@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 // Authentification
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ChangePassword from './components/ChangePassword';
+import EditProfile from './components/EditProfile';
+import Bookmarks from './components/Bookmarks';
 
 // Composants existants
 import HomePage from './components/HomePage';
@@ -327,6 +329,16 @@ const AppContent = () => {
             <Route path="/admin" element={
               <ProtectedRoute>
                 <AdminPanel />
+              </ProtectedRoute>
+            } />
+              <Route path="/mes-favoris" element={
+              <ProtectedRoute>
+                <Bookmarks />
+              </ProtectedRoute>
+            } />
+              <Route path="/modifier-profil" element={
+              <ProtectedRoute>
+                <EditProfile />
               </ProtectedRoute>
             } />
             <Route path="/blog" element={<Blog />} />
