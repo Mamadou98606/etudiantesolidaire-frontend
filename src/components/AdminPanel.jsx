@@ -1,9 +1,12 @@
+// src/components/AdminPanel.jsx
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Search, Download, RefreshCw, Mail, MapPin, GraduationCap, BookOpen, Calendar } from 'lucide-react';
+
+const API = 'https://api.etudiantesolidaire.com/api';
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -13,22 +16,33 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const computeStats = (list) => {
+    const total = list.length;
+    const active = list.filter(u => u.is_active).length;
+    const inactive = total - active;
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const recent = list.filter(u => u.created_at && new Date(u.created_at) > sevenDaysAgo).length;
+    setStats({ total, active, inactive, recent });
+  };
+
   const fetchUsers = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://etudiantesolidaire-backend.onrender.com/api/users', {
+      const res = await fetch(`${API}/users`, {
         method: 'GET',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       });
-      const data = await response.json();
-      if (response.ok && data.success) {
-        setUsers(data.users || []);
-        computeStats(data.users || []);
-      } else {
-        throw new Error(data.error || `Erreur ${response.status}`);
-      }
+      const data = await res.json().catch(() => ({}));
+
+      if (res.status === 401) throw new Error('Non authentifié');
+      if (res.status === 403) throw new Error('Accès refusé');
+      if (!res.ok || data.success === false) throw new Error(data.error || `Erreur ${res.status}`);
+
+      const list = data.users || [];
+      setUsers(list);
+      computeStats(list);
     } catch (e) {
       setError(e.message);
       setUsers([]);
@@ -38,40 +52,28 @@ const AdminPanel = () => {
     }
   };
 
-  const computeStats = (list) => {
-    const total = list.length;
-    const active = list.filter(u => u.is_active).length;
-    const inactive = total - active;
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const recent = list.filter(u => u.created_at && new Date(u.created_at) > sevenDaysAgo).length;
-    setStats({ total, active, inactive, recent });
-  };
-
-  const filteredUsers = users.filter(user => {
-    const fullName = `${user.first_name ?? ''} ${user.last_name ?? ''}`.toLowerCase();
+  const filteredUsers = users.filter(u => {
+    const fullName = `${u.first_name ?? ''} ${u.last_name ?? ''}`.toLowerCase();
     const search = searchTerm.toLowerCase();
-    const matchesSearch = fullName.includes(search) || user.email?.toLowerCase().includes(search);
+    const matchesSearch =
+      fullName.includes(search) ||
+      (u.email ?? '').toLowerCase().includes(search) ||
+      (u.username ?? '').toLowerCase().includes(search);
     const matchesFilter =
       filterStatus === 'all' ||
-      (filterStatus === 'active' && user.is_active) ||
-      (filterStatus === 'inactive' && !user.is_active);
+      (filterStatus === 'active' && u.is_active) ||
+      (filterStatus === 'inactive' && !u.is_active);
     return matchesSearch && matchesFilter;
   });
 
-  const formatDate = (dateString) => {
-    if (!dateString) return 'Non disponible';
+  const formatDate = (s) => {
+    if (!s) return 'Non disponible';
     try {
-      return new Date(dateString).toLocaleDateString('fr-FR', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+      return new Date(s).toLocaleString('fr-FR', {
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit'
       });
-    } catch {
-      return 'Date invalide';
-    }
+    } catch { return 'Date invalide'; }
   };
 
   const exportUsers = () => {
@@ -83,7 +85,6 @@ const AdminPanel = () => {
         formatDate(u.created_at), formatDate(u.last_login)
       ])
     ].map(r => r.join(',')).join('\n');
-
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -96,10 +97,12 @@ const AdminPanel = () => {
 
   if (loading) {
     return (
-      <div className="p-8 flex items-center justify-center min-h-96">
-        <div className="text-center">
-          <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4 text-blue-600" />
-          <p className="text-gray-600">Chargement des utilisateurs…</p>
+      <div className="p-8">
+        <div className="flex items-center justify-center min-h-96">
+          <div className="text-center">
+            <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4 text-blue-600" />
+            <p className="text-gray-600">Chargement des utilisateurs…</p>
+          </div>
         </div>
       </div>
     );
@@ -139,7 +142,7 @@ const AdminPanel = () => {
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
-                placeholder="Rechercher par nom ou e-mail"
+                placeholder="Rechercher par nom, e-mail ou username"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -184,22 +187,19 @@ const AdminPanel = () => {
                           {user.is_active ? 'Actif' : 'Inactif'}
                         </Badge>
                       </div>
+
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
                         <div className="flex items-center text-gray-600"><Mail className="w-4 h-4 mr-2" />{user.email}</div>
                         {user.nationality && <div className="flex items-center text-gray-600"><MapPin className="w-4 h-4 mr-2" />{user.nationality}</div>}
                         {user.study_level && <div className="flex items-center text-gray-600"><GraduationCap className="w-4 h-4 mr-2" />{user.study_level}</div>}
                         {user.field_of_study && <div className="flex items-center text-gray-600"><BookOpen className="w-4 h-4 mr-2" />{user.field_of_study}</div>}
                       </div>
+
                       <div className="flex items-center gap-6 mt-3 text-xs text-gray-500">
                         <div className="flex items-center"><Calendar className="w-3 h-3 mr-1" />Inscrit le {formatDate(user.created_at)}</div>
                         {user.last_login && <div className="flex items-center"><Users className="w-3 h-3 mr-1" />Dernière connexion: {formatDate(user.last_login)}</div>}
                       </div>
                     </div>
-                    {/* Actions avancées à implémenter côté backend avant d'activer */}
-                    {/* <div className="flex gap-2 ml-4">
-                      <Button variant="outline" size="sm" disabled title="Bientôt">Suspendre</Button>
-                      <Button variant="destructive" size="sm" disabled title="Bientôt">Supprimer</Button>
-                    </div> */}
                   </div>
                 </div>
               ))}
