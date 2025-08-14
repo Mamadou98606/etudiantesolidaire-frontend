@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 
 // Authentification
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ChangePassword from './components/ChangePassword';
 
 // Composants
 import HomePage from './components/HomePage';
@@ -20,6 +21,7 @@ import AdminPanel from './components/AdminPanel';
 import AuthModal from './components/AuthModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
+
 
 import './App.css';
 
@@ -286,6 +288,14 @@ const AppContent = () => {
               element={
                 <ProtectedRoute>
                   <UserDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/changer-mot-de-passe"
+              element={
+                <ProtectedRoute>
+                  <ChangePassword />
                 </ProtectedRoute>
               }
             />
