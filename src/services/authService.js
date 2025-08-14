@@ -13,7 +13,7 @@
 // Service d'authentification pour connecter le frontend au backend
 // authService.js
 
-const API_BASE_URL = 'https://etudiantesolidaire-backend.onrender.com/api';
+const API_BASE_URL = 'https://api.etudiantesolidaire.com/api';
 
 class AuthService {
   constructor() {
