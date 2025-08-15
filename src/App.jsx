@@ -281,19 +281,28 @@ const Header = ({ onLoginClick, onRegisterClick }) => {
   );
 };
 
-const Footer = () => {
-  const year = new Date().getFullYear();
+// Bouton “Retour en haut”
+const BackToTopButton = () => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => setIsVisible(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  if (!isVisible) return null;
+
   return (
-    <footer className="bg-gray-50 border-t">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-2 text-sm text-gray-600">
-        <p>© {year} Étudiant Solidaire. Tous droits réservés.</p>
-        <div className="flex items-center gap-4">
-          <a href="/mentions-legales" className="hover:text-blue-600">Mentions légales</a>
-          <a href="/confidentialite" className="hover:text-blue-600">Confidentialité</a>
-          <a href="/cgu" className="hover:text-blue-600">CGU</a>
-        </div>
-      </div>
-    </footer>
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className="fixed bottom-24 right-4 z-40 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors p-3"
+      aria-label="Retour en haut"
+      title="Retour en haut"
+    >
+      ↑
+    </button>
   );
 };
 
@@ -362,7 +371,8 @@ const AppContent = () => {
             <Route path="/prendre-rdv" element={<PriseRDV />} />
           </Routes>
         </main>
-        <Footer />
+
+        <BackToTopButton />
 
         {/* Modal d'authentification */}
         {showAuthModal && (
