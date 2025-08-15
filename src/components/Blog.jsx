@@ -16,8 +16,10 @@ import {
   BookOpen,
   TrendingUp
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function Blog({ onBack }) {
+function Blog() {
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('tous')
   const [showEditor, setShowEditor] = useState(false)
@@ -136,7 +138,7 @@ function Blog({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -367,4 +369,3 @@ function Blog({ onBack }) {
 }
 
 export default Blog
-
