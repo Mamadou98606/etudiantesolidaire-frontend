@@ -3,12 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Input } from '@/components/ui/input.jsx'
-import { 
-  ArrowLeft, 
-  Search, 
-  Calendar, 
-  User, 
-  Eye, 
+import {
+  ArrowLeft,
+  Search,
+  Calendar,
+  User,
+  Eye,
   MessageSquare,
   Plus,
   Filter,
@@ -127,7 +127,74 @@ function Blog() {
       comments: 12,
       readTime: "6 min",
       tags: ["Culture", "Intégration", "France"]
-    }
+    },
+    {
+      id: 7,
+      title: "Étudiante Solidaire : votre guide de A à Z pour réussir vos études en France",
+      excerpt: "Tout-en-un : orientation, démarches, logement, emploi et conseils pratiques — avec un accompagnement humain et gratuit.",
+      author: "Équipe Étudiante Solidaire",
+      date: "2025-08-15",
+      category: "Vie étudiante",
+      image: "🎓",
+      views: 0,
+      comments: 0,
+      readTime: "7 min",
+      tags: ["Étudiante Solidaire", "Orientation", "Démarches", "Vie étudiante", "Emploi"],
+      sections: [
+        {
+          heading: "Pourquoi Étudiante Solidaire ?",
+          paragraphs: [
+            "Arriver en France pour étudier, c’est excitant… et parfois déroutant. Étudiante Solidaire enlève le stress inutile et vous donne un chemin clair, pas à pas."
+          ],
+          bullets: [
+            "Des informations fiables et à jour, réunies au même endroit",
+            "Des parcours guidés (orientation, démarches, vie en France, emploi)",
+            "Un accompagnement humain et gratuit pour démarrer sereinement"
+          ]
+        },
+        {
+          heading: "Ce que vous trouverez sur la plateforme",
+          bullets: [
+            "Orientation: diplômes, choix de formation, dossiers, calendrier",
+            "Démarches: visa étudiant, VLS-TS, titre de séjour, travail",
+            "Vivre en France: logement, santé, transport, intégration",
+            "Travailler: job étudiant, stage, premier emploi, secteurs porteurs",
+            "Outils: checklists, rappels, RDV 30 min, suivi de progression"
+          ]
+        },
+        {
+          heading: "Comment commencer ?",
+          bullets: [
+            "Créez votre compte (gratuit) en 1 minute",
+            "Complétez rapidement votre profil (objectif, pays, niveau)",
+            "Suivez le parcours recommandé (orientation → démarches → installation)",
+            "Prenez un rendez-vous si besoin d’un coup de pouce"
+          ]
+        },
+        {
+          heading: "3 conseils express de l’équipe",
+          bullets: [
+            "Anticipez VLS-TS et logement: commencez tôt",
+            "Centralisez vos documents (PDF) dans un cloud",
+            "Soignez votre français écrit (CV/lettres)"
+          ]
+        },
+        {
+          heading: "Questions fréquentes",
+          paragraphs: [
+            "Q: L’accompagnement est-il payant ? R: Le premier RDV (30 min) est gratuit.",
+            "Q: Puis-je travailler pendant mes études ? R: Oui, avec des limites annuelles.",
+            "Q: Comment éviter les retards ? R: Checklists + rappels d’échéances."
+          ]
+        },
+        {
+          heading: "Conclusion",
+          paragraphs: [
+            "Étudier en France, c’est une aventure extraordinaire. Avec Étudiante Solidaire, vous avez un plan, des ressources concrètes, et une équipe à vos côtés."
+          ]
+        }
+      ]
+    },
   ]
 
   if (selectedPost) {
@@ -146,8 +213,8 @@ function Blog() {
   const articlesFiltres = articles.filter(article => {
     const matchCategory = selectedCategory === 'tous' || article.category === selectedCategory
     const matchSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     return matchCategory && matchSearch
   })
 
@@ -158,8 +225,8 @@ function Blog() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => navigate('/')}
             className="mb-4"
           >
@@ -214,7 +281,7 @@ function Blog() {
                   className="pl-10"
                 />
               </div>
-              
+
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <Button
@@ -248,15 +315,15 @@ function Blog() {
                             {article.readTime}
                           </span>
                         </div>
-                        
+
                         <h3 className="text-xl font-bold text-foreground mb-2">
                           {article.title}
                         </h3>
-                        
+
                         <p className="text-muted-foreground mb-4 leading-relaxed">
                           {article.excerpt}
                         </p>
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <span className="flex items-center">
@@ -276,12 +343,12 @@ function Blog() {
                               {article.comments}
                             </span>
                           </div>
-                          
+
                           <Button variant="outline" size="sm" onClick={() => setSelectedPost(article)}>
                             Lire la suite
                           </Button>
                         </div>
-                        
+
                         <div className="flex flex-wrap gap-1 mt-3">
                           {article.tags.map((tag, index) => (
                             <Badge key={index} variant="outline" className="text-xs">
