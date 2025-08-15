@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 
 // Authentification
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -281,28 +281,60 @@ const Header = ({ onLoginClick, onRegisterClick }) => {
   );
 };
 
-// Bouton “Retour en haut”
-const BackToTopButton = () => {
-  const [isVisible, setIsVisible] = React.useState(false);
+// Footer avec copyright
+const Footer = () => {
+  const year = new Date().getFullYear();
+  return (
+    <footer className="bg-gray-50 border-t">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-2 text-sm text-gray-600">
+        <p>© {year} Étudiant Solidaire. Tous droits réservés.</p>
+        <div className="flex items-center gap-4">
+          <a href="/mentions-legales" className="hover:text-blue-600">Mentions légales</a>
+          <a href="/confidentialite" className="hover:text-blue-600">Confidentialité</a>
+          <a href="/cgu" className="hover:text-blue-600">CGU</a>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+// Remonter en haut à chaque changement de page
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+  return null;
+};
+
+// Bannière cookies
+const CookieBanner = () => {
+  const [show, setShow] = React.useState(false);
 
   React.useEffect(() => {
-    const onScroll = () => setIsVisible(window.scrollY > 400);
-    window.addEventListener('scroll', onScroll);
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    const consent = localStorage.getItem('cookieConsentES');
+    if (!consent) setShow(true);
   }, []);
 
-  if (!isVisible) return null;
+  if (!show) return null;
 
   return (
-    <button
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className="fixed bottom-24 right-4 z-40 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors p-3"
-      aria-label="Retour en haut"
-      title="Retour en haut"
-    >
-      ↑
-    </button>
+    <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row gap-3 items-center justify-between text-sm">
+        <p className="text-gray-700">
+          Nous utilisons des cookies pour améliorer votre expérience.
+        </p>
+        <div className="flex gap-2">
+          <a href="/confidentialite" className="px-3 py-2 text-gray-600 hover:text-blue-600">En savoir plus</a>
+          <button
+            onClick={() => { localStorage.setItem('cookieConsentES', 'true'); setShow(false); }}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            J’accepte
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -327,6 +359,7 @@ const AppContent = () => {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Header
           onLoginClick={handleLoginClick}
@@ -372,7 +405,7 @@ const AppContent = () => {
           </Routes>
         </main>
 
-        <BackToTopButton />
+        <Footer />
 
         {/* Modal d'authentification */}
         {showAuthModal && (
@@ -384,6 +417,8 @@ const AppContent = () => {
             onSwitchMode={(mode) => setAuthModalMode(mode)}
           />
         )}
+
+        <CookieBanner />
       </div>
     </Router>
   );
