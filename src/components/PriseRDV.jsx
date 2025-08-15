@@ -19,8 +19,10 @@ import {
   MapPin,
   Users
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function PriseRDV({ onBack }) {
+function PriseRDV() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
@@ -127,7 +129,7 @@ function PriseRDV({ onBack }) {
                   Nous vous contacterons dans les 24h pour confirmer le créneau.
                 </p>
                 <div className="space-y-4">
-                  <Button onClick={onBack} className="mr-4">
+                  <Button onClick={() => navigate('/')} className="mr-4">
                     Retour à l'accueil
                   </Button>
                   <Button variant="outline" onClick={() => setIsSubmitted(false)}>
@@ -149,7 +151,7 @@ function PriseRDV({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -421,4 +423,3 @@ function PriseRDV({ onBack }) {
 }
 
 export default PriseRDV
-
