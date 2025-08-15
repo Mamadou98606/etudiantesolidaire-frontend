@@ -30,21 +30,6 @@ function Blog() {
   const articles = [
     // VOTRE NOUVEL ARTICLE EN TÊTE DE LISTE
     {
-      id: 7,
-      title: "Étudiante Solidaire : votre guide de A à Z pour réussir vos études en France",
-      excerpt: "Tout-en-un : orientation, démarches, logement, emploi et conseils pratiques — avec un accompagnement humain et gratuit.",
-      content: "Arriver en France pour étudier, c’est excitant…",
-      date: "2025-08-15",
-      category: "Vie étudiante",
-      image: "🎓",
-      views: 0,
-      comments: 0,
-      readTime: "7 min",
-      tags: ["Étudiante Solidaire", "Orientation", "Démarches", "Vie étudiante", "Emploi"]
-    },
-
-    // ARTICLES EXISTANTS
-    {
       id: 1,
       title: "Guide complet Parcoursup 2024 : Dates et stratégies",
       excerpt: "Tout ce que vous devez savoir sur Parcoursup 2024, les dates importantes et nos conseils pour maximiser vos chances d'admission.",
