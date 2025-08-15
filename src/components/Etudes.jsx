@@ -18,8 +18,10 @@ import {
   Coffee,
   Wifi
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function Etudes({ onBack }) {
+function Etudes() {
+  const navigate = useNavigate()
   const etablissements = [
     {
       type: "Universités publiques",
@@ -247,7 +249,7 @@ function Etudes({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -652,4 +654,3 @@ function Etudes({ onBack }) {
 }
 
 export default Etudes
-
