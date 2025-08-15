@@ -281,6 +281,22 @@ const Header = ({ onLoginClick, onRegisterClick }) => {
   );
 };
 
+const Footer = () => {
+  const year = new Date().getFullYear();
+  return (
+    <footer className="bg-gray-50 border-t">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-2 text-sm text-gray-600">
+        <p>© {year} Étudiant Solidaire. Tous droits réservés.</p>
+        <div className="flex items-center gap-4">
+          <a href="/mentions-legales" className="hover:text-blue-600">Mentions légales</a>
+          <a href="/confidentialite" className="hover:text-blue-600">Confidentialité</a>
+          <a href="/cgu" className="hover:text-blue-600">CGU</a>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
 // Composant principal avec routes
 const AppContent = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -346,6 +362,7 @@ const AppContent = () => {
             <Route path="/prendre-rdv" element={<PriseRDV />} />
           </Routes>
         </main>
+        <Footer />
 
         {/* Modal d'authentification */}
         {showAuthModal && (
