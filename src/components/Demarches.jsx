@@ -2,9 +2,9 @@ import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
-import { 
-  FileText, 
-  Clock, 
+import {
+  FileText,
+  Clock,
   AlertCircle,
   CheckCircle,
   Info,
@@ -201,8 +201,8 @@ function Demarches() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => navigate('/')}
             className="mb-4"
           >
@@ -226,8 +226,8 @@ function Demarches() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-red-700 leading-relaxed">
-                Les démarches administratives sont obligatoires et doivent être effectuées dans les délais. 
-                Un retard peut compromettre votre séjour en France et vos études. Nous vous accompagnons 
+                Les démarches administratives sont obligatoires et doivent être effectuées dans les délais.
+                Un retard peut compromettre votre séjour en France et vos études. Nous vous accompagnons
                 pas à pas pour éviter tout problème.
               </p>
             </CardContent>
@@ -237,7 +237,7 @@ function Demarches() {
         {/* Visa étudiant */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Visa étudiant et validation VLS-TS</h2>
-          
+
           <div className="mb-8">
             <Card className="bg-blue-50 border-blue-200">
               <CardHeader>
@@ -245,7 +245,7 @@ function Demarches() {
               </CardHeader>
               <CardContent>
                 <p className="text-blue-700">
-                  Le Visa de Long Séjour valant Titre de Séjour (VLS-TS) est un visa qui vous permet de séjourner 
+                  Le Visa de Long Séjour valant Titre de Séjour (VLS-TS) est un visa qui vous permet de séjourner
                   en France pour vos études. Il doit être validé dans les 3 mois suivant votre arrivée.
                 </p>
               </CardContent>
@@ -291,7 +291,7 @@ function Demarches() {
         {/* Titre de séjour */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Titre de séjour</h2>
-          
+
           <div className="space-y-6">
             {titreSejourTypes.map((type, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
@@ -339,7 +339,7 @@ function Demarches() {
         {/* Autorisation de travail */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Autorisation de travail étudiant</h2>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             {autorisationTravail.map((auth, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
@@ -529,6 +529,25 @@ function Demarches() {
               </div>
             </CardContent>
           </Card>
+        </section>
+
+        {/* Liens officiels indispensables */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Liens officiels</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <a href="https://administration-etrangers-en-france.interieur.gouv.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> Démarches titre de séjour (ANEF)
+            </a>
+            <a href="https://france-visas.gouv.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> France‑Visas
+            </a>
+            <a href="https://www.ameli.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> Assurance maladie (Ameli)
+            </a>
+            <a href="https://www.campusfrance.org/fr/arriver-etudier-en-france" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> Démarches Campus France
+            </a>
+          </div>
         </section>
 
         {/* CTA */}

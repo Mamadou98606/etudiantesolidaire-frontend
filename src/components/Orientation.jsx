@@ -2,9 +2,9 @@ import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
-import { 
-  GraduationCap, 
-  BookOpen, 
+import {
+  GraduationCap,
+  BookOpen,
   Award,
   Clock,
   Users,
@@ -172,8 +172,8 @@ function Orientation() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => navigate('/')}
             className="mb-4"
           >
@@ -197,11 +197,11 @@ function Orientation() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-blue-700 leading-relaxed mb-4">
-                L'orientation est une étape cruciale de votre parcours. En France, vous avez accès à un large éventail 
+                L'orientation est une étape cruciale de votre parcours. En France, vous avez accès à un large éventail
                 de formations, du CAP au Master, en passant par les BTS et les titres professionnels.
               </p>
               <p className="text-lg text-blue-700 leading-relaxed">
-                Notre équipe vous accompagne pour identifier la formation qui correspond le mieux à vos aspirations, 
+                Notre équipe vous accompagne pour identifier la formation qui correspond le mieux à vos aspirations,
                 vos compétences et vos objectifs professionnels.
               </p>
             </CardContent>
@@ -454,6 +454,41 @@ function Orientation() {
                 </ul>
               </CardContent>
             </Card>
+          </div>
+        </section>
+
+        {/* Checklist Parcoursup */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Checklist Parcoursup</h2>
+          <Card>
+            <CardContent className="pt-6">
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Créer mon compte et compléter mon profil</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Renseigner mes bulletins et pièces</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Rédiger mes projets de formation motivés</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Confirmer mes vœux avant la date limite</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Suivre les réponses et respecter les délais</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Liens utiles */}
+        <section className="mb-16">
+          <h3 className="text-2xl font-semibold mb-4">Liens utiles</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <a href="https://www.parcoursup.gouv.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> Parcoursup (officiel)
+            </a>
+            <a href="https://www.campusfrance.org" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> Campus France
+            </a>
+            <a href="https://www.onisep.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> Onisep
+            </a>
+            <a href="https://www.service-public.fr/particuliers/vosdroits/N110" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
+              <ExternalLink className="h-4 w-4 mr-2" /> Aides financières
+            </a>
           </div>
         </section>
 

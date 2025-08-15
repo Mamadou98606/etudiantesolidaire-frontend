@@ -273,7 +273,49 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
+      {/* FAQ rapide */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-center">Questions fréquentes</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Comment candidater en France ?</CardTitle>
+                <CardDescription>Parcoursup (licences), candidatures directes (masters/écoles), Campus France selon pays.</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Quel budget mensuel prévoir ?</CardTitle>
+                <CardDescription>700–1200€ selon ville (logement, transport, nourriture, assurances).</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Puis-je travailler pendant mes études ?</CardTitle>
+                <CardDescription>Oui, jusqu’à 964h/an pour non-UE; jobs étudiants/stages possibles.</CardDescription>
+              </CardHeader>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Ai‑je droit à une mutuelle ?</CardTitle>
+                <CardDescription>Sécurité sociale étudiante gratuite; mutuelle conseillée pour compléter.</CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </section>
+      {/* Newsletter */}
+      <section className="py-16 bg-muted/50">
+        <div className="container mx-auto text-center px-4">
+          <h2 className="text-3xl font-bold mb-3">Recevoir nos conseils</h2>
+          <p className="text-muted-foreground mb-6">Dates clés, modèles, bons plans (1 email / mois)</p>
+          <form onSubmit={(e) => { e.preventDefault(); alert('Merci ! Vous serez contacté(e) prochainement.') }} className="max-w-xl mx-auto flex gap-3">
+            <input type="email" required placeholder="Votre email" className="flex-1 border border-gray-300 rounded-md px-4 py-3" />
+            <Button type="submit">S’abonner</Button>
+          </form>
+        </div>
+      </section>
       {/* CTA */}
       <section className="py-20 px-4">
         <div className="container mx-auto">

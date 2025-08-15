@@ -2,9 +2,9 @@ import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
-import { 
-  Home, 
-  Heart, 
+import {
+  Home,
+  Heart,
   Bus,
   Stethoscope,
   MapPin,
@@ -318,8 +318,8 @@ function VivreFrance() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => navigate('/')}
             className="mb-4"
           >
@@ -343,8 +343,8 @@ function VivreFrance() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-pink-700 leading-relaxed">
-                Vivre en France, c'est bien plus que suivre des cours. C'est découvrir une culture riche, 
-                créer des liens durables, et construire votre avenir dans un environnement stimulant. 
+                Vivre en France, c'est bien plus que suivre des cours. C'est découvrir une culture riche,
+                créer des liens durables, et construire votre avenir dans un environnement stimulant.
                 Nous vous accompagnons dans tous les aspects de votre vie quotidienne.
               </p>
             </CardContent>
@@ -368,7 +368,7 @@ function VivreFrance() {
                     <p className="text-muted-foreground">{aspect.description}</p>
                   </div>
                 </div>
-                
+
                 <div className="grid md:grid-cols-3 gap-6">
                   {aspect.sousCategories.map((sousCategorie, idx) => (
                     <Card key={idx} className="hover:shadow-lg transition-shadow">
@@ -497,7 +497,7 @@ function VivreFrance() {
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{service.service}</CardTitle>
-                    <Badge variant={service.urgence.includes('Urgent') ? 'destructive' : 
+                    <Badge variant={service.urgence.includes('Urgent') ? 'destructive' :
                                   service.urgence.includes('Important') ? 'default' : 'secondary'}>
                       {service.urgence.includes('Urgent') ? 'Urgent' :
                        service.urgence.includes('Important') ? 'Important' : 'Optionnel'}
@@ -700,6 +700,48 @@ function VivreFrance() {
                     <a href="#" className="text-blue-600 hover:underline">Meetup (rencontres)</a>
                   </li>
                 </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Budget mensuel indicatif */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Budget mensuel indicatif</h2>
+          <Card>
+            <CardContent className="pt-6">
+              <ul className="space-y-2">
+                <li className="flex justify-between"><span>Logement</span><span className="font-medium">400–900€</span></li>
+                <li className="flex justify-between"><span>Transport</span><span className="font-medium">20–75€</span></li>
+                <li className="flex justify-between"><span>Nourriture</span><span className="font-medium">150–300€</span></li>
+                <li className="flex justify-between"><span>Assurances / santé</span><span className="font-medium">15–50€</span></li>
+                <li className="flex justify-between"><span>Loisirs / télécom</span><span className="font-medium">30–80€</span></li>
+              </ul>
+              <p className="mt-4 text-sm text-muted-foreground">Varie selon la ville (Paris plus élevé).</p>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Numéros utiles */}
+        <section className="mb-16">
+          <h3 className="text-2xl font-semibold mb-4">Numéros utiles</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card>
+              <CardContent className="pt-6">
+                <p className="font-medium">Urgences</p>
+                <p className="text-muted-foreground">112</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <p className="font-medium">SAMU</p>
+                <p className="text-muted-foreground">15</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <p className="font-medium">Police</p>
+                <p className="text-muted-foreground">17</p>
               </CardContent>
             </Card>
           </div>
