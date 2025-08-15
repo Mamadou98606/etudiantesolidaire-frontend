@@ -15,8 +15,10 @@ import {
   AlertCircle,
   Info
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function Orientation({ onBack }) {
+function Orientation() {
+  const navigate = useNavigate()
   const formations = [
     {
       type: "BTS",
@@ -172,7 +174,7 @@ function Orientation({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -482,4 +484,3 @@ function Orientation({ onBack }) {
 }
 
 export default Orientation
-
