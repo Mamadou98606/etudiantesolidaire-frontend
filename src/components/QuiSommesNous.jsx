@@ -12,8 +12,10 @@ import {
   Phone,
   ArrowLeft
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function QuiSommesNous({ onBack }) {
+function QuiSommesNous() {
+  const navigate = useNavigate()
   const teamMembers = [
     {
       name: "Adama CAMARA DIABY",
@@ -78,7 +80,7 @@ function QuiSommesNous({ onBack }) {
         <div className="mb-8">
           <Button
             variant="outline"
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -337,4 +339,3 @@ function QuiSommesNous({ onBack }) {
 }
 
 export default QuiSommesNous
-
