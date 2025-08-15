@@ -298,6 +298,31 @@ const Footer = () => {
   );
 };
 
+// Bouton “Retour en haut”
+const BackToTopButton = () => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => setIsVisible(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className="fixed bottom-24 right-4 z-40 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors p-3"
+      aria-label="Retour en haut"
+      title="Retour en haut"
+    >
+      ↑
+    </button>
+  );
+};
+
 // Remonter en haut à chaque changement de page
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -405,6 +430,7 @@ const AppContent = () => {
           </Routes>
         </main>
 
+        <BackToTopButton />
         <Footer />
 
         {/* Modal d'authentification */}
