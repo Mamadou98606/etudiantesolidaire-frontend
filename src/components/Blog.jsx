@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Button } from '@/components/ui/button.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
@@ -11,7 +11,6 @@ import {
   Eye,
   MessageSquare,
   Plus,
-  Filter,
   Clock,
   BookOpen,
   TrendingUp
@@ -23,19 +22,17 @@ function Blog() {
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('tous')
-  const [showEditor, setShowEditor] = useState(false)
   const [selectedPost, setSelectedPost] = useState(null)
 
-  // Articles de blog statiques (en attendant la connexion backend)
+  // Articles (exemples + vos 2 articles structurés)
   const articles = [
-    // VOTRE NOUVEL ARTICLE EN TÊTE DE LISTE
     {
       id: 8,
       title: "Étudier en France: le guide express pour bien démarrer (2025)",
       excerpt: "Choisir sa formation, préparer ses dossiers, éviter les pièges administratifs: les clés pour réussir votre arrivée.",
       author: "Équipe Étudiante Solidaire",
       date: "2025-09-01",
-      category: "Orientation", // Orientation | Démarches | Vie étudiante | Emploi | Financement
+      category: "Orientation",
       image: "🧭",
       views: 0,
       comments: 0,
@@ -149,6 +146,35 @@ function Blog() {
           ]
         }
       ]
+    },
+    // Exemples existants (facultatif si vous les gardez)
+    {
+      id: 1,
+      title: "Guide complet Parcoursup 2024 : Dates et stratégies",
+      excerpt: "Tout ce que vous devez savoir sur Parcoursup 2024, les dates importantes et nos conseils pour maximiser vos chances d'admission.",
+      content: "Parcoursup est la plateforme nationale de préinscription en première année de l'enseignement supérieur en France...",
+      author: "Marie Dubois",
+      date: "2024-01-15",
+      category: "Orientation",
+      image: "📚",
+      views: 1250,
+      comments: 23,
+      readTime: "8 min",
+      tags: ["Parcoursup", "Orientation", "Études supérieures"]
+    },
+    {
+      id: 2,
+      title: "Visa étudiant 2024 : Nouvelles procédures simplifiées",
+      excerpt: "Les dernières modifications des procédures de visa étudiant et comment optimiser votre dossier pour une réponse rapide.",
+      content: "Les procédures de visa étudiant ont été simplifiées en 2024. Voici tout ce que vous devez savoir...",
+      author: "Ahmed Benali",
+      date: "2024-01-10",
+      category: "Démarches",
+      image: "🛂",
+      views: 980,
+      comments: 15,
+      readTime: "6 min",
+      tags: ["Visa", "Démarches", "Immigration"]
     }
   ]
 
@@ -165,15 +191,17 @@ function Blog() {
     { id: 'Financement', label: 'Financement', count: articles.filter(a => a.category === 'Financement').length }
   ]
 
-  const articlesFiltres = articles.filter(article => {
+  // Trier du plus récent au plus ancien
+  const articlesSorted = [...articles].sort((a, b) => new Date(b.date) - new Date(a.date))
+
+  const articlesFiltres = articlesSorted.filter(article => {
     const matchCategory = selectedCategory === 'tous' || article.category === selectedCategory
-    const matchSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    const haystack = (article.title + ' ' + article.excerpt + ' ' + (article.tags || []).join(' ')).toLowerCase()
+    const matchSearch = haystack.includes(searchTerm.toLowerCase())
     return matchCategory && matchSearch
   })
 
-  const articlesPopulaires = [...articles].sort((a, b) => b.views - a.views).slice(0, 3)
+  const articlesPopulaires = [...articlesSorted].sort((a, b) => b.views - a.views).slice(0, 3)
 
   return (
     <div className="min-h-screen bg-background py-8">
@@ -283,7 +311,7 @@ function Blog() {
                           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <span className="flex items-center">
                               <User className="h-3 w-3 mr-1" />
-                              {article.author}
+                              {article.author || '—'}
                             </span>
                             <span className="flex items-center">
                               <Calendar className="h-3 w-3 mr-1" />
@@ -305,7 +333,7 @@ function Blog() {
                         </div>
 
                         <div className="flex flex-wrap gap-1 mt-3">
-                          {article.tags.map((tag, index) => (
+                          {(article.tags || []).map((tag, index) => (
                             <Badge key={index} variant="outline" className="text-xs">
                               {tag}
                             </Badge>
@@ -333,7 +361,6 @@ function Blog() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Articles populaires */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -367,7 +394,6 @@ function Blog() {
               </CardContent>
             </Card>
 
-            {/* Newsletter */}
             <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
               <CardHeader>
                 <CardTitle className="text-green-800">Newsletter</CardTitle>
@@ -388,7 +414,6 @@ function Blog() {
               </CardContent>
             </Card>
 
-            {/* Catégories */}
             <Card>
               <CardHeader>
                 <CardTitle>Catégories</CardTitle>
