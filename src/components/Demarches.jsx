@@ -17,8 +17,10 @@ import {
   Shield,
   Users
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function Demarches({ onBack }) {
+function Demarches() {
+  const navigate = useNavigate()
   const visaSteps = [
     {
       step: 1,
@@ -201,7 +203,7 @@ function Demarches({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -556,4 +558,3 @@ function Demarches({ onBack }) {
 }
 
 export default Demarches
-
