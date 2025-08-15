@@ -21,8 +21,10 @@ import {
   Camera,
   Utensils
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function VivreFrance({ onBack }) {
+function VivreFrance() {
+  const navigate = useNavigate()
   const aspectsVie = [
     {
       categorie: "Logement",
@@ -318,7 +320,7 @@ function VivreFrance({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -538,7 +540,7 @@ function VivreFrance({ onBack }) {
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
-                    {conseil.conseils.map((tip, idx) => (
+                    {conseilsIntegration[index].conseils.map((tip, idx) => (
                       <li key={idx} className="text-sm text-muted-foreground flex items-start">
                         <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5 flex-shrink-0" />
                         {tip}
@@ -730,4 +732,3 @@ function VivreFrance({ onBack }) {
 }
 
 export default VivreFrance
-
