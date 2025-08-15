@@ -30,88 +30,58 @@ function Blog() {
   const articles = [
     // VOTRE NOUVEL ARTICLE EN TÊTE DE LISTE
     {
-      id: 1,
-      title: "Guide complet Parcoursup 2024 : Dates et stratégies",
-      excerpt: "Tout ce que vous devez savoir sur Parcoursup 2024, les dates importantes et nos conseils pour maximiser vos chances d'admission.",
-      content: "Parcoursup est la plateforme nationale de préinscription en première année de l'enseignement supérieur en France...",
-      author: "Marie Dubois",
-      date: "2024-01-15",
-      category: "Orientation",
-      image: "📚",
-      views: 1250,
-      comments: 23,
-      readTime: "8 min",
-      tags: ["Parcoursup", "Orientation", "Études supérieures"]
-    },
-    {
-      id: 2,
-      title: "Visa étudiant 2024 : Nouvelles procédures simplifiées",
-      excerpt: "Les dernières modifications des procédures de visa étudiant et comment optimiser votre dossier pour une réponse rapide.",
-      content: "Les procédures de visa étudiant ont été simplifiées en 2024. Voici tout ce que vous devez savoir...",
-      author: "Ahmed Benali",
-      date: "2024-01-10",
-      category: "Démarches",
-      image: "🛂",
-      views: 980,
-      comments: 15,
+      id: 8,
+      title: "Étudier en France: le guide express pour bien démarrer (2025)",
+      excerpt: "Choisir sa formation, préparer ses dossiers, éviter les pièges administratifs: les clés pour réussir votre arrivée.",
+      author: "Équipe Étudiante Solidaire",
+      date: "2025-09-01",
+      category: "Orientation", // Orientation | Démarches | Vie étudiante | Emploi | Financement
+      image: "🧭",
+      views: 0,
+      comments: 0,
       readTime: "6 min",
-      tags: ["Visa", "Démarches", "Immigration"]
-    },
-    {
-      id: 3,
-      title: "Logement étudiant : 10 astuces pour trouver rapidement",
-      excerpt: "Nos conseils d'experts pour décrocher un logement étudiant en France, même dans les villes les plus demandées.",
-      content: "Trouver un logement étudiant en France peut être un défi. Voici nos 10 astuces éprouvées...",
-      author: "Sophie Martin",
-      date: "2024-01-08",
-      category: "Vie étudiante",
-      image: "🏠",
-      views: 1450,
-      comments: 31,
-      readTime: "5 min",
-      tags: ["Logement", "Vie étudiante", "Conseils"]
-    },
-    {
-      id: 4,
-      title: "Jobs étudiants : Les secteurs qui recrutent en 2024",
-      excerpt: "Découvrez les secteurs d'activité qui offrent le plus d'opportunités aux étudiants étrangers en France.",
-      content: "Le marché de l'emploi étudiant évolue. Voici les secteurs les plus porteurs en 2024...",
-      author: "Thomas Leroy",
-      date: "2024-01-05",
-      category: "Emploi",
-      image: "💼",
-      views: 890,
-      comments: 18,
-      readTime: "7 min",
-      tags: ["Emploi", "Jobs étudiants", "Travail"]
-    },
-    {
-      id: 5,
-      title: "Bourses d'études : Comment maximiser vos chances",
-      excerpt: "Guide complet des bourses disponibles pour les étudiants étrangers et stratégies pour optimiser vos candidatures.",
-      content: "Les bourses d'études peuvent considérablement alléger le coût de vos études en France...",
-      author: "Fatima El Mansouri",
-      date: "2024-01-03",
-      category: "Financement",
-      image: "💰",
-      views: 1120,
-      comments: 27,
-      readTime: "9 min",
-      tags: ["Bourses", "Financement", "Aides"]
-    },
-    {
-      id: 6,
-      title: "Intégration culturelle : S'adapter à la vie française",
-      excerpt: "Conseils pratiques pour une intégration réussie dans la société française et la culture universitaire.",
-      content: "L'intégration culturelle est un aspect crucial de votre réussite en France...",
-      author: "Pierre Dubois",
-      date: "2024-01-01",
-      category: "Vie étudiante",
-      image: "🇫🇷",
-      views: 750,
-      comments: 12,
-      readTime: "6 min",
-      tags: ["Culture", "Intégration", "France"]
+      tags: ["Orientation", "Parcoursup", "Dossier"],
+      sections: [
+        {
+          heading: "1) Clarifier son projet",
+          paragraphs: [
+            "Définissez vos objectifs: diplôme visé, métier ciblé, contraintes de budget et de localisation.",
+            "Utilisez un tableau simple pour comparer 3 formations (admission, coûts, débouchés)."
+          ]
+        },
+        {
+          heading: "2) Choisir la bonne voie",
+          bullets: [
+            "BTS: professionnalisant, insertion rapide, 2 ans",
+            "Licence: bases solides, poursuite en Master",
+            "Titres pro: reconversion ciblée, rythme rapide"
+          ]
+        },
+        {
+          heading: "3) Construire un dossier solide",
+          bullets: [
+            "CV clair (1 page) + Lettre adaptée à chaque formation",
+            "Pièces scannées en PDF (notes, diplômes, identité)",
+            "Projet motivé cohérent (5–10 lignes)"
+          ]
+        },
+        {
+          heading: "4) Les pièges à éviter",
+          bullets: [
+            "Attendre la dernière minute pour les démarches",
+            "CV trop long ou non adapté au format français",
+            "Oublier de vérifier les prérequis exacts"
+          ]
+        },
+        {
+          heading: "5) Checklist de départ",
+          bullets: [
+            "Créer un dossier cloud (PDF nommés)",
+            "Lister 5 formations + dates limites",
+            "Bloquer 2 créneaux/semaine pour candidater"
+          ]
+        }
+      ]
     },
     {
       id: 7,
@@ -179,7 +149,7 @@ function Blog() {
           ]
         }
       ]
-    },
+    }
   ]
 
   if (selectedPost) {
