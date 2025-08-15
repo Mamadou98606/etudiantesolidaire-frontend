@@ -1,9 +1,3 @@
-mets l'integralité es code please à copier coller
-Thought for 15s
-Je récupère le contenu complet et à jour de src/App.jsx pour que vous puissiez le copier-coller tel quel.
-
-Read App.jsx and thought for 35s
-Remplacez tout le contenu de src/App.jsx par ceci:
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
