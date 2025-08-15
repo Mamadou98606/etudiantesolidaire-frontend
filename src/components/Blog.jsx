@@ -3,12 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Input } from '@/components/ui/input.jsx'
-import {
-  ArrowLeft,
-  Search,
-  Calendar,
-  User,
-  Eye,
+import { 
+  ArrowLeft, 
+  Search, 
+  Calendar, 
+  User, 
+  Eye, 
   MessageSquare,
   Plus,
   Filter,
@@ -17,12 +17,14 @@ import {
   TrendingUp
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import BlogPost from './BlogPost'
 
 function Blog() {
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('tous')
   const [showEditor, setShowEditor] = useState(false)
+  const [selectedPost, setSelectedPost] = useState(null)
 
   // Articles de blog statiques (en attendant la connexion backend)
   const articles = [
@@ -110,21 +112,12 @@ function Blog() {
       readTime: "6 min",
       tags: ["Culture", "Intégration", "France"]
     },
-    {
-      id: 7,
-      title: "Étudiante Solidaire : votre guide de A à Z pour réussir vos études en France",
-      excerpt: "Tout-en-un : orientation, démarches, logement, emploi et conseils pratiques — avec un accompagnement humain et gratuit.",
-      content: "Arriver en France pour étudier, c’est excitant… et parfois déroutant. Étudiante Solidaire a été créée pour enlever le stress inutile et vous donner un chemin clair, pas à pas.\n\nPourquoi Étudiante Solidaire ?\n- Des informations fiables et à jour, réunies au même endroit\n- Des parcours guidés (orientation, démarches, vie en France, emploi)\n- Un accompagnement humain et gratuit pour démarrer sereinement\n\nCe que vous trouverez sur la plateforme\n1) Orientation\n- Comprendre les diplômes (BTS, Licence, Master, titres pro)\n- Choisir sa formation et construire un dossier solide (CV, lettres, pièces)\n- Calendrier clé (Parcoursup, candidatures directes)\n\n2) Démarches administratives\n- Visa étudiant et validation VLS-TS : étapes et pièces\n- Titre de séjour : première demande, renouvellement, changement de statut\n- Autorisation de travail : ce qui est permis, comment le déclarer\n\n3) Vivre en France\n- Se loger (CROUS, colocation, garant, aides logement)\n- Se soigner (Sécurité sociale, mutuelle, médecin traitant)\n- Se déplacer (abonnements étudiants, applications utiles)\n- S’intégrer (associations, culture, bons plans)\n\n4) Travailler\n- Job étudiant, stage, premier emploi après le diplôme\n- Marché de l’emploi : secteurs porteurs, compétences recherchées\n- Conseils concrets : CV, lettres, entretiens, networking\n\n5) Outils pratiques\n- Checklists téléchargeables (démarches, dossier d’inscription)\n- Rappels d’échéances et timeline personnalisée\n- Prise de rendez-vous 30 minutes (gratuite) avec un conseiller\n- Suivi de progression et favoris pour tout retrouver facilement\n\nComment commencer ?\n- Créez votre compte (gratuit) en 1 minute\n- Complétez rapidement votre profil (objectif d’études, pays, niveau)\n- Suivez le parcours recommandé (orientation → démarches → installation)\n- Prenez un rendez-vous si vous avez besoin d’un coup de pouce\n\n3 conseils express de l’équipe\n- Anticipez vos démarches (VLS-TS, logement) : commencez tôt\n- Centralisez vos documents (PDF) dans un seul dossier cloud\n- Soignez votre français écrit (CV/lettres) : c’est un vrai plus\n\nQuestions fréquentes\nQ: L’accompagnement est-il payant ?\nR: Le premier RDV (30 min) est gratuit. Nous privilégions des solutions accessibles.\n\nQ: Puis-je travailler pendant mes études ?\nR: Oui, avec des limites (heures annuelles). Nous expliquons ce qui est autorisé et les bons réflexes.\n\nQ: Comment éviter les retards administratifs ?\nR: Utilisez nos checklists + rappels d’échéances. C’est simple et ça change tout.\n\nConclusion\nÉtudier en France, c’est une aventure extraordinaire. Avec Étudiante Solidaire, vous avez un plan, des ressources concrètes, et une équipe à vos côtés. Commencez aujourd’hui : plus tôt vous vous organisez, plus sereine sera votre arrivée.\n",
-      author: "Équipe Étudiante Solidaire",
-      date: "2025-08-15",
-      category: "Vie étudiante",
-      image: "🎓",
-      views: 0,
-      comments: 0,
-      readTime: "7 min",
-      tags: ["Étudiante Solidaire", "Orientation", "Démarches", "Vie étudiante", "Emploi"]
-    },
+    // Ajoutez ici vos nouveaux articles (id unique, etc.)
   ]
+
+  if (selectedPost) {
+    return <BlogPost post={selectedPost} onBack={() => setSelectedPost(null)} />
+  }
 
   const categories = [
     { id: 'tous', label: 'Tous les articles', count: articles.length },
@@ -138,8 +131,8 @@ function Blog() {
   const articlesFiltres = articles.filter(article => {
     const matchCategory = selectedCategory === 'tous' || article.category === selectedCategory
     const matchSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+                       article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     return matchCategory && matchSearch
   })
 
@@ -150,8 +143,8 @@ function Blog() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             onClick={() => navigate('/')}
             className="mb-4"
           >
@@ -206,7 +199,7 @@ function Blog() {
                   className="pl-10"
                 />
               </div>
-
+              
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <Button
@@ -228,7 +221,7 @@ function Blog() {
             {/* Liste des articles */}
             <div className="space-y-6">
               {articlesFiltres.map((article) => (
-                <Card key={article.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <Card key={article.id} className="hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="text-4xl">{article.image}</div>
@@ -240,15 +233,15 @@ function Blog() {
                             {article.readTime}
                           </span>
                         </div>
-
-                        <h3 className="text-xl font-bold text-foreground mb-2 hover:text-blue-600 transition-colors">
+                        
+                        <h3 className="text-xl font-bold text-foreground mb-2">
                           {article.title}
                         </h3>
-
+                        
                         <p className="text-muted-foreground mb-4 leading-relaxed">
                           {article.excerpt}
                         </p>
-
+                        
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <span className="flex items-center">
@@ -268,12 +261,12 @@ function Blog() {
                               {article.comments}
                             </span>
                           </div>
-
-                          <Button variant="outline" size="sm">
+                          
+                          <Button variant="outline" size="sm" onClick={() => setSelectedPost(article)}>
                             Lire la suite
                           </Button>
                         </div>
-
+                        
                         <div className="flex flex-wrap gap-1 mt-3">
                           {article.tags.map((tag, index) => (
                             <Badge key={index} variant="outline" className="text-xs">
@@ -318,7 +311,10 @@ function Blog() {
                       {index + 1}
                     </div>
                     <div>
-                      <h4 className="font-medium text-sm leading-tight mb-1 hover:text-blue-600 cursor-pointer">
+                      <h4
+                        className="font-medium text-sm leading-tight mb-1 hover:text-blue-600 cursor-pointer"
+                        onClick={() => setSelectedPost(article)}
+                      >
                         {article.title}
                       </h4>
                       <div className="flex items-center text-xs text-muted-foreground space-x-2">
