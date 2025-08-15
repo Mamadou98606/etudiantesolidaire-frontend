@@ -18,8 +18,10 @@ import {
   Building,
   GraduationCap
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function Travailler({ onBack }) {
+function Travailler() {
+  const navigate = useNavigate()
   const typesEmplois = [
     {
       type: "Job étudiant",
@@ -297,7 +299,7 @@ function Travailler({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -732,4 +734,3 @@ function Travailler({ onBack }) {
 }
 
 export default Travailler
-
