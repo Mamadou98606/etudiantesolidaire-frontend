@@ -11,8 +11,10 @@ import {
   Calendar,
   Heart
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
-function Temoignages({ onBack }) {
+function Temoignages() {
+  const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('tous')
 
   const temoignages = [
@@ -149,7 +151,7 @@ function Temoignages({ onBack }) {
         <div className="mb-8">
           <Button 
             variant="outline" 
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -297,4 +299,3 @@ function Temoignages({ onBack }) {
 }
 
 export default Temoignages
-
