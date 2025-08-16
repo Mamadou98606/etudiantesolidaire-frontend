@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card.jsx'
-import { Badge } from './ui/badge.jsx'
-import { Button } from './ui/button.jsx'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
+import { Badge } from '@/components/ui/badge.jsx'
+import { Button } from '@/components/ui/button.jsx'
 import {
   GraduationCap,
   BookOpen,
@@ -345,7 +345,7 @@ function Orientation() {
         {/* Outils d'aide */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Nos outils d'aide à l'orientation</h2>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -357,8 +357,25 @@ function Orientation() {
                 <p className="text-muted-foreground mb-4">
                   Découvrez les formations qui correspondent à votre profil et vos aspirations.
                 </p>
-                <Button className="w-full" onClick={() => navigate('/test-orientation')}>
+                <Button className="w-full">
                   Faire le test
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <BookOpen className="h-5 w-5 text-blue-600 mr-2" />
+                  Fiches métiers
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4">
+                  Explorez les métiers et leurs formations associées.
+                </p>
+                <Button variant="outline" className="w-full">
+                  Consulter les fiches
                 </Button>
               </CardContent>
             </Card>
@@ -497,7 +514,7 @@ function Orientation() {
                 <Button size="lg" variant="secondary">
                   Prendre rendez-vous
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600" onClick={() => navigate('/test-orientation')}>
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
                   Faire le test d'orientation
                 </Button>
               </div>
