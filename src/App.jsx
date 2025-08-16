@@ -24,6 +24,7 @@ import PriseRDV from './components/PriseRDV';
 import AdminPanel from './components/AdminPanel';
 import AuthModal from './components/AuthModal';
 import ProtectedRoute from './components/ProtectedRoute';
+import TestOrientation from './components/TestOrientation';
 
 import './App.css';
 import { navigationItems } from './navigation';
@@ -298,7 +299,7 @@ const Footer = () => {
   );
 };
 
-// Bouton “Retour en haut”
+// Bouton "Retour en haut"
 const BackToTopButton = () => {
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -355,7 +356,7 @@ const CookieBanner = () => {
             onClick={() => { localStorage.setItem('cookieConsentES', 'true'); setShow(false); }}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
-            J’accepte
+            J'accepte
           </button>
         </div>
       </div>
@@ -395,6 +396,7 @@ const AppContent = () => {
             <Route path="/" element={<HomePage onLoginClick={handleLoginClick} onRegisterClick={handleRegisterClick} />} />
             <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
             <Route path="/orientation" element={<Orientation />} />
+            <Route path="/test-orientation" element={<TestOrientation />} />
             <Route path="/demarches" element={<Demarches />} />
             <Route path="/etudes" element={<Etudes />} />
             <Route path="/travailler" element={<Travailler />} />
@@ -414,12 +416,12 @@ const AppContent = () => {
                 <AdminPanel />
               </ProtectedRoute>
             } />
-              <Route path="/mes-favoris" element={
+            <Route path="/mes-favoris" element={
               <ProtectedRoute>
                 <Bookmarks />
               </ProtectedRoute>
             } />
-              <Route path="/modifier-profil" element={
+            <Route path="/modifier-profil" element={
               <ProtectedRoute>
                 <EditProfile />
               </ProtectedRoute>
