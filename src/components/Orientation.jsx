@@ -223,7 +223,7 @@ function Orientation() {
                   <Badge variant="outline" className="w-fit mx-auto mb-2">
                     Étape {step.step}
                   </Badge>
-                  <CardTitle className="text-lg">{step.title}</CardTitle>
+                    <CardTitle className="text-lg">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground text-sm">{step.description}</p>
@@ -289,7 +289,7 @@ function Orientation() {
                         <p className="text-sm text-muted-foreground">{formation.requirements}</p>
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-2 flex items-center">
+                        <h4 className="font-semibold mb-2 flex items中心">
                           <ExternalLink className="h-4 w-4 mr-2" />
                           Débouchés
                         </h4>
@@ -439,7 +439,7 @@ function Orientation() {
                     <BookOpen className="h-4 w-4 mr-2 text-green-600" />
                     <span>Guide Parcoursup 2025</span>
                   </li>
-                  <li className="flex items-center">
+                  <li className="flex items.center">
                     <BookOpen className="h-4 w-4 mr-2 text-green-600" />
                     <span>Choisir sa formation post-bac</span>
                   </li>
@@ -465,7 +465,7 @@ function Orientation() {
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Créer mon compte et compléter mon profil</li>
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Renseigner mes bulletins et pièces</li>
-                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Rédiger mes projets de formation motivés</li>
+                <li className="flex items.center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Rédiger mes projets de formation motivés</li>
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Confirmer mes vœux avant la date limite</li>
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Suivre les réponses et respecter les délais</li>
               </ul>
