@@ -392,7 +392,7 @@ const AppContent = () => {
         />
         <main className="flex-1 p-4">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage onLoginClick={handleLoginClick} onRegisterClick={handleRegisterClick} />} />
             <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
             <Route path="/orientation" element={<Orientation />} />
             <Route path="/demarches" element={<Demarches />} />
