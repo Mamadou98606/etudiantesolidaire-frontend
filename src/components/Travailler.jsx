@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
-import { Input } from '@/components/ui/input.jsx'
 import { 
   Briefcase, 
   Clock, 
@@ -17,271 +16,298 @@ import {
   FileText,
   TrendingUp,
   Building,
-  GraduationCap,
-  Calculator,
-  Search,
-  Download,
-  Mail,
-  Phone,
-  Calendar
+  GraduationCap
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function Travailler() {
   const navigate = useNavigate()
-  const [salaireBrut, setSalaireBrut] = useState('')
-  const [salaireNet, setSalaireNet] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedType, setSelectedType] = useState('tous')
-
-  // Types d'emplois
   const typesEmplois = [
     {
       type: "Job étudiant",
-      title: "Emplois à temps partiel",
-      description: "Travail flexible adapté à vos études",
-      avantages: ["Flexibilité horaires", "Gain d'expérience", "Revenus complémentaires"],
-      secteurs: ["Restauration", "Commerce", "Services", "Animation"],
-      salaire: "10-15€/h",
-      heures: "10-20h/semaine",
-      liens: [
-        {
-          name: "Pôle Emploi",
-          url: "https://www.pole-emploi.fr/candidat/recherche-emploi.html",
-          description: "Offres d'emploi officielles"
-        },
-        {
-          name: "Indeed France",
-          url: "https://fr.indeed.com",
-          description: "Plateforme de recherche d'emploi"
-        },
-        {
-          name: "Apec",
-          url: "https://www.apec.fr",
-          description: "Emplois cadres et ingénieurs"
-        }
+      description: "Emploi à temps partiel pendant les études",
+      duree: "Pendant l'année scolaire",
+      limitation: "964h/an (60% temps plein)",
+      salaire: "11,65€/h minimum",
+      secteurs: [
+        "Restauration et hôtellerie",
+        "Commerce et vente",
+        "Garde d'enfants",
+        "Cours particuliers",
+        "Livraison",
+        "Animation"
+      ],
+      avantages: [
+        "Expérience professionnelle",
+        "Revenus complémentaires",
+        "Développement de compétences",
+        "Réseau professionnel"
       ]
     },
     {
       type: "Stage",
-      title: "Stages en entreprise",
-      description: "Expérience professionnelle dans votre domaine",
-      avantages: ["Expérience terrain", "Réseau professionnel", "Possibilité CDI"],
-      secteurs: ["Tous secteurs", "Tech", "Commerce", "Marketing", "Finance"],
-      salaire: "Gratuit à 1000€/mois",
-      heures: "35h/semaine",
-      liens: [
-        {
-          name: "Stages.fr",
-          url: "https://www.stages.fr",
-          description: "Spécialisé stages et alternance"
-        },
-        {
-          name: "Welcome to the Jungle",
-          url: "https://www.welcometothejungle.com/fr",
-          description: "Stages et emplois jeunes"
-        },
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/jobs",
-          description: "Réseau professionnel"
-        }
+      description: "Formation pratique en entreprise",
+      duree: "2 semaines à 6 mois",
+      limitation: "Selon convention de stage",
+      salaire: "Gratification si > 2 mois (4,35€/h min)",
+      secteurs: [
+        "Tous secteurs d'activité",
+        "Startup et PME",
+        "Grandes entreprises",
+        "Organisations internationales",
+        "Secteur public",
+        "ONG et associations"
+      ],
+      avantages: [
+        "Application des connaissances",
+        "Découverte du monde professionnel",
+        "Possibilité d'embauche",
+        "Validation du cursus"
       ]
     },
     {
-      type: "CDI/CDD",
-      title: "Contrats à durée déterminée/indéterminée",
-      description: "Emplois stables avec tous les avantages",
-      avantages: ["Sécurité de l'emploi", "Avantages sociaux", "Évolution de carrière"],
-      secteurs: ["Tous secteurs", "Tech", "Finance", "Consulting", "Industrie"],
-      salaire: "Variable selon poste",
-      heures: "35h/semaine",
-      liens: [
-        {
-          name: "Pôle Emploi",
-          url: "https://www.pole-emploi.fr/candidat/recherche-emploi.html",
-          description: "Offres d'emploi officielles"
-        },
-        {
-          name: "Apec",
-          url: "https://www.apec.fr",
-          description: "Emplois cadres et ingénieurs"
-        },
-        {
-          name: "Indeed France",
-          url: "https://fr.indeed.com",
-          description: "Plateforme de recherche d'emploi"
-        }
-      ]
-    },
-    {
-      type: "Alternance",
-      title: "Formation en alternance",
-      description: "Études et travail en entreprise",
-      avantages: ["Formation gratuite", "Salaire", "Expérience", "Diplôme"],
-      secteurs: ["Tous secteurs", "Tech", "Commerce", "Industrie"],
-      salaire: "600-1500€/mois",
-      heures: "Alternance école/entreprise",
-      liens: [
-        {
-          name: "Alternance.emploi.gouv.fr",
-          url: "https://alternance.emploi.gouv.fr",
-          description: "Site officiel de l'alternance"
-        },
-        {
-          name: "Stages.fr",
-          url: "https://www.stages.fr",
-          description: "Offres d'alternance"
-        },
-        {
-          name: "Pôle Emploi",
-          url: "https://www.pole-emploi.fr/candidat/recherche-emploi.html",
-          description: "Alternances et formations"
-        }
+      type: "Emploi post-diplôme",
+      description: "CDI/CDD après obtention du diplôme",
+      duree: "Contrat permanent ou temporaire",
+      limitation: "Changement de statut nécessaire",
+      salaire: "Selon qualification et secteur",
+      secteurs: [
+        "Ingénierie et tech",
+        "Finance et banque",
+        "Conseil et audit",
+        "Marketing et communication",
+        "Recherche et développement",
+        "Secteur public"
+      ],
+      avantages: [
+        "Stabilité financière",
+        "Évolution de carrière",
+        "Intégration durable",
+        "Développement professionnel"
       ]
     }
   ]
 
-  // Modèles de CV
-  const modelesCV = [
+  const secteursDemandeurs = [
     {
-      nom: "CV Français Classique",
-      description: "Format traditionnel français",
-      url: "https://www.pole-emploi.fr/candidat/rediger-mon-cv.html",
-      type: "Gratuit"
+      secteur: "Technologies de l'information",
+      demande: "Très forte",
+      salaire: "45-80k€/an",
+      competences: [
+        "Développement web/mobile",
+        "Intelligence artificielle",
+        "Cybersécurité",
+        "Data science"
+      ],
+      opportunites: "Startup, GAFAM, ESN, banques"
     },
     {
-      nom: "CV Europass",
-      description: "Format européen standardisé",
-      url: "https://europa.eu/europass/fr/create-europass-cv",
-      type: "Gratuit"
+      secteur: "Ingénierie",
+      demande: "Forte",
+      salaire: "40-70k€/an",
+      competences: [
+        "Génie civil",
+        "Mécanique",
+        "Électronique",
+        "Environnement"
+      ],
+      opportunites: "Grands groupes, bureaux d'études, industrie"
     },
     {
-      nom: "CV Créatif",
-      description: "Design moderne et original",
-      url: "https://www.canva.com/fr_fr/creer/cv/",
-      type: "Gratuit"
+      secteur: "Finance",
+      demande: "Modérée",
+      salaire: "50-90k€/an",
+      competences: [
+        "Analyse financière",
+        "Trading",
+        "Risk management",
+        "Audit"
+      ],
+      opportunites: "Banques, assurances, fonds d'investissement"
     },
     {
-      nom: "CV Tech",
-      description: "Spécialisé secteur informatique",
-      url: "https://www.welcometothejungle.com/fr/articles/cv-tech",
-      type: "Gratuit"
+      secteur: "Santé",
+      demande: "Forte",
+      salaire: "35-60k€/an",
+      competences: [
+        "Soins infirmiers",
+        "Recherche médicale",
+        "Biotechnologies",
+        "Pharmacie"
+      ],
+      opportunites: "Hôpitaux, laboratoires, industrie pharmaceutique"
     }
   ]
 
-  // Liens utiles
-  const liensUtiles = [
+  const processusRecherche = [
     {
-      category: "Recherche d'emploi",
-      links: [
-        {
-          name: "Pôle Emploi",
-          url: "https://www.pole-emploi.fr",
-          description: "Service public de l'emploi"
-        },
-        {
-          name: "Apec",
-          url: "https://www.apec.fr",
-          description: "Association pour l'emploi des cadres"
-        },
-        {
-          name: "Indeed France",
-          url: "https://fr.indeed.com",
-          description: "Plateforme internationale"
-        },
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/jobs",
-          description: "Réseau professionnel"
-        }
+      etape: 1,
+      titre: "Préparation",
+      description: "Définir son projet professionnel",
+      actions: [
+        "Bilan de compétences",
+        "Définition d'objectifs",
+        "Recherche sectorielle",
+        "Identification des entreprises cibles"
+      ],
+      duree: "2-3 semaines"
+    },
+    {
+      etape: 2,
+      titre: "Candidatures",
+      description: "Créer et diffuser ses candidatures",
+      actions: [
+        "Rédaction CV et lettre de motivation",
+        "Création profil LinkedIn",
+        "Candidatures spontanées",
+        "Réponses aux offres"
+      ],
+      duree: "4-6 semaines"
+    },
+    {
+      etape: 3,
+      titre: "Entretiens",
+      description: "Passer les entretiens de sélection",
+      actions: [
+        "Préparation aux entretiens",
+        "Recherche sur l'entreprise",
+        "Simulation d'entretiens",
+        "Négociation salariale"
+      ],
+      duree: "2-4 semaines"
+    },
+    {
+      etape: 4,
+      titre: "Intégration",
+      description: "Réussir son intégration en entreprise",
+      actions: [
+        "Signature du contrat",
+        "Changement de statut",
+        "Période d'essai",
+        "Formation interne"
+      ],
+      duree: "1-3 mois"
+    }
+  ]
+
+  const plateformesEmploi = [
+    {
+      nom: "LinkedIn",
+      type: "Réseau professionnel",
+      specialite: "Tous secteurs",
+      avantages: "Networking, visibilité, recruteurs"
+    },
+    {
+      nom: "Indeed",
+      type: "Moteur de recherche",
+      specialite: "Tous types d'emplois",
+      avantages: "Large choix, alertes, candidature facile"
+    },
+    {
+      nom: "Welcome to the Jungle",
+      type: "Plateforme moderne",
+      specialite: "Startup, tech, scale-up",
+      avantages: "Culture d'entreprise, vidéos, modernité"
+    },
+    {
+      nom: "Apec",
+      type: "Association cadres",
+      specialite: "Postes cadres",
+      avantages: "Conseil, accompagnement, expertise"
+    },
+    {
+      nom: "Pôle emploi",
+      type: "Service public",
+      specialite: "Tous secteurs",
+      avantages: "Accompagnement, formations, aides"
+    },
+    {
+      nom: "JobTeaser",
+      type: "Plateforme étudiante",
+      specialite: "Stages, premiers emplois",
+      avantages: "Spécialisé jeunes diplômés, partenariats écoles"
+    }
+  ]
+
+  const competencesRecherchees = [
+    {
+      categorie: "Compétences techniques",
+      competences: [
+        "Programmation (Python, Java, JavaScript)",
+        "Analyse de données",
+        "Gestion de projet",
+        "Langues étrangères",
+        "Outils bureautiques avancés",
+        "Compétences sectorielles spécifiques"
       ]
     },
     {
-      category: "Stages et alternance",
-      links: [
-        {
-          name: "Stages.fr",
-          url: "https://www.stages.fr",
-          description: "Spécialisé stages et alternance"
-        },
-        {
-          name: "Welcome to the Jungle",
-          url: "https://www.welcometothejungle.com/fr",
-          description: "Emplois et stages jeunes"
-        },
-        {
-          name: "Alternance.emploi.gouv.fr",
-          url: "https://alternance.emploi.gouv.fr",
-          description: "Site officiel alternance"
-        },
-        {
-          name: "JobTeaser",
-          url: "https://www.jobteaser.com/fr",
-          description: "Stages et premiers emplois"
-        }
+      categorie: "Soft skills",
+      competences: [
+        "Communication",
+        "Travail en équipe",
+        "Adaptabilité",
+        "Leadership",
+        "Résolution de problèmes",
+        "Créativité et innovation"
       ]
     },
     {
-      category: "Ressources",
-      links: [
-        {
-          name: "Service Public - Travail",
-          url: "https://www.service-public.fr/particuliers/vosdroits/N35893",
-          description: "Informations officielles"
-        },
-        {
-          name: "Droit du travail",
-          url: "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006075116/",
-          description: "Code du travail"
-        },
-        {
-          name: "Simulateur salaire",
-          url: "https://www.urssaf.fr/portail/home/utile-et-pratique/estimateur-de-cotisations-2019.html",
-          description: "Calculer son salaire net"
-        },
-        {
-          name: "Convention collective",
-          url: "https://www.legifrance.gouv.fr/liste/code?etatTexte=VIGUEUR&etatLien=VIGUEUR",
-          description: "Trouver sa convention"
-        }
+      categorie: "Compétences interculturelles",
+      competences: [
+        "Multilinguisme",
+        "Compréhension culturelle",
+        "Adaptabilité internationale",
+        "Perspective globale",
+        "Ouverture d'esprit",
+        "Expérience internationale"
       ]
     }
   ]
 
-  // Simulateur de salaire
-  const calculerSalaireNet = () => {
-    if (salaireBrut) {
-      const brut = parseFloat(salaireBrut)
-      // Calcul simplifié (environ 75% du brut pour un étudiant)
-      const net = brut * 0.75
-      setSalaireNet(net.toFixed(2))
+  const aidesRecherche = [
+    {
+      aide: "Accompagnement Pôle emploi",
+      description: "Conseil et suivi personnalisé",
+      eligibilite: "Demandeurs d'emploi inscrits",
+      services: "CV, entretiens, formations, aides financières"
+    },
+    {
+      aide: "Mission locale",
+      description: "Accompagnement des 16-25 ans",
+      eligibilite: "Jeunes de 16 à 25 ans",
+      services: "Orientation, formation, emploi, logement"
+    },
+    {
+      aide: "APEC",
+      description: "Association pour l'emploi des cadres",
+      eligibilite: "Cadres et jeunes diplômés Bac+3",
+      services: "Conseil, offres d'emploi, événements networking"
+    },
+    {
+      aide: "Services carrière des écoles",
+      description: "Accompagnement par l'établissement",
+      eligibilite: "Étudiants et diplômés de l'école",
+      services: "Job dating, partenariats entreprises, alumni"
     }
-  }
-
-  const filteredEmplois = typesEmplois.filter(emploi => {
-    const matchSearch = emploi.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       emploi.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchType = selectedType === 'tous' || emploi.type === selectedType
-    return matchSearch && matchType
-  })
+  ]
 
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour à l'accueil
           </Button>
-          <h1 className="text-4xl font-bold text-foreground mb-4">Travailler en France</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Travailler</h1>
           <p className="text-xl text-muted-foreground">
-            Trouvez un emploi, un stage ou une alternance adaptés à votre profil
+            Préparez votre insertion professionnelle et trouvez l'emploi de vos rêves en France
           </p>
         </div>
 
@@ -291,193 +317,69 @@ function Travailler() {
             <CardHeader>
               <CardTitle className="text-2xl text-purple-800 flex items-center">
                 <Briefcase className="h-6 w-6 mr-2" />
-                Votre carrière en France
+                Votre carrière en France commence ici
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-lg text-purple-700 leading-relaxed mb-4">
-                La France offre de nombreuses opportunités professionnelles : jobs étudiants, 
-                stages, alternance, CDI/CDD. Chaque type d'emploi a ses avantages et ses spécificités.
-              </p>
               <p className="text-lg text-purple-700 leading-relaxed">
-                Nous vous aidons à comprendre le marché du travail français et à trouver 
-                l'opportunité qui correspond à vos objectifs.
+                La France offre de nombreuses opportunités professionnelles aux étudiants étrangers. 
+                Du job étudiant au CDI post-diplôme, découvrez comment naviguer le marché du travail français, 
+                développer vos compétences et réussir votre insertion professionnelle.
               </p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Simulateur de salaire */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Simulateur de salaire</h2>
-          <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
-            <CardHeader>
-              <CardTitle className="text-blue-800 flex items-center">
-                <Calculator className="h-6 w-6 mr-2" />
-                Calculer votre salaire net
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="text-sm font-medium text-blue-700 mb-2 block">Salaire brut mensuel (€)</label>
-                  <Input
-                    type="number"
-                    placeholder="Ex: 2000"
-                    value={salaireBrut}
-                    onChange={(e) => setSalaireBrut(e.target.value)}
-                    className="border-blue-300"
-                  />
-                  <Button 
-                    onClick={calculerSalaireNet}
-                    className="mt-4 bg-blue-600 hover:bg-blue-700"
-                  >
-                    Calculer
-                  </Button>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-blue-700 mb-2 block">Salaire net estimé (€)</label>
-                  <div className="p-4 bg-white rounded-md border border-blue-300">
-                    <p className="text-2xl font-bold text-blue-800">
-                      {salaireNet ? `${salaireNet}€` : '---'}
-                    </p>
-                    <p className="text-sm text-blue-600 mt-1">
-                      Estimation basée sur les charges sociales étudiantes
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Système de recherche */}
-        <section className="mb-12">
-          <Card className="bg-gradient-to-r from-green-50 to-green-100 border-green-200">
-            <CardHeader>
-              <CardTitle className="text-green-800 flex items-center">
-                <Search className="h-6 w-6 mr-2" />
-                Rechercher un type d'emploi
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-green-700 mb-2 block">Recherche libre</label>
-                  <Input
-                    placeholder="Type d'emploi, secteur..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border-green-300"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-green-700 mb-2 block">Type d'emploi</label>
-                  <select
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                    className="w-full p-2 border border-green-300 rounded-md"
-                  >
-                    <option value="tous">Tous les types</option>
-                    {typesEmplois.map(emploi => (
-                      <option key={emploi.type} value={emploi.type}>
-                        {emploi.type}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </section>
 
         {/* Types d'emplois */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">
-            Types d'emplois disponibles ({filteredEmplois.length})
-          </h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Types d'emplois pour étudiants</h2>
           <div className="space-y-8">
-            {filteredEmplois.map((emploi, index) => (
+            {typesEmplois.map((emploi, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <Badge variant="default" className="text-lg px-4 py-2">
-                        {emploi.type}
+                    <div>
+                      <CardTitle className="text-xl">{emploi.type}</CardTitle>
+                      <CardDescription className="text-base mt-2">
+                        {emploi.description}
+                      </CardDescription>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant="default" className="mb-2">
+                        <CreditCard className="h-3 w-3 mr-1" />
+                        {emploi.salaire}
                       </Badge>
-                      <div>
-                        <CardTitle className="text-xl">{emploi.title}</CardTitle>
-                        <div className="flex items-center space-x-4 mt-2">
-                          <Badge variant="outline">
-                            <CreditCard className="h-3 w-3 mr-1" />
-                            {emploi.salaire}
-                          </Badge>
-                          <Badge variant="outline">
-                            <Clock className="h-3 w-3 mr-1" />
-                            {emploi.heures}
-                          </Badge>
-                        </div>
-                      </div>
+                      <br />
+                      <Badge variant="outline">
+                        <Clock className="h-3 w-3 mr-1" />
+                        {emploi.limitation}
+                      </Badge>
                     </div>
                   </div>
-                  <CardDescription className="text-base">
-                    {emploi.description}
-                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold mb-3 flex items-center">
-                        <Award className="h-4 w-4 mr-2" />
-                        Avantages
-                      </h4>
+                      <h4 className="font-semibold mb-3">Secteurs populaires :</h4>
+                      <ul className="space-y-1">
+                        {emploi.secteurs.map((secteur, idx) => (
+                          <li key={idx} className="text-sm text-muted-foreground flex items-center">
+                            <Building className="h-3 w-3 mr-2 text-blue-600" />
+                            {secteur}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-3">Avantages :</h4>
                       <ul className="space-y-1">
                         {emploi.avantages.map((avantage, idx) => (
                           <li key={idx} className="text-sm text-muted-foreground flex items-center">
-                            <CheckCircle className="h-4 w-4 mr-2 text-green-600" />
+                            <CheckCircle className="h-3 w-3 mr-2 text-green-600" />
                             {avantage}
                           </li>
                         ))}
                       </ul>
-                      
-                      <h4 className="font-semibold mb-3 mt-4 flex items-center">
-                        <Building className="h-4 w-4 mr-2" />
-                        Secteurs
-                      </h4>
-                      <div className="flex flex-wrap gap-1">
-                        {emploi.secteurs.map((secteur, idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs">
-                            {secteur}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-3 flex items-center">
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        Sites de recherche
-                      </h4>
-                      <div className="space-y-2">
-                        {emploi.liens.map((lien, idx) => (
-                          <a
-                            key={idx}
-                            href={lien.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center p-2 rounded hover:bg-muted transition-colors"
-                          >
-                            <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                            <div>
-                              <p className="font-medium text-blue-600 hover:underline">
-                                {lien.name}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                {lien.description}
-                              </p>
-                            </div>
-                          </a>
-                        ))}
-                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -486,30 +388,110 @@ function Travailler() {
           </div>
         </section>
 
-        {/* Modèles de CV */}
+        {/* Secteurs qui recrutent */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Modèles de CV</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {modelesCV.map((modele, index) => (
+          <h2 className="text-3xl font-bold text-foreground mb-8">Secteurs qui recrutent</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {secteursDemandeurs.map((secteur, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <CardTitle className="text-lg flex items-center">
-                    <FileText className="h-5 w-5 mr-2" />
-                    {modele.nom}
-                  </CardTitle>
-                  <Badge variant="outline" className="w-fit">
-                    {modele.type}
-                  </Badge>
+                  <div className="flex items-center justify-between mb-2">
+                    <CardTitle className="text-lg">{secteur.secteur}</CardTitle>
+                    <div className="text-right">
+                      <Badge variant={
+                        secteur.demande === 'Très forte' ? 'default' :
+                        secteur.demande === 'Forte' ? 'secondary' : 'outline'
+                      }>
+                        <TrendingUp className="h-3 w-3 mr-1" />
+                        {secteur.demande}
+                      </Badge>
+                      <br />
+                      <Badge variant="outline" className="mt-1">
+                        {secteur.salaire}
+                      </Badge>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {modele.description}
-                  </p>
-                  <Button asChild className="w-full" variant="outline">
-                    <a href={modele.url} target="_blank" rel="noopener noreferrer">
-                      <Download className="h-4 w-4 mr-2" />
-                      Télécharger
-                    </a>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold text-sm mb-2">Compétences recherchées :</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {secteur.competences.map((comp, idx) => (
+                          <Badge key={idx} variant="secondary" className="text-xs">
+                            {comp}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm mb-1">Opportunités :</h4>
+                      <p className="text-sm text-muted-foreground">{secteur.opportunites}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Processus de recherche */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Processus de recherche d'emploi</h2>
+          <div className="space-y-6">
+            {processusRecherche.map((etape, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-center space-x-4">
+                    <Badge variant="default" className="text-lg px-4 py-2">
+                      Étape {etape.etape}
+                    </Badge>
+                    <div>
+                      <CardTitle className="text-xl">{etape.titre}</CardTitle>
+                      <div className="flex items-center mt-2">
+                        <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
+                        <span className="text-muted-foreground">{etape.duree}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <CardDescription className="text-base mt-4">
+                    {etape.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <h4 className="font-semibold mb-3">Actions à mener :</h4>
+                  <div className="grid md:grid-cols-2 gap-2">
+                    {etape.actions.map((action, idx) => (
+                      <div key={idx} className="flex items-center text-sm">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-600" />
+                        {action}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Plateformes d'emploi */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Plateformes de recherche d'emploi</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {plateformesEmploi.map((plateforme, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-lg">{plateforme.nom}</CardTitle>
+                  <div className="flex gap-2">
+                    <Badge variant="secondary">{plateforme.type}</Badge>
+                    <Badge variant="outline">{plateforme.specialite}</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">{plateforme.avantages}</p>
+                  <Button variant="outline" size="sm" className="w-full mt-3">
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    Visiter
                   </Button>
                 </CardContent>
               </Card>
@@ -517,69 +499,181 @@ function Travailler() {
           </div>
         </section>
 
-        {/* Liens utiles */}
+        {/* Compétences recherchées */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Liens utiles</h2>
-          
-          {liensUtiles.map((category, categoryIndex) => (
-            <div key={categoryIndex} className="mb-8">
-              <h3 className="text-xl font-semibold mb-4 text-foreground">{category.category}</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {category.links.map((link, linkIndex) => (
-                  <Card key={linkIndex} className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-4">
-                      <div className="flex items-start space-x-3">
-                        <ExternalLink className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
-                        <div className="flex-1">
-                          <a 
-                            href={link.url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="font-semibold text-blue-600 hover:text-blue-800 hover:underline block mb-1"
-                          >
-                            {link.name}
-                          </a>
-                          <p className="text-sm text-muted-foreground">
-                            {link.description}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          ))}
+          <h2 className="text-3xl font-bold text-foreground mb-8">Compétences recherchées par les employeurs</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {competencesRecherchees.map((categorie, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-lg">{categorie.categorie}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {categorie.competences.map((competence, idx) => (
+                      <li key={idx} className="text-sm text-muted-foreground flex items-start">
+                        <Award className="h-3 w-3 mr-2 text-orange-600 mt-1 flex-shrink-0" />
+                        {competence}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </section>
 
-        {/* Conseils pour l'emploi */}
+        {/* Aides à la recherche */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Conseils pour trouver un emploi</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Aides à la recherche d'emploi</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <Card>
+            {aidesRecherche.map((aide, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-lg">{aide.aide}</CardTitle>
+                  <CardDescription>{aide.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div>
+                      <h4 className="font-semibold text-sm">Éligibilité :</h4>
+                      <p className="text-sm text-muted-foreground">{aide.eligibilite}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm">Services :</h4>
+                      <p className="text-sm text-muted-foreground">{aide.services}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Conseils pratiques */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Conseils pour réussir</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <FileText className="h-5 w-5 mr-2" />
+                  <FileText className="h-5 w-5 text-blue-600 mr-2" />
                   CV et lettre de motivation
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>CV en français, 1 page maximum</span>
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Adaptez votre CV au format français (1-2 pages max)
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>Lettre de motivation personnalisée</span>
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Mettez en avant vos expériences internationales
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>Mettez en avant vos compétences linguistiques</span>
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Personnalisez chaque candidature
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>Adaptez votre CV au poste visé</span>
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Soignez votre français écrit
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Users className="h-5 w-5 text-purple-600 mr-2" />
+                  Entretiens d'embauche
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start">
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Préparez vos réponses aux questions classiques
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Renseignez-vous sur l'entreprise et le secteur
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Préparez des questions à poser au recruteur
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-3 w-3 mr-2 text-green-600 mt-1" />
+                    Soignez votre présentation et ponctualité
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Changement de statut */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Changement de statut étudiant → salarié</h2>
+          <Card className="bg-orange-50 border-orange-200">
+            <CardHeader>
+              <CardTitle className="text-orange-800 flex items-center">
+                <Info className="h-5 w-5 mr-2" />
+                Démarches administratives importantes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-semibold">Conditions :</h4>
+                  <ul className="text-sm text-orange-700 mt-2 space-y-1">
+                    <li>• Diplôme obtenu en France (minimum Bac+3)</li>
+                    <li>• Contrat de travail ou promesse d'embauche</li>
+                    <li>• Salaire au moins égal à 1,5 fois le SMIC</li>
+                    <li>• Emploi en rapport avec la formation</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold">Délais :</h4>
+                  <p className="text-sm text-orange-700 mt-1">
+                    Demande à effectuer 2 mois avant la fin du titre de séjour étudiant
+                  </p>
+                </div>
+                <Button variant="outline" className="border-orange-300 text-orange-700 hover:bg-orange-100">
+                  Guide détaillé du changement de statut
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Ressources utiles */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Ressources utiles</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Organismes d'aide</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">Pôle emploi</a>
+                  </li>
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">APEC (cadres)</a>
+                  </li>
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">Mission locale</a>
+                  </li>
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">Cap emploi</a>
                   </li>
                 </ul>
               </CardContent>
@@ -587,28 +681,25 @@ function Travailler() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Users className="h-5 w-5 mr-2" />
-                  Entretien et réseautage
-                </CardTitle>
+                <CardTitle>Outils et formations</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>Préparez vos réponses aux questions classiques</span>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">Mon compte formation</a>
                   </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>Rejoignez des groupes LinkedIn</span>
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">OpenClassrooms</a>
                   </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>Participez aux événements professionnels</span>
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">France Travail</a>
                   </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5" />
-                    <span>Suivez les entreprises qui vous intéressent</span>
+                  <li className="flex items-center">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                    <a href="#" className="text-blue-600 hover:underline">Coursera</a>
                   </li>
                 </ul>
               </CardContent>
@@ -620,18 +711,18 @@ function Travailler() {
         <section className="text-center">
           <Card className="bg-gradient-to-r from-purple-600 to-purple-700 text-white">
             <CardHeader>
-              <CardTitle className="text-2xl">Besoin d'aide pour votre recherche d'emploi ?</CardTitle>
+              <CardTitle className="text-2xl">Lancez votre carrière en France</CardTitle>
               <CardDescription className="text-purple-100">
-                Nos conseillers vous accompagnent dans votre recherche
+                Accédez à nos outils personnalisés et à l'accompagnement de nos experts
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">
-                  Prendre rendez-vous
+                  Créer mon profil professionnel
                 </Button>
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600">
-                  Télécharger nos guides
+                  Consulter les offres d'emploi
                 </Button>
               </div>
             </CardContent>
