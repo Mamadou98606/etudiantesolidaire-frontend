@@ -659,19 +659,27 @@ function VivreFrance() {
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">CAF (aides logement)</a>
+                    <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      CAF (aides logement)
+                    </a>
                   </li>
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Ameli.fr (sécurité sociale)</a>
+                    <a href="https://www.ameli.fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Ameli.fr (sécurité sociale)
+                    </a>
                   </li>
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Service-public.fr</a>
+                    <a href="https://www.service-public.fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Service-public.fr
+                    </a>
                   </li>
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Impots.gouv.fr</a>
+                    <a href="https://www.impots.gouv.fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Impots.gouv.fr
+                    </a>
                   </li>
                 </ul>
               </CardContent>
@@ -685,19 +693,27 @@ function VivreFrance() {
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Leboncoin (petites annonces)</a>
+                    <a href="https://www.leboncoin.fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Leboncoin (petites annonces)
+                    </a>
                   </li>
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Citymapper (transports)</a>
+                    <a href="https://citymapper.com/fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Citymapper (transports)
+                    </a>
                   </li>
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Doctolib (rendez-vous médicaux)</a>
+                    <a href="https://www.doctolib.fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Doctolib (rendez-vous médicaux)
+                    </a>
                   </li>
                   <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Meetup (rencontres)</a>
+                    <a href="https://www.meetup.com/fr-FR" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      Meetup (rencontres)
+                    </a>
                   </li>
                 </ul>
               </CardContent>
