@@ -300,9 +300,7 @@ function TestOrientation() {
         { id: "cap_cuisine_5", nom: "Lycée Hôtelier de Nantes", ville: "Nantes", type: "Public", alternance: true, site: "https://www.lycee-hotelier-nantes.fr", specialites: ["Cuisine", "Pâtisserie"], adresse: "654 Rue de la Gastronomie, 44000 Nantes", telephone: "02 40 34 56 78" }
       ],
       "Électricité": [
-        { id: "cap_elec_1", nom: "Lycée Professionnel de l'Électricité", ville: "Lyon", type: "Public", alternance: true, site: "https://www.lpe-lyon.fr", specialites: ["Électricité", "Installation", "Maintenance"], adresse: "567 Rue de l'Électricité, 69003 Lyon", telephone: "04 72 34 56 78" }
-Voici la suite du code avec la base d'écoles complète :
-
+        { id: "cap_elec_1", nom: "Lycée Professionnel de l'Électricité", ville: "Lyon", type: "Public", alternance: true, site: "https://www.lpe-lyon.fr", specialites: ["Électricité", "Installation", "Maintenance"], adresse: "567 Rue de l'Électricité, 69003 Lyon", telephone: "04 72 34 56 78" },
         { id: "cap_elec_2", nom: "Lycée Technique de l'Électricité", ville: "Paris", type: "Public", alternance: true, site: "https://www.lte-paris.fr", specialites: ["Électricité", "Automatisme"], adresse: "321 Rue de l'Électricité, 75011 Paris", telephone: "01 42 34 56 78" },
         { id: "cap_elec_3", nom: "Lycée Professionnel Électrotechnique", ville: "Marseille", type: "Public", alternance: true, site: "https://www.lpe-marseille.fr", specialites: ["Électricité", "Électronique"], adresse: "654 Rue de l'Électricité, 13001 Marseille", telephone: "04 91 34 56 78" },
         { id: "cap_elec_4", nom: "Lycée Technique Électrique", ville: "Toulouse", type: "Public", alternance: true, site: "https://www.lte-toulouse.fr", specialites: ["Électricité", "Aéronautique"], adresse: "987 Rue de l'Électricité, 31000 Toulouse", telephone: "05 61 34 56 78" },
