@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Button } from '@/components/ui/button.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
-import { CheckCircle, ArrowRight, ArrowLeft, GraduationCap, BookOpen, Users, Award, Download, Save, AlertCircle, Info } from 'lucide-react'
+import { CheckCircle, ArrowRight, ArrowLeft, GraduationCap, BookOpen, Users, Award, Download, Save, AlertCircle, Info, BarChart3 } from 'lucide-react'
 
 function TestOrientation() {
   const [currentStep, setCurrentStep] = useState(0)
@@ -10,11 +10,12 @@ function TestOrientation() {
   const [showResults, setShowResults] = useState(false)
   const [showSaveMessage, setShowSaveMessage] = useState(false)
 
-  const questions = [
+  // Questions de base
+  const baseQuestions = [
     {
       id: 1,
       question: "Quel est votre niveau d'études actuel ?",
-      weight: 0.15,
+      weight: 0.12,
       options: [
         { value: "bac", label: "Baccalauréat", points: { "BTS": 3, "Licence": 2, "Master": 1, "CAP": 1, "Titre professionnel": 2 } },
         { value: "bac+2", label: "Bac+2 (BTS, DUT)", points: { "Licence": 3, "Master": 2, "Titre professionnel": 3, "BTS": 1, "CAP": 0 } },
@@ -25,7 +26,7 @@ function TestOrientation() {
     {
       id: 2,
       question: "Quel type d'activité préférez-vous ?",
-      weight: 0.20,
+      weight: 0.15,
       options: [
         { value: "pratique", label: "Activités pratiques et manuelles", points: { "CAP": 3, "BTS": 2, "Titre professionnel": 3, "Licence": 1, "Master": 1 } },
         { value: "theorique", label: "Études théoriques et recherche", points: { "Licence": 3, "Master": 3, "BTS": 1, "CAP": 0, "Titre professionnel": 1 } },
@@ -36,7 +37,7 @@ function TestOrientation() {
     {
       id: 3,
       question: "Quelle est votre durée d'études idéale ?",
-      weight: 0.15,
+      weight: 0.12,
       options: [
         { value: "court", label: "Formation courte (6 mois - 2 ans)", points: { "CAP": 3, "BTS": 2, "Titre professionnel": 3, "Licence": 1, "Master": 0 } },
         { value: "moyen", label: "Formation moyenne (2-3 ans)", points: { "BTS": 3, "Licence": 3, "Titre professionnel": 2, "Master": 1, "CAP": 1 } },
@@ -46,7 +47,7 @@ function TestOrientation() {
     {
       id: 4,
       question: "Quel est votre objectif principal ?",
-      weight: 0.20,
+      weight: 0.15,
       options: [
         { value: "emploi", label: "Trouver un emploi rapidement", points: { "CAP": 3, "BTS": 3, "Titre professionnel": 3, "Licence": 2, "Master": 1 } },
         { value: "poursuite", label: "Poursuivre mes études", points: { "Licence": 3, "Master": 3, "BTS": 2, "Titre professionnel": 1, "CAP": 1 } },
@@ -57,12 +58,15 @@ function TestOrientation() {
     {
       id: 5,
       question: "Quel secteur vous intéresse le plus ?",
-      weight: 0.15,
+      weight: 0.12,
       options: [
         { value: "tech", label: "Technologies et informatique", points: { "BTS": 3, "Master": 3, "Titre professionnel": 3, "Licence": 2, "CAP": 1 } },
         { value: "commerce", label: "Commerce et gestion", points: { "BTS": 3, "Licence": 3, "Master": 2, "Titre professionnel": 2, "CAP": 1 } },
         { value: "sante", label: "Santé et social", points: { "BTS": 3, "Licence": 3, "CAP": 2, "Master": 2, "Titre professionnel": 1 } },
-        { value: "art", label: "Arts et culture", points: { "CAP": 3, "Licence": 3, "BTS": 2, "Master": 2, "Titre professionnel": 1 } }
+        { value: "art", label: "Arts et culture", points: { "CAP": 3, "Licence": 3, "BTS": 2, "Master": 2, "Titre professionnel": 1 } },
+        { value: "environnement", label: "Environnement et développement durable", points: { "Licence": 3, "Master": 3, "BTS": 2, "Titre professionnel": 2, "CAP": 1 } },
+        { value: "international", label: "Relations internationales", points: { "Licence": 3, "Master": 3, "BTS": 2, "Titre professionnel": 1, "CAP": 0 } },
+        { value: "sport", label: "Sport et bien-être", points: { "Licence": 3, "BTS": 2, "CAP": 2, "Master": 2, "Titre professionnel": 1 } }
       ]
     },
     {
@@ -78,60 +82,135 @@ function TestOrientation() {
     {
       id: 7,
       question: "Préférez-vous étudier :",
-      weight: 0.05,
+      weight: 0.08,
       options: [
         { value: "presentiel", label: "En présentiel uniquement", points: { "CAP": 3, "BTS": 3, "Licence": 2, "Master": 2, "Titre professionnel": 1 } },
         { value: "hybride", label: "Mixte (présentiel + à distance)", points: { "BTS": 2, "Licence": 3, "Master": 2, "Titre professionnel": 2, "CAP": 1 } },
         { value: "distance", label: "À distance si possible", points: { "Titre professionnel": 3, "Licence": 2, "Master": 2, "BTS": 1, "CAP": 0 } }
       ]
+    },
+    {
+      id: 8,
+      question: "Comment vous décririez-vous ?",
+      weight: 0.08,
+      options: [
+        { value: "leader", label: "Leader, j'aime diriger et prendre des décisions", points: { "Master": 3, "Licence": 2, "BTS": 2, "Titre professionnel": 2, "CAP": 1 } },
+        { value: "creatif", label: "Créatif, j'aime innover et créer", points: { "CAP": 2, "Licence": 2, "BTS": 2, "Master": 2, "Titre professionnel": 2 } },
+        { value: "analytique", label: "Analytique, j'aime analyser et résoudre des problèmes", points: { "Master": 3, "Licence": 3, "BTS": 2, "Titre professionnel": 2, "CAP": 1 } },
+        { value: "social", label: "Social, j'aime aider les autres et travailler en équipe", points: { "Licence": 3, "BTS": 2, "CAP": 2, "Master": 2, "Titre professionnel": 2 } }
+      ]
     }
   ]
+
+  // Questions conditionnelles
+  const getConditionalQuestions = () => {
+    const conditionalQuestions = []
+    
+    // Si l'utilisateur choisit "tech", poser une question spécifique
+    if (answers[5]?.value === "tech") {
+      conditionalQuestions.push({
+        id: 9,
+        question: "Quel domaine informatique vous intéresse le plus ?",
+        weight: 0.08,
+        options: [
+          { value: "web", label: "Développement web et applications", points: { "BTS": 3, "Titre professionnel": 3, "Licence": 2, "Master": 2, "CAP": 0 } },
+          { value: "data", label: "Data science et intelligence artificielle", points: { "Master": 3, "Licence": 3, "BTS": 2, "Titre professionnel": 2, "CAP": 0 } },
+          { value: "reseau", label: "Réseaux et cybersécurité", points: { "BTS": 3, "Titre professionnel": 3, "Licence": 2, "Master": 2, "CAP": 1 } },
+          { value: "systeme", label: "Systèmes d'information et bases de données", points: { "BTS": 3, "Licence": 3, "Master": 2, "Titre professionnel": 2, "CAP": 0 } }
+        ]
+      })
+    }
+
+    // Si l'utilisateur choisit "commerce", poser une question spécifique
+    if (answers[5]?.value === "commerce") {
+      conditionalQuestions.push({
+        id: 10,
+        question: "Quel aspect du commerce vous intéresse le plus ?",
+        weight: 0.08,
+        options: [
+          { value: "marketing", label: "Marketing et communication", points: { "BTS": 3, "Licence": 3, "Master": 2, "Titre professionnel": 2, "CAP": 1 } },
+          { value: "finance", label: "Finance et comptabilité", points: { "BTS": 3, "Licence": 3, "Master": 2, "Titre professionnel": 2, "CAP": 1 } },
+          { value: "vente", label: "Vente et relation client", points: { "BTS": 3, "Titre professionnel": 3, "Licence": 2, "CAP": 2, "Master": 1 } },
+          { value: "management", label: "Management et gestion d'équipe", points: { "Master": 3, "Licence": 3, "BTS": 2, "Titre professionnel": 2, "CAP": 1 } }
+        ]
+      })
+    }
+
+    // Si l'utilisateur choisit "emploi" comme objectif, poser une question sur l'alternance
+    if (answers[4]?.value === "emploi") {
+      conditionalQuestions.push({
+        id: 11,
+        question: "Êtes-vous intéressé(e) par l'alternance ?",
+        weight: 0.08,
+        options: [
+          { value: "oui", label: "Oui, c'est une excellente option", points: { "BTS": 3, "CAP": 3, "Titre professionnel": 3, "Licence": 2, "Master": 1 } },
+          { value: "peut_etre", label: "Peut-être, si c'est possible", points: { "BTS": 2, "Licence": 2, "Titre professionnel": 2, "CAP": 2, "Master": 1 } },
+          { value: "non", label: "Non, je préfère les études classiques", points: { "Licence": 3, "Master": 3, "BTS": 2, "Titre professionnel": 1, "CAP": 1 } }
+        ]
+      })
+    }
+
+    return conditionalQuestions
+  }
+
+  // Combiner toutes les questions
+  const allQuestions = [...baseQuestions, ...getConditionalQuestions()]
 
   const formations = {
     "BTS": {
       title: "Brevet de Technicien Supérieur",
       description: "Formation professionnalisante de 2 ans avec stage en entreprise",
-      avantages: ["Formation pratique", "Stage en entreprise", "Insertion rapide", "Coût modéré"],
-      specialites: ["Commerce International", "Informatique", "Comptabilité", "Communication", "Tourisme"],
+      avantages: ["Formation pratique", "Stage en entreprise", "Insertion rapide", "Coût modéré", "Alternance possible"],
+      specialites: ["Commerce International", "Informatique", "Comptabilité", "Communication", "Tourisme", "Électrotechnique"],
       cout: "Gratuit dans le public, 3000-8000€/an dans le privé",
       duree: "2 ans",
-      niveau: "Bac+2"
+      niveau: "Bac+2",
+      alternance: "Oui",
+      international: "Oui"
     },
     "Licence": {
       title: "Licence universitaire",
       description: "Formation généraliste de 3 ans permettant d'acquérir des bases solides",
-      avantages: ["Bases solides", "Poursuite possible", "Large choix", "Coût très faible"],
-      specialites: ["Économie et Gestion", "Droit", "Sciences", "Lettres", "Psychologie", "STAPS"],
+      avantages: ["Bases solides", "Poursuite possible", "Large choix", "Coût très faible", "International"],
+      specialites: ["Économie et Gestion", "Droit", "Sciences", "Lettres", "Psychologie", "STAPS", "Langues"],
       cout: "170€/an pour les étudiants UE",
       duree: "3 ans",
-      niveau: "Bac+3"
+      niveau: "Bac+3",
+      alternance: "Rare",
+      international: "Oui"
     },
     "Master": {
       title: "Master universitaire",
       description: "Formation spécialisée de 2 ans avec recherche ou professionnalisation",
-      avantages: ["Niveau élevé", "Spécialisation", "Recherche possible", "Cadre"],
-      specialites: ["Management", "Ingénierie", "Recherche", "Enseignement", "Droit des Affaires"],
+      avantages: ["Niveau élevé", "Spécialisation", "Recherche possible", "Cadre", "International"],
+      specialites: ["Management", "Ingénierie", "Recherche", "Enseignement", "Droit des Affaires", "Data Science"],
       cout: "243€/an pour les étudiants UE",
       duree: "2 ans",
-      niveau: "Bac+5"
+      niveau: "Bac+5",
+      alternance: "Possible",
+      international: "Oui"
     },
     "CAP": {
       title: "Certificat d'Aptitude Professionnelle",
       description: "Formation professionnelle courte très spécialisée",
-      avantages: ["Formation courte", "Insertion immédiate", "Pratique", "Gratuit"],
-      specialites: ["Cuisine", "Pâtisserie", "Coiffure", "Électricité", "Menuiserie", "Esthétique"],
+      avantages: ["Formation courte", "Insertion immédiate", "Pratique", "Gratuit", "Alternance"],
+      specialites: ["Cuisine", "Pâtisserie", "Coiffure", "Électricité", "Menuiserie", "Esthétique", "Mécanique"],
       cout: "Gratuit dans le public, apprentissage rémunéré",
       duree: "2 ans",
-      niveau: "Niveau V"
+      niveau: "Niveau V",
+      alternance: "Oui",
+      international: "Non"
     },
     "Titre professionnel": {
       title: "Titre professionnel certifié",
       description: "Formation courte axée sur l'employabilité immédiate",
-      avantages: ["Formation rapide", "Employabilité", "Flexibilité", "Prise en charge possible"],
-      specialites: ["Développeur Web", "Assistant de Direction", "Technicien Réseau", "Commercial"],
+      avantages: ["Formation rapide", "Employabilité", "Flexibilité", "Prise en charge possible", "Alternance"],
+      specialites: ["Développeur Web", "Assistant de Direction", "Technicien Réseau", "Commercial", "Formateur"],
       cout: "Variable, souvent pris en charge",
       duree: "6 mois à 2 ans",
-      niveau: "Variable"
+      niveau: "Variable",
+      alternance: "Oui",
+      international: "Rare"
     }
   }
 
@@ -159,7 +238,7 @@ function TestOrientation() {
     }
 
     Object.entries(answers).forEach(([questionId, answer]) => {
-      const question = questions.find(q => q.id === parseInt(questionId))
+      const question = allQuestions.find(q => q.id === parseInt(questionId))
       const weight = question ? question.weight : 1
       
       Object.entries(answer.points).forEach(([formation, points]) => {
@@ -180,6 +259,14 @@ function TestOrientation() {
       recommendations.push("Considérez aussi les écoles d'ingénieurs et les formations en cybersécurité")
     }
     
+    if (answers[5]?.value === "environnement") {
+      recommendations.push("Explorez les formations en développement durable et RSE")
+    }
+
+    if (answers[5]?.value === "international") {
+      recommendations.push("Pensez aux licences et masters en langues étrangères appliquées")
+    }
+    
     // Recommandation basée sur l'objectif
     if (answers[4]?.value === "emploi") {
       recommendations.push("Pensez aux formations en alternance pour une insertion professionnelle optimale")
@@ -193,6 +280,15 @@ function TestOrientation() {
     // Recommandation basée sur la durée
     if (answers[3]?.value === "court") {
       recommendations.push("Les titres professionnels et CAP offrent des formations rapides et efficaces")
+    }
+
+    // Recommandation basée sur la personnalité
+    if (answers[8]?.value === "leader") {
+      recommendations.push("Considérez les formations en management et leadership")
+    }
+
+    if (answers[8]?.value === "analytique") {
+      recommendations.push("Les formations en data science et analyse pourraient vous convenir")
     }
 
     return recommendations
@@ -212,14 +308,12 @@ function TestOrientation() {
     const saved = localStorage.getItem('testProgress')
     if (saved) {
       try {
-        const { answers: savedAnswers, currentStep: savedStep } = JSON.parse(saved)
-        // Vérifier si la sauvegarde n'est pas trop ancienne (7 jours)
         const savedData = JSON.parse(saved)
         const daysSinceSave = (Date.now() - savedData.timestamp) / (1000 * 60 * 60 * 24)
         
         if (daysSinceSave < 7) {
-          setAnswers(savedAnswers)
-          setCurrentStep(savedStep)
+          setAnswers(savedData.answers)
+          setCurrentStep(savedData.currentStep)
         }
       } catch (error) {
         console.log('Erreur lors du chargement de la progression')
@@ -241,7 +335,8 @@ function TestOrientation() {
         details: formations[formation]
       })),
       reponses: answers,
-      recommendations: recommendations
+      recommendations: recommendations,
+      totalQuestions: allQuestions.length
     }
     
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
@@ -254,7 +349,7 @@ function TestOrientation() {
   }
 
   const nextStep = () => {
-    if (currentStep < questions.length - 1) {
+    if (currentStep < allQuestions.length - 1) {
       setCurrentStep(currentStep + 1)
     } else {
       setShowResults(true)
@@ -334,6 +429,11 @@ function TestOrientation() {
                           <Badge variant="outline" className="text-xs">
                             {formationData.niveau}
                           </Badge>
+                          {formationData.alternance === "Oui" && (
+                            <Badge variant="outline" className="text-xs bg-green-50 text-green-700">
+                              Alternance
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -381,6 +481,8 @@ function TestOrientation() {
                         <p><strong>Coût :</strong> {formationData.cout}</p>
                         <p><strong>Durée :</strong> {formationData.duree}</p>
                         <p><strong>Niveau :</strong> {formationData.niveau}</p>
+                        <p><strong>Alternance :</strong> {formationData.alternance}</p>
+                        <p><strong>International :</strong> {formationData.international}</p>
                       </div>
                     </div>
                   </div>
@@ -409,9 +511,9 @@ function TestOrientation() {
     )
   }
 
-  const currentQuestion = questions[currentStep]
+  const currentQuestion = allQuestions[currentStep]
   const hasAnswered = answers[currentQuestion.id]
-  const allQuestionsAnswered = Object.keys(answers).length === questions.length
+  const allQuestionsAnswered = Object.keys(answers).length === allQuestions.length
 
   return (
     <div className="max-w-2xl mx-auto p-6">
@@ -430,12 +532,12 @@ function TestOrientation() {
             </Button>
           </div>
           <CardDescription className="text-center">
-            Question {currentStep + 1} sur {questions.length}
+            Question {currentStep + 1} sur {allQuestions.length}
           </CardDescription>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
               className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
+              style={{ width: `${((currentStep + 1) / allQuestions.length) * 100}%` }}
             ></div>
           </div>
           {showSaveMessage && (
@@ -482,9 +584,9 @@ function TestOrientation() {
             
             <Button 
               onClick={nextStep}
-              disabled={currentStep === questions.length - 1 ? !allQuestionsAnswered : !hasAnswered}
+              disabled={currentStep === allQuestions.length - 1 ? !allQuestionsAnswered : !hasAnswered}
             >
-              {currentStep === questions.length - 1 ? (
+              {currentStep === allQuestions.length - 1 ? (
                 <>
                   Voir les résultats
                   <Award className="h-4 w-4 ml-2" />
