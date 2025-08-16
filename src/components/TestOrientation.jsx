@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { Button } from '@/components/ui/button.jsx'
-import { Badge } from '@/components/ui/badge.jsx'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card.jsx'
+import { Button } from './ui/button.jsx'
+import { Badge } from './ui/badge.jsx'
 import { CheckCircle, ArrowRight, ArrowLeft, GraduationCap, BookOpen, Users, Award, Download, Save, AlertCircle, Info, BarChart3 } from 'lucide-react'
 
 function TestOrientation() {
