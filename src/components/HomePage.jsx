@@ -9,11 +9,11 @@
 //
 // ========================================
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, ArrowRight, BookOpen, CheckCircle, Globe, Users } from "lucide-react";
+import { Calendar, Clock, ArrowRight, BookOpen, CheckCircle, Globe, Users, ChevronLeft, ChevronRight, Star, Quote, GraduationCap, MapPin } from "lucide-react";
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +21,7 @@ export default function HomePage() {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [openIndex, setOpenIndex] = useState(null);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const services = [
     {
@@ -33,9 +34,9 @@ export default function HomePage() {
         "• Choisir son diplôme: differences entre BTS, Licence et Master.",
         "• Construire un dossier: CV, lettre de motivation, relevés de notes.",
         "• Calendrier Parcoursup et candidatures directes.",
-        "• Conseils pour optimiser vos chances d’admission."
+        "• Conseils pour optimiser vos chances d'admission."
       ],
-      cta: "Découvrir l’orientation"
+      cta: "Découvrir l'orientation"
     },
     {
       title: "Démarches administratives",
@@ -46,7 +47,7 @@ export default function HomePage() {
       details: [
         "• Visa long séjour (VLS-TS): étapes, pièces, RDV.",
         "• Titre de séjour étudiant: renouvellement, délais, obligations.",
-        "• Autorisation de travail: combien d’heures ? Comment déclarer ?",
+        "• Autorisation de travail: combien d'heures ? Comment déclarer ?",
         "• Conseils pratiques pour éviter les refus et retards."
       ],
       cta: "Voir les démarches"
@@ -61,7 +62,7 @@ export default function HomePage() {
         "• Se loger: CROUS, résidences, annonces, garants.",
         "• Se soigner: Sécurité sociale, mutuelle, médecin traitant.",
         "• Se déplacer: cartes de transport, bons plans mobilité.",
-        "• S’intégrer: associations, évènements, culture et loisirs."
+        "• S'intégrer: associations, évènements, culture et loisirs."
       ],
       cta: "Préparer ma vie en France"
     },
@@ -88,26 +89,171 @@ export default function HomePage() {
     { number: "24/7", label: "Support disponible" },
   ];
 
-  const recentNews = [
+  // Section Actualités améliorée
+  const actualites = [
     {
-      title: "Nouvelles dates Parcoursup 2024",
-      date: "15 janvier 2024",
+      title: "Nouvelles dates Parcoursup 2024-2025",
+      date: "20 janvier 2024",
       category: "Orientation",
-      excerpt: "Découvrez les dates importantes pour vos candidatures...",
+      excerpt: "Découvrez les dates importantes pour vos candidatures Parcoursup. Inscriptions du 17 janvier au 14 mars 2024.",
+      image: "🎓",
+      priority: "high"
     },
     {
-      title: "Changements visa étudiant",
-      date: "10 janvier 2024",
+      title: "Changements majeurs visa étudiant 2024",
+      date: "15 janvier 2024",
       category: "Démarches",
-      excerpt: "Les nouvelles procédures pour obtenir votre visa...",
+      excerpt: "Les nouvelles procédures pour obtenir votre visa étudiant. Simplification des démarches pour certains pays.",
+      image: "📋",
+      priority: "high"
     },
     {
-      title: "Aides au logement étudiant",
+      title: "Aides au logement étudiant 2024",
+      date: "12 janvier 2024",
+      category: "Vie étudiante",
+      excerpt: "Toutes les aides disponibles pour votre logement : APL, garantie Visale, prêt étudiant.",
+      image: "🏠",
+      priority: "medium"
+    },
+    {
+      title: "Nouveau : Guide complet des jobs étudiants",
+      date: "10 janvier 2024",
+      category: "Emploi",
+      excerpt: "Notre guide complet pour trouver un job étudiant : CV, sites, réseaux, droits et obligations.",
+      image: "💼",
+      priority: "medium"
+    },
+    {
+      title: "Sécurité sociale étudiante : mode d'emploi",
       date: "8 janvier 2024",
       category: "Vie étudiante",
-      excerpt: "Toutes les aides disponibles pour votre logement...",
+      excerpt: "Tout savoir sur la sécurité sociale étudiante : inscription, remboursements, mutuelle.",
+      image: "🏥",
+      priority: "medium"
+    },
+    {
+      title: "Calendrier des échéances 2024",
+      date: "5 janvier 2024",
+      category: "Orientation",
+      excerpt: "Toutes les dates importantes à retenir pour votre année universitaire 2024-2025.",
+      image: "📅",
+      priority: "low"
     },
   ];
+
+  // Témoignages (utilisant les mêmes données que Temoignages.jsx)
+  const temoignages = [
+    {
+      id: 1,
+      nom: "Aminata K.",
+      pays: "Sénégal",
+      formation: "Master Marketing Digital",
+      universite: "Université Paris-Dauphine",
+      annee: "2023",
+      note: 5,
+      categorie: "master",
+      photo: "👩🏾‍🎓",
+      temoignage: "Grâce à etudiantesolidaire, j'ai pu naviguer facilement dans le système universitaire français. L'accompagnement pour les démarches administratives a été précieux. Aujourd'hui, je travaille dans une agence de communication parisienne !",
+      points_forts: [
+        "Accompagnement personnalisé",
+        "Aide pour le logement",
+        "Préparation aux entretiens"
+      ]
+    },
+    {
+      id: 2,
+      nom: "Mohamed B.",
+      pays: "Maroc",
+      formation: "BTS Commerce International",
+      universite: "Lycée Jean-Baptiste Say",
+      annee: "2024",
+      note: 5,
+      categorie: "bts",
+      photo: "👨🏽‍🎓",
+      temoignage: "Le processus d'orientation m'a permis de choisir la formation parfaite pour mon projet professionnel. Les conseils pour Parcoursup ont été déterminants. Je recommande vivement !",
+      points_forts: [
+        "Orientation claire",
+        "Suivi Parcoursup",
+        "Conseils pratiques"
+      ]
+    },
+    {
+      id: 3,
+      nom: "Fatou D.",
+      pays: "Côte d'Ivoire",
+      formation: "Licence Psychologie",
+      universite: "Université Paris 8",
+      annee: "2023",
+      note: 5,
+      categorie: "licence",
+      photo: "👩🏿‍🎓",
+      temoignage: "L'équipe m'a aidée à comprendre le système de santé français et à m'intégrer socialement. Les ateliers sur la vie étudiante ont été très utiles pour créer des liens.",
+      points_forts: [
+        "Intégration sociale",
+        "Aide santé",
+        "Ateliers pratiques"
+      ]
+    },
+    {
+      id: 4,
+      nom: "Aïcha M.",
+      pays: "Tunisie",
+      formation: "Master Ingénierie",
+      universite: "École Centrale Paris",
+      annee: "2023",
+      note: 5,
+      categorie: "master",
+      photo: "👩🏽‍💻",
+      temoignage: "L'aide pour les démarches de visa et les premières semaines en France a été cruciale. Aujourd'hui ingénieure dans une startup tech, je suis reconnaissante pour cet accompagnement.",
+      points_forts: [
+        "Démarches visa",
+        "Accueil en France",
+        "Réseau professionnel"
+      ]
+    },
+    {
+      id: 5,
+      nom: "Ousmane T.",
+      pays: "Burkina Faso",
+      formation: "Titre Pro Développeur Web",
+      universite: "AFPA",
+      annee: "2024",
+      note: 5,
+      categorie: "titre",
+      photo: "👨🏿‍💻",
+      temoignage: "La reconversion professionnelle n'a pas été facile, mais avec le soutien d'etudiantesolidaire, j'ai réussi ma formation et trouvé un emploi en développement web en 3 mois !",
+      points_forts: [
+        "Reconversion réussie",
+        "Formation intensive",
+        "Insertion rapide"
+      ]
+    }
+  ];
+
+  // Auto-rotation du carrousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % temoignages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [temoignages.length]);
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % temoignages.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + temoignages.length) % temoignages.length);
+  };
+
+  const renderStars = (note) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star 
+        key={i} 
+        className={`h-5 w-5 ${i < note ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
+      />
+    ));
+  };
 
   const handleServiceClick = (path) => {
     navigate(path);
@@ -119,6 +265,10 @@ export default function HomePage() {
 
   const handleBlogClick = () => {
     navigate('/blog');
+  };
+
+  const handleTemoignagesClick = () => {
+    navigate('/temoignages');
   };
 
   const toggleDetails = (index, e) => {
@@ -238,23 +388,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEWS */}
+      {/* ACTUALITÉS AMÉLIORÉES */}
       <section className="py-20 bg-muted/50 px-4">
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <h2 className="text-3xl font-bold">À la une</h2>
+              <h2 className="text-3xl font-bold">Actualités & Informations</h2>
               <p className="text-xl text-muted-foreground">
-                Restez informé des dernières actualités
+                Restez informé des dernières nouvelles importantes
               </p>
             </div>
             <Button variant="outline" onClick={handleBlogClick}>
               Voir toutes les actualités
             </Button>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {recentNews.map((news, i) => (
-              <Card key={i} className="hover:shadow-lg transition cursor-pointer" onClick={handleBlogClick}>
+          
+          {/* Actualités prioritaires */}
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
+            {actualites.filter(news => news.priority === "high").map((news, i) => (
+              <Card key={i} className="hover:shadow-lg transition cursor-pointer border-l-4 border-l-blue-500" onClick={handleBlogClick}>
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant="secondary">{news.category}</Badge>
@@ -263,16 +415,144 @@ export default function HomePage() {
                       {news.date}
                     </span>
                   </div>
-                  <CardTitle className="text-lg">{news.title}</CardTitle>
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl">{news.image}</div>
+                    <div className="flex-1">
+                      <CardTitle className="text-xl">{news.title}</CardTitle>
+                      <CardDescription className="mt-2">{news.excerpt}</CardDescription>
+                    </div>
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{news.excerpt}</p>
-                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Autres actualités */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {actualites.filter(news => news.priority !== "high").map((news, i) => (
+              <Card key={i} className="hover:shadow-lg transition cursor-pointer" onClick={handleBlogClick}>
+                <CardHeader>
+                  <div className="flex items-center justify-between mb-2">
+                    <Badge variant="outline">{news.category}</Badge>
+                    <span className="text-sm text-muted-foreground flex items-center">
+                      <Clock className="w-4 h-4 mr-1" />
+                      {news.date}
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl">{news.image}</div>
+                    <div className="flex-1">
+                      <CardTitle className="text-lg">{news.title}</CardTitle>
+                      <CardDescription className="mt-2">{news.excerpt}</CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
               </Card>
             ))}
           </div>
         </div>
       </section>
+
+      {/* CARROUSEL DE TÉMOIGNAGES */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold">Ils nous font confiance</h2>
+            <p className="text-xl text-muted-foreground">
+              Découvrez les témoignages de nos étudiants
+            </p>
+          </div>
+          
+          <div className="relative max-w-4xl mx-auto">
+            {/* Témoignage actuel */}
+            <Card className="p-8 text-center relative">
+              <div className="absolute top-4 left-4 text-6xl opacity-10">
+                <Quote />
+              </div>
+              <div className="absolute top-4 right-4 text-6xl opacity-10">
+                <Quote />
+              </div>
+              
+              <div className="mb-6">
+                <div className="text-6xl mb-4">{temoignages[currentTestimonial].photo}</div>
+                <h3 className="text-xl font-semibold">{temoignages[currentTestimonial].nom}</h3>
+                <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground mb-2">
+                  <MapPin className="h-3 w-3" />
+                  <span>{temoignages[currentTestimonial].pays}</span>
+                </div>
+                <div className="flex items-center justify-center space-x-2 text-sm text-blue-600 font-medium mb-2">
+                  <GraduationCap className="h-4 w-4" />
+                  <span>{temoignages[currentTestimonial].formation}</span>
+                </div>
+                <p className="text-sm text-muted-foreground">{temoignages[currentTestimonial].universite}</p>
+              </div>
+              
+              <div className="mb-4">
+                <div className="flex justify-center gap-1">
+                  {renderStars(temoignages[currentTestimonial].note)}
+                </div>
+              </div>
+              
+              <blockquote className="text-lg text-gray-700 mb-4 italic">
+                "{temoignages[currentTestimonial].temoignage}"
+              </blockquote>
+              
+              <div className="mb-4">
+                <h4 className="font-semibold text-sm mb-2">Points forts de l'accompagnement :</h4>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {temoignages[currentTestimonial].points_forts.map((point, index) => (
+                    <Badge key={index} variant="outline" className="text-xs">
+                      {point}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              
+              <p className="text-sm text-muted-foreground">{temoignages[currentTestimonial].annee}</p>
+            </Card>
+
+            {/* Contrôles du carrousel */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white shadow-lg"
+              onClick={prevTestimonial}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            
+            <Button
+              variant="outline"
+              size="icon"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white shadow-lg"
+              onClick={nextTestimonial}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+
+            {/* Indicateurs */}
+            <div className="flex justify-center mt-6 gap-2">
+              {temoignages.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    index === currentTestimonial ? 'bg-blue-600' : 'bg-gray-300'
+                  }`}
+                  onClick={() => setCurrentTestimonial(index)}
+                />
+              ))}
+            </div>
+
+            {/* Bouton pour voir tous les témoignages */}
+            <div className="text-center mt-8">
+              <Button variant="outline" onClick={handleTemoignagesClick}>
+                Voir tous les témoignages
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ rapide */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
@@ -293,7 +573,7 @@ export default function HomePage() {
             <Card>
               <CardHeader>
                 <CardTitle>Puis-je travailler pendant mes études ?</CardTitle>
-                <CardDescription>Oui, jusqu’à 964h/an pour non-UE; jobs étudiants/stages possibles.</CardDescription>
+                <CardDescription>Oui, jusqu'à 964h/an pour non-UE; jobs étudiants/stages possibles.</CardDescription>
               </CardHeader>
             </Card>
             <Card>
@@ -305,6 +585,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
       {/* Newsletter */}
       <section className="py-16 bg-muted/50">
         <div className="container mx-auto text-center px-4">
@@ -312,10 +593,11 @@ export default function HomePage() {
           <p className="text-muted-foreground mb-6">Dates clés, modèles, bons plans (1 email / mois)</p>
           <form onSubmit={(e) => { e.preventDefault(); alert('Merci ! Vous serez contacté(e) prochainement.') }} className="max-w-xl mx-auto flex gap-3">
             <input type="email" required placeholder="Votre email" className="flex-1 border border-gray-300 rounded-md px-4 py-3" />
-            <Button type="submit">S’abonner</Button>
+            <Button type="submit">S'abonner</Button>
           </form>
         </div>
       </section>
+
       {/* CTA */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
@@ -350,3 +632,4 @@ export default function HomePage() {
     </div>
   );
 }
+🎯 Principales améliorations app
