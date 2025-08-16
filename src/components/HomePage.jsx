@@ -13,7 +13,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, ArrowRight, BookOpen, CheckCircle, Globe, Users, ChevronLeft, ChevronRight, Star, Quote, GraduationCap, MapPin } from "lucide-react";
+import { Calendar, Clock, ArrowRight, BookOpen, CheckCircle, Globe, Users, ChevronLeft, ChevronRight, Star, Quote, GraduationCap, MapPin, Eye, MessageSquare } from "lucide-react";
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
 
@@ -89,57 +89,65 @@ export default function HomePage() {
     { number: "24/7", label: "Support disponible" },
   ];
 
-  // Section Actualités améliorée
-  const actualites = [
+  // Articles du Blog (mêmes données que Blog.jsx)
+  const articles = [
     {
-      title: "Nouvelles dates Parcoursup 2024-2025",
-      date: "20 janvier 2024",
+      id: 8,
+      title: "Étudier en France: le guide express pour bien démarrer (2025)",
+      excerpt: "Choisir sa formation, préparer ses dossiers, éviter les pièges administratifs: les clés pour réussir votre arrivée.",
+      author: "Équipe Étudiante Solidaire",
+      date: "2025-09-01",
       category: "Orientation",
-      excerpt: "Découvrez les dates importantes pour vos candidatures Parcoursup. Inscriptions du 17 janvier au 14 mars 2024.",
+      image: "🧭",
+      views: 0,
+      comments: 0,
+      readTime: "6 min",
+      tags: ["Orientation", "Parcoursup", "Dossier"]
+    },
+    {
+      id: 7,
+      title: "Étudiante Solidaire : votre guide de A à Z pour réussir vos études en France",
+      excerpt: "Tout-en-un : orientation, démarches, logement, emploi et conseils pratiques — avec un accompagnement humain et gratuit.",
+      author: "Équipe Étudiante Solidaire",
+      date: "2025-08-15",
+      category: "Vie étudiante",
       image: "🎓",
-      priority: "high"
+      views: 0,
+      comments: 0,
+      readTime: "7 min",
+      tags: ["Étudiante Solidaire", "Orientation", "Démarches", "Vie étudiante", "Emploi"]
     },
     {
-      title: "Changements majeurs visa étudiant 2024",
-      date: "15 janvier 2024",
-      category: "Démarches",
-      excerpt: "Les nouvelles procédures pour obtenir votre visa étudiant. Simplification des démarches pour certains pays.",
-      image: "📋",
-      priority: "high"
-    },
-    {
-      title: "Aides au logement étudiant 2024",
-      date: "12 janvier 2024",
-      category: "Vie étudiante",
-      excerpt: "Toutes les aides disponibles pour votre logement : APL, garantie Visale, prêt étudiant.",
-      image: "🏠",
-      priority: "medium"
-    },
-    {
-      title: "Nouveau : Guide complet des jobs étudiants",
-      date: "10 janvier 2024",
-      category: "Emploi",
-      excerpt: "Notre guide complet pour trouver un job étudiant : CV, sites, réseaux, droits et obligations.",
-      image: "💼",
-      priority: "medium"
-    },
-    {
-      title: "Sécurité sociale étudiante : mode d'emploi",
-      date: "8 janvier 2024",
-      category: "Vie étudiante",
-      excerpt: "Tout savoir sur la sécurité sociale étudiante : inscription, remboursements, mutuelle.",
-      image: "🏥",
-      priority: "medium"
-    },
-    {
-      title: "Calendrier des échéances 2024",
-      date: "5 janvier 2024",
+      id: 1,
+      title: "Guide complet Parcoursup 2024 : Dates et stratégies",
+      excerpt: "Tout ce que vous devez savoir sur Parcoursup 2024, les dates importantes et nos conseils pour maximiser vos chances d'admission.",
+      author: "Marie Dubois",
+      date: "2024-01-15",
       category: "Orientation",
-      excerpt: "Toutes les dates importantes à retenir pour votre année universitaire 2024-2025.",
-      image: "📅",
-      priority: "low"
+      image: "📚",
+      views: 1250,
+      comments: 23,
+      readTime: "8 min",
+      tags: ["Parcoursup", "Orientation", "Études supérieures"]
     },
+    {
+      id: 2,
+      title: "Visa étudiant 2024 : Nouvelles procédures simplifiées",
+      excerpt: "Les dernières modifications des procédures de visa étudiant et comment optimiser votre dossier pour une réponse rapide.",
+      author: "Ahmed Benali",
+      date: "2024-01-10",
+      category: "Démarches",
+      image: "🛂",
+      views: 980,
+      comments: 15,
+      readTime: "6 min",
+      tags: ["Visa", "Démarches", "Immigration"]
+    }
   ];
+
+  // Trier du plus récent au plus ancien
+  const articlesSorted = [...articles].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const articlesRecents = articlesSorted.slice(0, 3); // 3 articles les plus récents
 
   // Témoignages (utilisant les mêmes données que Temoignages.jsx)
   const temoignages = [
@@ -271,9 +279,23 @@ export default function HomePage() {
     navigate('/temoignages');
   };
 
+  const handleArticleClick = (articleId) => {
+    navigate(`/blog/${articleId}`);
+  };
+
   const toggleDetails = (index, e) => {
     e.stopPropagation();
     setOpenIndex(prev => (prev === index ? null : index));
+  };
+
+  // Fonction pour formater la date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
   };
 
   return (
@@ -388,65 +410,62 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ACTUALITÉS AMÉLIORÉES */}
+      {/* ACTUALITÉS DU BLOG */}
       <section className="py-20 bg-muted/50 px-4">
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <h2 className="text-3xl font-bold">Actualités & Informations</h2>
+              <h2 className="text-3xl font-bold">Derniers articles du blog</h2>
               <p className="text-xl text-muted-foreground">
-                Restez informé des dernières nouvelles importantes
+                Conseils, guides et actualités pour réussir vos études en France
               </p>
             </div>
             <Button variant="outline" onClick={handleBlogClick}>
-              Voir toutes les actualités
+              Voir tous les articles
             </Button>
           </div>
           
-          {/* Actualités prioritaires */}
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
-            {actualites.filter(news => news.priority === "high").map((news, i) => (
-              <Card key={i} className="hover:shadow-lg transition cursor-pointer border-l-4 border-l-blue-500" onClick={handleBlogClick}>
+          <div className="grid md:grid-cols-3 gap-8">
+            {articlesRecents.map((article) => (
+              <Card key={article.id} className="hover:shadow-lg transition cursor-pointer" onClick={() => handleArticleClick(article.id)}>
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary">{news.category}</Badge>
+                    <Badge variant="secondary">{article.category}</Badge>
                     <span className="text-sm text-muted-foreground flex items-center">
                       <Clock className="w-4 h-4 mr-1" />
-                      {news.date}
+                      {article.readTime}
                     </span>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="text-4xl">{news.image}</div>
+                    <div className="text-4xl">{article.image}</div>
                     <div className="flex-1">
-                      <CardTitle className="text-xl">{news.title}</CardTitle>
-                      <CardDescription className="mt-2">{news.excerpt}</CardDescription>
+                      <CardTitle className="text-lg line-clamp-2">{article.title}</CardTitle>
+                      <CardDescription className="mt-2 line-clamp-3">{article.excerpt}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-              </Card>
-            ))}
-          </div>
-
-          {/* Autres actualités */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {actualites.filter(news => news.priority !== "high").map((news, i) => (
-              <Card key={i} className="hover:shadow-lg transition cursor-pointer" onClick={handleBlogClick}>
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="outline">{news.category}</Badge>
-                    <span className="text-sm text-muted-foreground flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
-                      {news.date}
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="text-2xl">{news.image}</div>
-                    <div className="flex-1">
-                      <CardTitle className="text-lg">{news.title}</CardTitle>
-                      <CardDescription className="mt-2">{news.excerpt}</CardDescription>
+                <CardContent>
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <span>{formatDate(article.date)}</span>
+                    <div className="flex items-center space-x-4">
+                      <span className="flex items-center">
+                        <Eye className="w-3 h-3 mr-1" />
+                        {article.views}
+                      </span>
+                      <span className="flex items-center">
+                        <MessageSquare className="w-3 h-3 mr-1" />
+                        {article.comments}
+                      </span>
                     </div>
                   </div>
-                </CardHeader>
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    {article.tags.slice(0, 2).map((tag, index) => (
+                      <Badge key={index} variant="outline" className="text-xs">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -632,4 +651,3 @@ export default function HomePage() {
     </div>
   );
 }
-
