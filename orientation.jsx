@@ -357,7 +357,7 @@ function Orientation() {
                 <p className="text-muted-foreground mb-4">
                   Découvrez les formations qui correspondent à votre profil et vos aspirations.
                 </p>
-                <Button className="w-full">
+                <Button className="w-full" onClick={() => navigate('/test-orientation')}>
                   Faire le test
                 </Button>
               </CardContent>
@@ -514,7 +514,7 @@ function Orientation() {
                 <Button size="lg" variant="secondary">
                   Prendre rendez-vous
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600" onClick={() => navigate('/test-orientation')}>
                   Faire le test d'orientation
                 </Button>
               </div>
