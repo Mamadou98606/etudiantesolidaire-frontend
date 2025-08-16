@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -19,12 +19,153 @@ import {
   Coffee,
   Music,
   Camera,
-  Utensils
+  Utensils,
+  Wifi,
+  Car,
+  Train,
+  Bike
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function VivreFrance() {
   const navigate = useNavigate()
+  const [selectedArrondissement, setSelectedArrondissement] = useState('tous')
+
+  // Services par arrondissement
+  const servicesParArrondissement = {
+    "1er": {
+      name: "1er arrondissement",
+      services: [
+        { name: "CROUS Louvre", type: "logement", address: "15 rue de Rivoli" },
+        { name: "Bibliothèque Sainte-Geneviève", type: "etude", address: "10 place du Panthéon" },
+        { name: "RATP - Station Louvre-Rivoli", type: "transport", address: "Rue de Rivoli" }
+      ]
+    },
+    "5e": {
+      name: "5e arrondissement (Quartier Latin)",
+      services: [
+        { name: "CROUS Censier", type: "logement", address: "13 rue Santeuil" },
+        { name: "Sorbonne Université", type: "etude", address: "21 rue de l'École de Médecine" },
+        { name: "RATP - Station Saint-Michel", type: "transport", address: "Place Saint-Michel" }
+      ]
+    },
+    "6e": {
+      name: "6e arrondissement (Saint-Germain)",
+      services: [
+        { name: "CROUS Mabillon", type: "logement", address: "3 rue Mabillon" },
+        { name: "Sciences Po Paris", type: "etude", address: "27 rue Saint-Guillaume" },
+        { name: "RATP - Station Saint-Germain-des-Prés", type: "transport", address: "Boulevard Saint-Germain" }
+      ]
+    },
+    "13e": {
+      name: "13e arrondissement",
+      services: [
+        { name: "CROUS Cité universitaire", type: "logement", address: "17 boulevard Jourdan" },
+        { name: "Université Paris 8", type: "etude", address: "2 rue de la Liberté" },
+        { name: "RATP - Station Place d'Italie", type: "transport", address: "Place d'Italie" }
+      ]
+    }
+  }
+
+  // Liens officiels des services
+  const liensOfficiels = [
+    {
+      category: "Logement étudiant",
+      links: [
+        {
+          name: "CROUS Paris",
+          url: "https://www.crous-paris.fr",
+          description: "Résidences universitaires et logement étudiant"
+        },
+        {
+          name: "Cité internationale universitaire",
+          url: "https://www.ciup.fr",
+          description: "Résidences internationales"
+        },
+        {
+          name: "Action Logement",
+          url: "https://www.actionlogement.fr",
+          description: "Aides au logement et garantie Visale"
+        },
+        {
+          name: "1% Logement",
+          url: "https://www.1pourcentlogement.fr",
+          description: "Fonds d'aide au logement"
+        }
+      ]
+    },
+    {
+      category: "Transport",
+      links: [
+        {
+          name: "RATP",
+          url: "https://www.ratp.fr",
+          description: "Transports en commun parisiens"
+        },
+        {
+          name: "SNCF Transilien",
+          url: "https://www.transilien.com",
+          description: "Trains de banlieue"
+        },
+        {
+          name: "Vélib'",
+          url: "https://www.velib-metropole.fr",
+          description: "Vélos en libre-service"
+        },
+        {
+          name: "Navigo",
+          url: "https://www.navigo.fr",
+          description: "Carte de transport Île-de-France"
+        }
+      ]
+    },
+    {
+      category: "Santé et sécurité sociale",
+      links: [
+        {
+          name: "Ameli",
+          url: "https://www.ameli.fr",
+          description: "Sécurité sociale étudiante"
+        },
+        {
+          name: "CPAM de Paris",
+          url: "https://www.ameli.fr/paris",
+          description: "Caisse primaire d'assurance maladie de Paris"
+        },
+        {
+          name: "LMDE",
+          url: "https://www.lmde.com",
+          description: "Mutuelle étudiante"
+        },
+        {
+          name: "HEYME",
+          url: "https://www.heyme.care",
+          description: "Mutuelle étudiante"
+        }
+      ]
+    },
+    {
+      category: "Services bancaires",
+      links: [
+        {
+          name: "LCL",
+          url: "https://www.lcl.fr/particulier/etudiants",
+          description: "Compte étudiant gratuit"
+        },
+        {
+          name: "Société Générale",
+          url: "https://www.societegenerale.fr/particuliers/etudiants",
+          description: "Offres bancaires étudiantes"
+        },
+        {
+          name: "BNP Paribas",
+          url: "https://www.bnpparibas.fr/particuliers/etudiants",
+          description: "Solutions bancaires étudiantes"
+        }
+      ]
+    }
+  ]
+
   const aspectsVie = [
     {
       categorie: "Logement",
@@ -100,216 +241,39 @@ function VivreFrance() {
           inconvenients: ["Coût élevé", "Stationnement", "Assurance"]
         }
       ]
-    },
-    {
-      categorie: "Épanouissement",
-      icon: <Heart className="h-6 w-6" />,
-      description: "Développez-vous personnellement et socialement",
-      sousCategories: [
-        {
-          type: "Associations étudiantes",
-          prix: "5-20€/an",
-          avantages: ["Réseau social", "Activités variées", "Développement compétences"],
-          inconvenients: ["Engagement temps", "Responsabilités"]
-        },
-        {
-          type: "Sport universitaire",
-          prix: "15-50€/an",
-          avantages: ["Santé physique", "Esprit d'équipe", "Compétitions"],
-          inconvenients: ["Créneaux limités", "Niveau requis"]
-        },
-        {
-          type: "Culture et loisirs",
-          prix: "Variable",
-          avantages: ["Enrichissement culturel", "Détente", "Découvertes"],
-          inconvenients: ["Budget à prévoir", "Temps nécessaire"]
-        }
-      ]
     }
   ]
 
-  const aidesLogement = [
+  const budgetMensuel = [
     {
-      aide: "APL (Aide Personnalisée au Logement)",
-      montant: "50-300€/mois",
-      conditions: "Selon revenus et type de logement",
-      organisme: "CAF",
-      description: "Aide pour réduire le coût du loyer"
+      categorie: "Logement",
+      montant: "400-800€",
+      details: "Loyer + charges + assurance"
     },
     {
-      aide: "ALS (Allocation de Logement Social)",
-      montant: "50-250€/mois",
-      conditions: "Logements non conventionnés",
-      organisme: "CAF",
-      description: "Alternative à l'APL pour certains logements"
+      categorie: "Alimentation",
+      montant: "200-300€",
+      details: "Courses + restaurants occasionnels"
     },
     {
-      aide: "Garantie Visale",
-      montant: "Gratuit",
-      conditions: "Étudiants de moins de 30 ans",
-      organisme: "Action Logement",
-      description: "Caution gratuite pour la location"
+      categorie: "Transport",
+      montant: "20-75€",
+      details: "Abonnement transports en commun"
     },
     {
-      aide: "Aide Mobili-Jeune",
-      montant: "10-100€/mois",
-      conditions: "Alternants de moins de 30 ans",
-      organisme: "Action Logement",
-      description: "Subvention loyer pour apprentis"
-    }
-  ]
-
-  const cultureActivites = [
-    {
-      domaine: "Musées et patrimoine",
-      icon: <Camera className="h-5 w-5" />,
-      activites: [
-        "Louvre, Orsay, Centre Pompidou",
-        "Châteaux de la Loire",
-        "Sites UNESCO",
-        "Monuments historiques"
-      ],
-      tarifs: "Gratuit ou réduit avec carte étudiant",
-      conseils: "Profitez des nocturnes et journées gratuites"
+      categorie: "Santé",
+      montant: "15-50€",
+      details: "Mutuelle étudiante"
     },
     {
-      domaine: "Spectacles et concerts",
-      icon: <Music className="h-5 w-5" />,
-      activites: [
-        "Opéra et théâtres",
-        "Concerts classiques et modernes",
-        "Festivals d'été",
-        "Scènes alternatives"
-      ],
-      tarifs: "Tarifs jeunes disponibles",
-      conseils: "Réservez à l'avance pour les meilleurs prix"
+      categorie: "Loisirs",
+      montant: "100-200€",
+      details: "Sorties, culture, sports"
     },
     {
-      domaine: "Gastronomie",
-      icon: <Utensils className="h-5 w-5" />,
-      activites: [
-        "Marchés locaux",
-        "Restaurants traditionnels",
-        "Cours de cuisine",
-        "Dégustations vins et fromages"
-      ],
-      tarifs: "Menus étudiants dans les RU",
-      conseils: "Explorez les spécialités régionales"
-    },
-    {
-      domaine: "Vie nocturne",
-      icon: <Coffee className="h-5 w-5" />,
-      activites: [
-        "Bars étudiants",
-        "Clubs et discothèques",
-        "Soirées associatives",
-        "Événements culturels"
-      ],
-      tarifs: "Soirées étudiantes à prix réduits",
-      conseils: "Respectez les horaires et la réglementation"
-    }
-  ]
-
-  const servicePratiques = [
-    {
-      service: "Banque",
-      description: "Ouvrir un compte bancaire français",
-      documents: ["Passeport", "Justificatif de domicile", "Certificat de scolarité"],
-      conseils: "Comparez les offres étudiantes, négociez les frais",
-      urgence: "Non urgent, mais recommandé dans le premier mois"
-    },
-    {
-      service: "Téléphonie",
-      description: "Souscrire un forfait mobile français",
-      documents: ["Pièce d'identité", "RIB", "Justificatif de domicile"],
-      conseils: "Forfaits sans engagement disponibles, attention au roaming",
-      urgence: "Priorité moyenne, utile pour les démarches"
-    },
-    {
-      service: "Internet",
-      description: "Installer internet dans votre logement",
-      documents: ["Justificatif de domicile", "RIB", "Pièce d'identité"],
-      conseils: "Vérifiez l'éligibilité fibre, négociez les frais d'installation",
-      urgence: "Important pour les études et démarches en ligne"
-    },
-    {
-      service: "Assurance habitation",
-      description: "Assurer votre logement (obligatoire)",
-      documents: ["Contrat de bail", "RIB", "Inventaire du mobilier"],
-      conseils: "Obligatoire avant remise des clés, comparez les tarifs",
-      urgence: "Urgent, requis pour la location"
-    }
-  ]
-
-  const conseilsIntegration = [
-    {
-      aspect: "Langue française",
-      conseils: [
-        "Pratiquez quotidiennement avec des natifs",
-        "Regardez films et séries en français",
-        "Lisez la presse locale",
-        "Participez aux cafés des langues"
-      ]
-    },
-    {
-      aspect: "Codes sociaux",
-      conseils: [
-        "Respectez la ponctualité",
-        "Maîtrisez les formules de politesse",
-        "Comprenez l'importance du 'savoir-vivre'",
-        "Adaptez-vous aux horaires français"
-      ]
-    },
-    {
-      aspect: "Réseau social",
-      conseils: [
-        "Rejoignez des associations étudiantes",
-        "Participez aux événements de votre école",
-        "Utilisez les apps de rencontre amicale",
-        "Soyez ouvert aux invitations"
-      ]
-    },
-    {
-      aspect: "Gestion du budget",
-      conseils: [
-        "Tenez un budget mensuel détaillé",
-        "Profitez des réductions étudiantes",
-        "Cuisinez plutôt que de manger dehors",
-        "Partagez les frais avec des amis"
-      ]
-    }
-  ]
-
-  const urgences = [
-    {
-      type: "Urgences médicales",
-      numero: "15 (SAMU) ou 112",
-      description: "Urgences vitales, accidents graves",
-      gratuit: true
-    },
-    {
-      type: "Police/Gendarmerie",
-      numero: "17 ou 112",
-      description: "Urgences sécuritaires, agressions, vols",
-      gratuit: true
-    },
-    {
-      type: "Pompiers",
-      numero: "18 ou 112",
-      description: "Incendies, accidents, secours",
-      gratuit: true
-    },
-    {
-      type: "SOS Amitié",
-      numero: "09 72 39 40 50",
-      description: "Soutien psychologique, détresse morale",
-      gratuit: false
-    },
-    {
-      type: "Violences femmes",
-      numero: "3919",
-      description: "Information et orientation pour femmes victimes",
-      gratuit: true
+      categorie: "Divers",
+      montant: "50-100€",
+      details: "Téléphone, internet, vêtements"
     }
   ]
 
@@ -328,254 +292,117 @@ function VivreFrance() {
           </Button>
           <h1 className="text-4xl font-bold text-foreground mb-4">Vivre en France</h1>
           <p className="text-xl text-muted-foreground">
-            Tout pour réussir votre intégration et vous épanouir en France
+            Tout ce que vous devez savoir pour réussir votre intégration en France
           </p>
         </div>
 
-        {/* Introduction */}
+        {/* Carte interactive des services */}
         <section className="mb-16">
-          <Card className="bg-gradient-to-r from-pink-50 to-pink-100 border-pink-200">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Services par arrondissement</h2>
+          <Card className="bg-gradient-to-r from-green-50 to-green-100 border-green-200">
             <CardHeader>
-              <CardTitle className="text-2xl text-pink-800 flex items-center">
-                <Heart className="h-6 w-6 mr-2" />
-                Votre nouvelle vie en France
+              <CardTitle className="text-green-800 flex items-center">
+                <MapPin className="h-6 w-6 mr-2" />
+                Carte interactive des services
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-lg text-pink-700 leading-relaxed">
-                Vivre en France, c'est bien plus que suivre des cours. C'est découvrir une culture riche,
-                créer des liens durables, et construire votre avenir dans un environnement stimulant.
-                Nous vous accompagnons dans tous les aspects de votre vie quotidienne.
-              </p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Aspects de la vie */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Les piliers de votre vie en France</h2>
-          <div className="space-y-12">
-            {aspectsVie.map((aspect, index) => (
-              <div key={index}>
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                    <div className="text-blue-600">
-                      {aspect.icon}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-semibold">{aspect.categorie}</h3>
-                    <p className="text-muted-foreground">{aspect.description}</p>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  {aspect.sousCategories.map((sousCategorie, idx) => (
-                    <Card key={idx} className="hover:shadow-lg transition-shadow">
+              <div className="mb-4">
+                <label className="text-sm font-medium text-green-700 mb-2 block">Sélectionner un arrondissement :</label>
+                <select
+                  value={selectedArrondissement}
+                  onChange={(e) => setSelectedArrondissement(e.target.value)}
+                  className="w-full md:w-64 p-2 border border-green-300 rounded-md"
+                >
+                  <option value="tous">Tous les arrondissements</option>
+                  {Object.keys(servicesParArrondissement).map(arr => (
+                    <option key={arr} value={arr}>
+                      {servicesParArrondissement[arr].name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Object.entries(servicesParArrondissement)
+                  .filter(([arr]) => selectedArrondissement === 'tous' || arr === selectedArrondissement)
+                  .map(([arr, data]) => (
+                    <Card key={arr} className="bg-white">
                       <CardHeader>
-                        <div className="flex items-center justify-between mb-2">
-                          <CardTitle className="text-lg">{sousCategorie.type}</CardTitle>
-                          <Badge variant="outline">
-                            <CreditCard className="h-3 w-3 mr-1" />
-                            {sousCategorie.prix}
-                          </Badge>
-                        </div>
+                        <CardTitle className="text-lg">{data.name}</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
-                          <div>
-                            <h4 className="font-semibold text-sm text-green-700 mb-1">Avantages :</h4>
-                            <ul className="space-y-1">
-                              {sousCategorie.avantages.map((avantage, i) => (
-                                <li key={i} className="text-xs text-muted-foreground flex items-center">
-                                  <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                                  {avantage}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          {sousCategorie.inconvenients && (
-                            <div>
-                              <h4 className="font-semibold text-sm text-orange-700 mb-1">À considérer :</h4>
-                              <ul className="space-y-1">
-                                {sousCategorie.inconvenients.map((inconvenient, i) => (
-                                  <li key={i} className="text-xs text-muted-foreground flex items-center">
-                                    <Info className="h-3 w-3 mr-1 text-orange-600" />
-                                    {inconvenient}
-                                  </li>
-                                ))}
-                              </ul>
+                          {data.services.map((service, index) => (
+                            <div key={index} className="flex items-start space-x-2">
+                              {service.type === 'logement' && <Home className="h-4 w-4 text-blue-600 mt-1" />}
+                              {service.type === 'etude' && <BookOpen className="h-4 w-4 text-green-600 mt-1" />}
+                              {service.type === 'transport' && <Bus className="h-4 w-4 text-orange-600 mt-1" />}
+                              <div>
+                                <p className="font-medium text-sm">{service.name}</p>
+                                <p className="text-xs text-muted-foreground">{service.address}</p>
+                              </div>
                             </div>
-                          )}
+                          ))}
                         </div>
                       </CardContent>
                     </Card>
                   ))}
-                </div>
               </div>
-            ))}
-          </div>
+            </CardContent>
+          </Card>
         </section>
 
-        {/* Aides au logement */}
+        {/* Aspects de la vie étudiante */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Aides au logement</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {aidesLogement.map((aide, index) => (
+          <h2 className="text-3xl font-bold text-foreground mb-8">Aspects de la vie étudiante</h2>
+          <div className="space-y-8">
+            {aspectsVie.map((aspect, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <CardTitle className="text-lg">{aide.aide}</CardTitle>
-                    <Badge variant="default">{aide.montant}</Badge>
+                  <div className="flex items-center space-x-3 mb-4">
+                    {aspect.icon}
+                    <div>
+                      <CardTitle className="text-xl">{aspect.categorie}</CardTitle>
+                      <CardDescription>{aspect.description}</CardDescription>
+                    </div>
                   </div>
-                  <CardDescription>{aide.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
-                    <div>
-                      <h4 className="font-semibold text-sm">Conditions :</h4>
-                      <p className="text-sm text-muted-foreground">{aide.conditions}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-sm">Organisme :</h4>
-                      <p className="text-sm text-muted-foreground">{aide.organisme}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Culture et activités */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Culture et activités</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {cultureActivites.map((culture, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center text-lg">
-                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
-                      <div className="text-purple-600">
-                        {culture.icon}
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {aspect.sousCategories.map((sousCat, idx) => (
+                      <div key={idx} className="space-y-3">
+                        <div>
+                          <h4 className="font-semibold">{sousCat.type}</h4>
+                          <Badge variant="secondary" className="mt-1">
+                            <CreditCard className="h-3 w-3 mr-1" />
+                            {sousCat.prix}
+                          </Badge>
+                        </div>
+                        <div>
+                          <h5 className="font-medium text-sm text-green-600 mb-1">Avantages :</h5>
+                          <ul className="text-sm space-y-1">
+                            {sousCat.avantages.map((avantage, i) => (
+                              <li key={i} className="flex items-center">
+                                <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                                {avantage}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h5 className="font-medium text-sm text-orange-600 mb-1">Inconvénients :</h5>
+                          <ul className="text-sm space-y-1">
+                            {sousCat.inconvenients.map((inconvenient, i) => (
+                              <li key={i} className="flex items-center">
+                                <AlertCircle className="h-3 w-3 mr-1 text-orange-600" />
+                                {inconvenient}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                    {culture.domaine}
-                  </CardTitle>
-                  <Badge variant="secondary">{culture.tarifs}</Badge>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div>
-                      <h4 className="font-semibold text-sm mb-2">Activités populaires :</h4>
-                      <ul className="space-y-1">
-                        {culture.activites.map((activite, idx) => (
-                          <li key={idx} className="text-sm text-muted-foreground flex items-center">
-                            <div className="w-2 h-2 bg-purple-600 rounded-full mr-2"></div>
-                            {activite}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="bg-purple-50 p-3 rounded-lg">
-                      <h4 className="font-semibold text-sm text-purple-800 mb-1">Conseil :</h4>
-                      <p className="text-sm text-purple-700">{culture.conseils}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Services pratiques */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Services pratiques à organiser</h2>
-          <div className="space-y-4">
-            {servicePratiques.map((service, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{service.service}</CardTitle>
-                    <Badge variant={service.urgence.includes('Urgent') ? 'destructive' :
-                                  service.urgence.includes('Important') ? 'default' : 'secondary'}>
-                      {service.urgence.includes('Urgent') ? 'Urgent' :
-                       service.urgence.includes('Important') ? 'Important' : 'Optionnel'}
-                    </Badge>
-                  </div>
-                  <CardDescription>{service.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="font-semibold text-sm mb-2">Documents nécessaires :</h4>
-                      <ul className="space-y-1">
-                        {service.documents.map((doc, idx) => (
-                          <li key={idx} className="text-sm text-muted-foreground flex items-center">
-                            <CheckCircle className="h-3 w-3 mr-2 text-green-600" />
-                            {doc}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-sm mb-2">Conseils :</h4>
-                      <p className="text-sm text-muted-foreground">{service.conseils}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Conseils d'intégration */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Conseils pour une intégration réussie</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {conseilsIntegration.map((conseil, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg">{conseil.aspect}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {conseilsIntegration[index].conseils.map((tip, idx) => (
-                      <li key={idx} className="text-sm text-muted-foreground flex items-start">
-                        <CheckCircle className="h-4 w-4 mr-2 text-green-600 mt-0.5 flex-shrink-0" />
-                        {tip}
-                      </li>
                     ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Numéros d'urgence */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Numéros d'urgence</h2>
-          <div className="grid md:grid-cols-3 gap-4">
-            {urgences.map((urgence, index) => (
-              <Card key={index} className={`hover:shadow-lg transition-shadow ${
-                urgence.gratuit ? 'border-green-200 bg-green-50' : 'border-orange-200 bg-orange-50'
-              }`}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{urgence.type}</CardTitle>
-                    <Badge variant={urgence.gratuit ? 'default' : 'secondary'}>
-                      {urgence.gratuit ? 'Gratuit' : 'Payant'}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex items-center">
-                      <Phone className="h-4 w-4 mr-2 text-blue-600" />
-                      <span className="font-bold text-lg">{urgence.numero}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{urgence.description}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -583,186 +410,85 @@ function VivreFrance() {
           </div>
         </section>
 
-        {/* Budget type */}
+        {/* Budget mensuel */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Budget mensuel type</h2>
-          <Card className="bg-blue-50 border-blue-200">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Budget mensuel estimé</h2>
+          <Card className="bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200">
             <CardHeader>
-              <CardTitle className="text-blue-800">Estimation pour un étudiant en région parisienne</CardTitle>
+              <CardTitle className="text-purple-800">Répartition des dépenses</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold mb-3">Dépenses essentielles :</h4>
-                  <ul className="space-y-2">
-                    <li className="flex justify-between text-sm">
-                      <span>Logement (avec aides)</span>
-                      <span className="font-semibold">400-800€</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span>Alimentation</span>
-                      <span className="font-semibold">200-300€</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span>Transport</span>
-                      <span className="font-semibold">30-75€</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span>Téléphone/Internet</span>
-                      <span className="font-semibold">30-50€</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span>Assurances</span>
-                      <span className="font-semibold">20-40€</span>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-3">Dépenses variables :</h4>
-                  <ul className="space-y-2">
-                    <li className="flex justify-between text-sm">
-                      <span>Loisirs/Culture</span>
-                      <span className="font-semibold">50-150€</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span>Vêtements</span>
-                      <span className="font-semibold">30-80€</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span>Santé (mutuelle)</span>
-                      <span className="font-semibold">15-50€</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span>Divers/Imprévus</span>
-                      <span className="font-semibold">50-100€</span>
-                    </li>
-                    <li className="flex justify-between text-sm font-bold border-t pt-2">
-                      <span>TOTAL MENSUEL</span>
-                      <span>825-1645€</span>
-                    </li>
-                  </ul>
-                </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {budgetMensuel.map((item, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-semibold">{item.categorie}</h4>
+                      <Badge variant="outline">{item.montant}</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{item.details}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 p-4 bg-white rounded-lg">
+                <h4 className="font-semibold text-center mb-2">Budget total mensuel</h4>
+                <p className="text-2xl font-bold text-purple-800 text-center">785€ - 1525€</p>
+                <p className="text-sm text-muted-foreground text-center">Selon votre mode de vie et localisation</p>
               </div>
             </CardContent>
           </Card>
         </section>
 
-        {/* Ressources utiles */}
+        {/* Liens officiels */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Ressources utiles</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Services publics</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">CAF (aides logement)</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Ameli.fr (sécurité sociale)</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Service-public.fr</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Impots.gouv.fr</a>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Vie pratique</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Leboncoin (petites annonces)</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Citymapper (transports)</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Doctolib (rendez-vous médicaux)</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Meetup (rencontres)</a>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        {/* Budget mensuel indicatif */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Budget mensuel indicatif</h2>
-          <Card>
-            <CardContent className="pt-6">
-              <ul className="space-y-2">
-                <li className="flex justify-between"><span>Logement</span><span className="font-medium">400–900€</span></li>
-                <li className="flex justify-between"><span>Transport</span><span className="font-medium">20–75€</span></li>
-                <li className="flex justify-between"><span>Nourriture</span><span className="font-medium">150–300€</span></li>
-                <li className="flex justify-between"><span>Assurances / santé</span><span className="font-medium">15–50€</span></li>
-                <li className="flex justify-between"><span>Loisirs / télécom</span><span className="font-medium">30–80€</span></li>
-              </ul>
-              <p className="mt-4 text-sm text-muted-foreground">Varie selon la ville (Paris plus élevé).</p>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Numéros utiles */}
-        <section className="mb-16">
-          <h3 className="text-2xl font-semibold mb-4">Numéros utiles</h3>
-          <div className="grid md:grid-cols-3 gap-4">
-            <Card>
-              <CardContent className="pt-6">
-                <p className="font-medium">Urgences</p>
-                <p className="text-muted-foreground">112</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <p className="font-medium">SAMU</p>
-                <p className="text-muted-foreground">15</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <p className="font-medium">Police</p>
-                <p className="text-muted-foreground">17</p>
-              </CardContent>
-            </Card>
-          </div>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Liens officiels</h2>
+          
+          {liensOfficiels.map((category, categoryIndex) => (
+            <div key={categoryIndex} className="mb-8">
+              <h3 className="text-xl font-semibold mb-4 text-foreground">{category.category}</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {category.links.map((link, linkIndex) => (
+                  <Card key={linkIndex} className="hover:shadow-lg transition-shadow">
+                    <CardContent className="p-4">
+                      <div className="flex items-start space-x-3">
+                        <ExternalLink className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+                        <div className="flex-1">
+                          <a 
+                            href={link.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="font-semibold text-blue-600 hover:text-blue-800 hover:underline block mb-1"
+                          >
+                            {link.name}
+                          </a>
+                          <p className="text-sm text-muted-foreground">
+                            {link.description}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* CTA */}
         <section className="text-center">
-          <Card className="bg-gradient-to-r from-pink-600 to-pink-700 text-white">
+          <Card className="bg-gradient-to-r from-green-600 to-green-700 text-white">
             <CardHeader>
-              <CardTitle className="text-2xl">Prêt à vivre pleinement votre expérience française ?</CardTitle>
-              <CardDescription className="text-pink-100">
-                Accédez à tous nos outils et conseils personnalisés pour réussir votre intégration
+              <CardTitle className="text-2xl">Besoin d'aide pour votre installation ?</CardTitle>
+              <CardDescription className="text-green-100">
+                Nos conseillers vous accompagnent dans toutes vos démarches
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">
-                  Créer mon guide personnalisé
+                  Demander de l'aide
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-pink-600">
-                  Rejoindre la communauté
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">
+                  Télécharger nos guides
                 </Button>
               </div>
             </CardContent>
@@ -772,5 +498,3 @@ function VivreFrance() {
     </div>
   )
 }
-
-export default VivreFrance
