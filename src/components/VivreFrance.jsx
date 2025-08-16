@@ -498,3 +498,4 @@ function VivreFrance() {
     </div>
   )
 }
+export default VivreFrance;
