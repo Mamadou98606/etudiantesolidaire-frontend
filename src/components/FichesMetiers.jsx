@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card.jsx'
-import { CheckCircle, ArrowRight, ArrowLeft, GraduationCap, BookOpen, Users, Award, Download, Save, AlertCircle, Info, BarChart3, ExternalLink } from 'lucide-react'
 import { Badge } from './ui/badge.jsx'
 import { Button } from './ui/button.jsx'
 import { Input } from './ui/input.jsx'
