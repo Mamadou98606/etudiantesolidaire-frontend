@@ -16,12 +16,14 @@ import {
   FileText,
   TrendingUp,
   Building,
-  GraduationCap
+  GraduationCap,
+  Calculator
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function Travailler() {
   const navigate = useNavigate()
+
   const typesEmplois = [
     {
       type: "Job étudiant",
@@ -42,6 +44,11 @@ function Travailler() {
         "Revenus complémentaires",
         "Développement de compétences",
         "Réseau professionnel"
+      ],
+      liens: [
+        { nom: "Indeed France", url: "https://fr.indeed.com" },
+        { nom: "Pôle Emploi", url: "https://www.pole-emploi.fr" },
+        { nom: "Job étudiant", url: "https://www.jobetudiant.fr" }
       ]
     },
     {
@@ -63,6 +70,11 @@ function Travailler() {
         "Découverte du monde professionnel",
         "Possibilité d'embauche",
         "Validation du cursus"
+      ],
+      liens: [
+        { nom: "Stages.fr", url: "https://www.stages.fr" },
+        { nom: "Welcome to the Jungle", url: "https://www.welcometothejungle.com/fr" },
+        { nom: "JobTeaser", url: "https://www.jobteaser.com/fr" }
       ]
     },
     {
@@ -84,6 +96,11 @@ function Travailler() {
         "Évolution de carrière",
         "Intégration durable",
         "Développement professionnel"
+      ],
+      liens: [
+        { nom: "Apec", url: "https://www.apec.fr" },
+        { nom: "LinkedIn", url: "https://www.linkedin.com/jobs" },
+        { nom: "Indeed France", url: "https://fr.indeed.com" }
       ]
     }
   ]
@@ -195,37 +212,43 @@ function Travailler() {
       nom: "LinkedIn",
       type: "Réseau professionnel",
       specialite: "Tous secteurs",
-      avantages: "Networking, visibilité, recruteurs"
+      avantages: "Networking, visibilité, recruteurs",
+      url: "https://www.linkedin.com/jobs"
     },
     {
       nom: "Indeed",
       type: "Moteur de recherche",
       specialite: "Tous types d'emplois",
-      avantages: "Large choix, alertes, candidature facile"
+      avantages: "Large choix, alertes, candidature facile",
+      url: "https://fr.indeed.com"
     },
     {
       nom: "Welcome to the Jungle",
       type: "Plateforme moderne",
       specialite: "Startup, tech, scale-up",
-      avantages: "Culture d'entreprise, vidéos, modernité"
+      avantages: "Culture d'entreprise, vidéos, modernité",
+      url: "https://www.welcometothejungle.com/fr"
     },
     {
       nom: "Apec",
       type: "Association cadres",
       specialite: "Postes cadres",
-      avantages: "Conseil, accompagnement, expertise"
+      avantages: "Conseil, accompagnement, expertise",
+      url: "https://www.apec.fr"
     },
     {
       nom: "Pôle emploi",
       type: "Service public",
       specialite: "Tous secteurs",
-      avantages: "Accompagnement, formations, aides"
+      avantages: "Accompagnement, formations, aides",
+      url: "https://www.pole-emploi.fr"
     },
     {
       nom: "JobTeaser",
       type: "Plateforme étudiante",
       specialite: "Stages, premiers emplois",
-      avantages: "Spécialisé jeunes diplômés, partenariats écoles"
+      avantages: "Spécialisé jeunes diplômés, partenariats écoles",
+      url: "https://www.jobteaser.com/fr"
     }
   ]
 
@@ -270,25 +293,49 @@ function Travailler() {
       aide: "Accompagnement Pôle emploi",
       description: "Conseil et suivi personnalisé",
       eligibilite: "Demandeurs d'emploi inscrits",
-      services: "CV, entretiens, formations, aides financières"
+      services: "CV, entretiens, formations, aides financières",
+      url: "https://www.pole-emploi.fr"
     },
     {
       aide: "Mission locale",
       description: "Accompagnement des 16-25 ans",
       eligibilite: "Jeunes de 16 à 25 ans",
-      services: "Orientation, formation, emploi, logement"
+      services: "Orientation, formation, emploi, logement",
+      url: "https://www.mission-locale.fr"
     },
     {
       aide: "APEC",
       description: "Association pour l'emploi des cadres",
       eligibilite: "Cadres et jeunes diplômés Bac+3",
-      services: "Conseil, offres d'emploi, événements networking"
+      services: "Conseil, offres d'emploi, événements networking",
+      url: "https://www.apec.fr"
     },
     {
       aide: "Services carrière des écoles",
       description: "Accompagnement par l'établissement",
       eligibilite: "Étudiants et diplômés de l'école",
       services: "Job dating, partenariats entreprises, alumni"
+    }
+  ]
+
+  const liensUtiles = [
+    {
+      categorie: "Formation continue",
+      liens: [
+        { nom: "Mon Compte Formation", url: "https://www.moncompteformation.gouv.fr" },
+        { nom: "OpenClassrooms", url: "https://openclassrooms.com" },
+        { nom: "Coursera", url: "https://www.coursera.org" },
+        { nom: "Udemy", url: "https://www.udemy.com" }
+      ]
+    },
+    {
+      categorie: "Réseau et networking",
+      liens: [
+        { nom: "LinkedIn", url: "https://www.linkedin.com" },
+        { nom: "Meetup", url: "https://www.meetup.com/fr-FR" },
+        { nom: "Eventbrite", url: "https://www.eventbrite.fr" },
+        { nom: "Viadeo", url: "https://www.viadeo.com" }
+      ]
     }
   ]
 
@@ -326,6 +373,39 @@ function Travailler() {
                 Du job étudiant au CDI post-diplôme, découvrez comment naviguer le marché du travail français, 
                 développer vos compétences et réussir votre insertion professionnelle.
               </p>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Simulateur de salaire */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Simulateur de salaire</h2>
+          <Card className="bg-green-50 border-green-200">
+            <CardHeader>
+              <CardTitle className="text-green-800 flex items-center">
+                <Calculator className="h-5 w-5 mr-2" />
+                Calculez votre salaire net
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center">
+                <p className="text-lg text-green-700 mb-4">
+                  Utilisez le simulateur officiel de l'URSSAF pour calculer précisément votre salaire net
+                </p>
+                <Button 
+                  size="lg"
+                  className="bg-green-600 hover:bg-green-700"
+                  asChild
+                >
+                  <a href="https://www.urssaf.fr/portail/home/utile-et-pratique/estimateur-de-cotisations-2021.html" target="_blank" rel="noopener noreferrer">
+                    <Calculator className="h-5 w-5 mr-2" />
+                    Simulateur URSSAF
+                  </a>
+                </Button>
+                <p className="text-sm text-green-600 mt-3">
+                  * Simulateur officiel pour un calcul précis des cotisations sociales
+                </p>
+              </div>
             </CardContent>
           </Card>
         </section>
@@ -382,6 +462,21 @@ function Travailler() {
                       </ul>
                     </div>
                   </div>
+                  {emploi.liens && (
+                    <div className="mt-4 pt-4 border-t">
+                      <h4 className="font-semibold mb-2">Sites de recherche :</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {emploi.liens.map((lien, idx) => (
+                          <Button key={idx} variant="outline" size="sm" asChild>
+                            <a href={lien.url} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-3 w-3 mr-1" />
+                              {lien.nom}
+                            </a>
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -489,9 +584,11 @@ function Travailler() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">{plateforme.avantages}</p>
-                  <Button variant="outline" size="sm" className="w-full mt-3">
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    Visiter
+                  <Button variant="outline" size="sm" className="w-full mt-3" asChild>
+                    <a href={plateforme.url} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-3 w-3 mr-2" />
+                      Visiter
+                    </a>
                   </Button>
                 </CardContent>
               </Card>
@@ -543,6 +640,14 @@ function Travailler() {
                       <h4 className="font-semibold text-sm">Services :</h4>
                       <p className="text-sm text-muted-foreground">{aide.services}</p>
                     </div>
+                    {aide.url && (
+                      <Button variant="outline" size="sm" asChild>
+                        <a href={aide.url} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-3 w-3 mr-2" />
+                          Visiter le site
+                        </a>
+                      </Button>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -653,57 +758,25 @@ function Travailler() {
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Ressources utiles</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Organismes d'aide</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Pôle emploi</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">APEC (cadres)</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Mission locale</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Cap emploi</a>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Outils et formations</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Mon compte formation</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">OpenClassrooms</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">France Travail</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Coursera</a>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+            {liensUtiles.map((categorie, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{categorie.categorie}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {categorie.liens.map((lien, idx) => (
+                      <li key={idx} className="flex items-center">
+                        <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
+                        <a href={lien.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                          {lien.nom}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
 
