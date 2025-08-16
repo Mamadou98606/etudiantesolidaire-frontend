@@ -25,6 +25,7 @@ import AdminPanel from './components/AdminPanel';
 import AuthModal from './components/AuthModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import TestOrientation from './components/TestOrientation';
+import FichesMetiers from './components/FichesMetiers';
 
 import './App.css';
 import { navigationItems } from './navigation';
@@ -397,6 +398,7 @@ const AppContent = () => {
             <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
             <Route path="/orientation" element={<Orientation />} />
             <Route path="/test-orientation" element={<TestOrientation />} />
+            <Route path="/fiches-metiers" element={<FichesMetiers />} />
             <Route path="/demarches" element={<Demarches />} />
             <Route path="/etudes" element={<Etudes />} />
             <Route path="/travailler" element={<Travailler />} />
