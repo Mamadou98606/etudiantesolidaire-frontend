@@ -209,7 +209,7 @@ function Orientation() {
 
         {/* Processus d'orientation */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Comment bien s'orienter ?</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Comment bien s'orienter ?</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {processSteps.map((step, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow">
@@ -251,7 +251,7 @@ function Orientation() {
                             <Clock className="h-3 w-3 mr-1" />
                             {formation.duration}
                           </Badge>
-                            <Badge variant="outline">
+                          <Badge variant="outline">
                             <Award className="h-3 w-3 mr-1" />
                             {formation.level}
                           </Badge>
@@ -288,14 +288,14 @@ function Orientation() {
                         <p className="text-sm text-muted-foreground">{formation.requirements}</p>
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-2 flex items.center">
+                        <h4 className="font-semibold mb-2 flex items-center">
                           <ExternalLink className="h-4 w-4 mr-2" />
                           Débouchés
                         </h4>
                         <p className="text-sm text-muted-foreground">{formation.opportunities}</p>
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-2 flex items.center">
+                        <h4 className="font-semibold mb-2 flex items-center">
                           <Info className="h-4 w-4 mr-2" />
                           Coût approximatif
                         </h4>
@@ -311,7 +311,7 @@ function Orientation() {
 
         {/* Dates importantes */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Dates importantes 2024‑2025</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Dates importantes 2024-2025</h2>
           <div className="space-y-4">
             {importantDates.map((item, index) => (
               <Card key={index} className={`border-l-4 ${
@@ -341,15 +341,15 @@ function Orientation() {
           </div>
         </section>
 
-        {/* Outils d’aide */}
+        {/* Outils d'aide */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Nos outils d’aide à l’orientation</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Nos outils d'aide à l'orientation</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
-                  Test d’orientation
+                  Test d'orientation
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -388,7 +388,7 @@ function Orientation() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">
-                  Bénéficiez d’un accompagnement individuel avec nos conseillers.
+                  Bénéficiez d'un accompagnement individuel avec nos conseillers.
                 </p>
                 <Button variant="outline" className="w-full">
                   Prendre RDV
@@ -426,7 +426,7 @@ function Orientation() {
                       Etudiant.gouv.fr
                     </a>
                   </li>
-                  <li className="flex items.center">
+                  <li className="flex items-center">
                     <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
                     <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                       Campus France
@@ -442,19 +442,19 @@ function Orientation() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  <li className="flex items.center">
+                  <li className="flex items-center">
                     <BookOpen className="h-4 w-4 mr-2 text-green-600" />
                     <span>Guide Parcoursup 2025</span>
                   </li>
-                  <li className="flex items.center">
+                  <li className="flex items-center">
                     <BookOpen className="h-4 w-4 mr-2 text-green-600" />
-                    <span>Choisir sa formation post‑bac</span>
+                    <span>Choisir sa formation post-bac</span>
                   </li>
-                  <li className="flex items.center">
+                  <li className="flex items-center">
                     <BookOpen className="h-4 w-4 mr-2 text-green-600" />
-                    <span>Les métiers d’avenir</span>
+                    <span>Les métiers d'avenir</span>
                   </li>
-                  <li className="flex items.center">
+                  <li className="flex items-center">
                     <BookOpen className="h-4 w-4 mr-2 text-green-600" />
                     <span>Financer ses études</span>
                   </li>
@@ -470,30 +470,30 @@ function Orientation() {
           <Card>
             <CardContent className="pt-6">
               <ul className="space-y-2 text-sm">
-                <li className="flex items.center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Créer mon compte et compléter mon profil</li>
-                <li className="flex items.center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Renseigner mes bulletins et pièces</li>
-                <li className="flex items.center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Rédiger mes projets de formation motivés</li>
-                <li className="flex items.center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Confirmer mes vœux avant la date limite</li>
-                <li className="flex items.center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Suivre les réponses et respecter les délais</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Créer mon compte et compléter mon profil</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Renseigner mes bulletins et pièces</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Rédiger mes projets de formation motivés</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Confirmer mes vœux avant la date limite</li>
+                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Suivre les réponses et respecter les délais</li>
               </ul>
             </CardContent>
           </Card>
         </section>
 
-        {/* Liens utiles (encore) */}
+        {/* Liens utiles */}
         <section className="mb-16">
           <h3 className="text-2xl font-semibold mb-4">Liens utiles</h3>
           <div className="grid md:grid-cols-2 gap-4">
-            <a href="https://www.parcoursup.fr" target="_blank" rel="noopener noreferrer" className="flex items.center p-4 border rounded-lg hover:bg-muted">
+            <a href="https://www.parcoursup.fr" target="_blank" rel="noopener noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
               <ExternalLink className="h-4 w-4 mr-2" /> Parcoursup (officiel)
             </a>
-            <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" className="flex items.center p-4 border rounded-lg hover:bg-muted">
+            <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
               <ExternalLink className="h-4 w-4 mr-2" /> Campus France
             </a>
-            <a href="https://www.onisep.fr" target="_blank" rel="noopener noreferrer" className="flex items.center p-4 border rounded-lg hover:bg-muted">
+            <a href="https://www.onisep.fr" target="_blank" rel="noopener noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
               <ExternalLink className="h-4 w-4 mr-2" /> Onisep
             </a>
-            <a href="https://www.service-public.fr/particuliers/vosdroits/N110" target="_blank" rel="noopener noreferrer" className="flex items.center p-4 border rounded-lg hover:bg-muted">
+            <a href="https://www.service-public.fr/particuliers/vosdroits/N110" target="_blank" rel="noopener noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
               <ExternalLink className="h-4 w-4 mr-2" /> Aides financières
             </a>
           </div>
@@ -503,7 +503,7 @@ function Orientation() {
         <section className="text-center">
           <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
             <CardHeader>
-              <CardTitle className="text-2xl">Besoin d’aide pour votre orientation ?</CardTitle>
+              <CardTitle className="text-2xl">Besoin d'aide pour votre orientation ?</CardTitle>
               <CardDescription className="text-blue-100">
                 Nos conseillers sont là pour vous accompagner dans vos choix
               </CardDescription>
@@ -519,7 +519,7 @@ function Orientation() {
                   className="border-white text-white hover:bg-white hover:text-blue-600"
                   onClick={() => navigate('/test-orientation')}
                 >
-                  Faire le test d’orientation
+                  Faire le test d'orientation
                 </Button>
               </div>
             </CardContent>
