@@ -17,7 +17,8 @@ import {
   Info,
   Search,
   Calendar,
-  Filter
+  Filter,
+  Building
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
