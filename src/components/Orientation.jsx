@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { Badge } from '@/components/ui/badge.jsx'
-import { Button } from '@/components/ui/button.jsx'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card.jsx'
+import { Badge } from './ui/badge.jsx'
+import { Button } from './ui/button.jsx'
 import {
   GraduationCap,
   BookOpen,
@@ -374,7 +374,7 @@ function Orientation() {
                 <p className="text-muted-foreground mb-4">
                   Explorez les métiers et leurs formations associées.
                 </p>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={() => navigate('/fiches-metiers')}>
                   Consulter les fiches
                 </Button>
               </CardContent>
