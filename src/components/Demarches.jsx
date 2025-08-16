@@ -196,6 +196,85 @@ function Demarches() {
     }
   ]
 
+  // Liens officiels avec les vraies URLs
+  const liensOfficiels = [
+    {
+      category: "Démarches administratives",
+      links: [
+        {
+          name: "ANEF - Titre de séjour en ligne",
+          url: "https://administration-etrangers-en-france.interieur.gouv.fr",
+          description: "Demande et renouvellement de titre de séjour"
+        },
+        {
+          name: "France-Visas",
+          url: "https://france-visas.gouv.fr",
+          description: "Demande de visa étudiant"
+        },
+        {
+          name: "Service Public",
+          url: "https://www.service-public.fr/particuliers/vosdroits/N35893",
+          description: "Informations officielles sur les visas"
+        }
+      ]
+    },
+    {
+      category: "Organismes spécialisés",
+      links: [
+        {
+          name: "Campus France",
+          url: "https://www.campusfrance.org/fr/arriver-etudier-en-france",
+          description: "Accompagnement des étudiants internationaux"
+        },
+        {
+          name: "VFS Global",
+          url: "https://www.vfsglobal.com/france",
+          description: "Centres de dépôt de visa"
+        },
+        {
+          name: "Ministère de l'Intérieur",
+          url: "https://www.interieur.gouv.fr/Immigration-et-asile/Immigration-et-integration",
+          description: "Politique d'immigration"
+        }
+      ]
+    },
+    {
+      category: "Santé et sécurité sociale",
+      links: [
+        {
+          name: "Ameli - Assurance maladie",
+          url: "https://www.ameli.fr",
+          description: "Sécurité sociale étudiante"
+        },
+        {
+          name: "CPAM de Paris",
+          url: "https://www.ameli.fr/paris",
+          description: "Caisse primaire d'assurance maladie de Paris"
+        }
+      ]
+    },
+    {
+      category: "Préfectures Île-de-France",
+      links: [
+        {
+          name: "Préfecture de Paris",
+          url: "https://www.prefecturedepolice.interieur.gouv.fr",
+          description: "Services de la préfecture de Paris"
+        },
+        {
+          name: "Préfecture des Hauts-de-Seine",
+          url: "https://www.hauts-de-seine.gouv.fr",
+          description: "Services de la préfecture des Hauts-de-Seine"
+        },
+        {
+          name: "Préfecture du Val-de-Marne",
+          url: "https://www.val-de-marne.gouv.fr",
+          description: "Services de la préfecture du Val-de-Marne"
+        }
+      ]
+    }
+  ]
+
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
@@ -486,68 +565,39 @@ function Demarches() {
           </div>
         </section>
 
-        {/* Liens utiles */}
+        {/* Liens officiels refaits proprement */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Liens officiels</h2>
-          <Card>
-            <CardContent className="py-6">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <h4 className="font-semibold mb-3">Sites gouvernementaux</h4>
-                  <ul className="space-y-2">
-                    <li className="flex items-center">
-                      <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                      <a href="#" className="text-blue-600 hover:underline">Service-public.fr</a>
-                    </li>
-                    <li className="flex items-center">
-                      <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                      <a href="#" className="text-blue-600 hover:underline">Préfecture de Paris</a>
-                    </li>
-                    <li className="flex items-center">
-                      <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                      <a href="#" className="text-blue-600 hover:underline">ANEF (Titre de séjour)</a>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-3">Organismes spécialisés</h4>
-                  <ul className="space-y-2">
-                    <li className="flex items-center">
-                      <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                      <a href="#" className="text-blue-600 hover:underline">Campus France</a>
-                    </li>
-                    <li className="flex items-center">
-                      <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                      <a href="#" className="text-blue-600 hover:underline">VFS Global</a>
-                    </li>
-                    <li className="flex items-center">
-                      <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                      <a href="#" className="text-blue-600 hover:underline">Consulats de France</a>
-                    </li>
-                  </ul>
-                </div>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Liens officiels indispensables</h2>
+          
+          {liensOfficiels.map((category, categoryIndex) => (
+            <div key={categoryIndex} className="mb-8">
+              <h3 className="text-xl font-semibold mb-4 text-foreground">{category.category}</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {category.links.map((link, linkIndex) => (
+                  <Card key={linkIndex} className="hover:shadow-lg transition-shadow">
+                    <CardContent className="p-4">
+                      <div className="flex items-start space-x-3">
+                        <ExternalLink className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+                        <div className="flex-1">
+                          <a 
+                            href={link.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="font-semibold text-blue-600 hover:text-blue-800 hover:underline block mb-1"
+                          >
+                            {link.name}
+                          </a>
+                          <p className="text-sm text-muted-foreground">
+                            {link.description}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Liens officiels indispensables */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Liens officiels</h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            <a href="https://administration-etrangers-en-france.interieur.gouv.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
-              <ExternalLink className="h-4 w-4 mr-2" /> Démarches titre de séjour (ANEF)
-            </a>
-            <a href="https://france-visas.gouv.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
-              <ExternalLink className="h-4 w-4 mr-2" /> France‑Visas
-            </a>
-            <a href="https://www.ameli.fr" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
-              <ExternalLink className="h-4 w-4 mr-2" /> Assurance maladie (Ameli)
-            </a>
-            <a href="https://www.campusfrance.org/fr/arriver-etudier-en-france" target="_blank" rel="noreferrer" className="flex items-center p-4 border rounded-lg hover:bg-muted">
-              <ExternalLink className="h-4 w-4 mr-2" /> Démarches Campus France
-            </a>
-          </div>
+            </div>
+          ))}
         </section>
 
         {/* CTA */}
