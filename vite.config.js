@@ -19,5 +19,10 @@ export default defineConfig({
   },
   css: {
     postcss: './postcss.config.js'
+  },
+  build: {
+    rollupOptions: {
+      external: ['@radix-ui/react-progress']
+    }
   }
 })
