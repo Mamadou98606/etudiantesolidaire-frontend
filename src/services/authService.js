@@ -1,184 +1,122 @@
-// ========================================
-// FICHIER 1 : src/services/authService.js
-// ========================================
-//
-// INSTRUCTIONS :
-// 1. Créer le dossier "services" dans "src" si pas encore fait
-// 2. Créer un nouveau fichier "authService.js" dans "src/services/"
-// 3. Copier tout le contenu ci-dessous dans ce fichier
-// 4. Sauvegarder
-//
-// ========================================
-
-// Service d'authentification pour connecter le frontend au backend
-// authService.js
-
-const API_BASE_URL = 'https://r7zpuf5g.up.railway.app/api';
+// src/services/authService.js
+// Utilise la session (cookies). Pas de Bearer token nécessaire.
+const API_ROOT = (import.meta.env.VITE_API_BASE_URL ?? 'https://api.etudiantesolidaire.com');
+const API_BASE_URL = `${API_ROOT}/api`;
 
 class AuthService {
   constructor() {
-    this.token = localStorage.getItem('auth_token');
     this.user = JSON.parse(localStorage.getItem('user_data') || 'null');
   }
 
-  // Configuration des headers pour les requêtes API
   getHeaders() {
-    const headers = {
-      'Content-Type': 'application/json',
-    };
-
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
-    }
-
-    return headers;
+    return { 'Content-Type': 'application/json' };
   }
 
-  // Inscription d'un nouvel utilisateur
   async register(userData) {
     try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      const res = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
         headers: this.getHeaders(),
-        credentials: 'include', // Pour les cookies de session
+        credentials: 'include',
         body: JSON.stringify(userData)
       });
+      const data = await res.json();
+      if (!res.ok) return { success: false, error: data.error || "Erreur lors de l'inscription" };
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Succès de l'inscription
-        if (data.user) {
-          this.user = data.user;
-          localStorage.setItem('user_data', JSON.stringify(data.user));
-        }
-        return { success: true, data };
-      } else {
-        // Erreur d'inscription
-        return { success: false, error: data.error || 'Erreur lors de l\'inscription' };
+      // backend renvoie { message, user }
+      if (data.user) {
+        this.user = data.user;
+        localStorage.setItem('user_data', JSON.stringify(this.user));
       }
-    } catch (error) {
-      console.error('Erreur réseau lors de l\'inscription:', error);
+      return { success: true, data };
+    } catch {
       return { success: false, error: 'Erreur de connexion au serveur' };
     }
   }
 
-  // Connexion d'un utilisateur existant
   async login(credentials) {
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const res = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: this.getHeaders(),
-        credentials: 'include', // Pour les cookies de session
+        credentials: 'include',
         body: JSON.stringify(credentials)
       });
+      const data = await res.json();
+      if (!res.ok) return { success: false, error: data.error || 'Identifiants incorrects' };
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Succès de la connexion
-        if (data.user) {
-          this.user = data.user;
-          localStorage.setItem('user_data', JSON.stringify(data.user));
-        }
-        return { success: true, data };
-      } else {
-        // Erreur de connexion
-        return { success: false, error: data.error || 'Identifiants incorrects' };
+      // backend renvoie { message, user }
+      if (data.user) {
+        this.user = data.user;
+        localStorage.setItem('user_data', JSON.stringify(this.user));
       }
-    } catch (error) {
-      console.error('Erreur réseau lors de la connexion:', error);
+      return { success: true, data };
+    } catch {
       return { success: false, error: 'Erreur de connexion au serveur' };
     }
   }
 
-  // Déconnexion de l'utilisateur
   async logout() {
     try {
-      const response = await fetch(`${API_BASE_URL}/logout`, {
+      await fetch(`${API_BASE_URL}/logout`, {
         method: 'POST',
         headers: this.getHeaders(),
         credentials: 'include'
       });
-
-      // Nettoyer les données locales même si la requête échoue
-      this.token = null;
+    } finally {
       this.user = null;
-      localStorage.removeItem('auth_token');
       localStorage.removeItem('user_data');
-
-      if (response.ok) {
-        return { success: true };
-      } else {
-        return { success: false, error: 'Erreur lors de la déconnexion' };
-      }
-    } catch (error) {
-      console.error('Erreur réseau lors de la déconnexion:', error);
-      // Nettoyer quand même les données locales
-      this.token = null;
-      this.user = null;
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('user_data');
-      return { success: false, error: 'Erreur de connexion au serveur' };
+      return { success: true };
     }
   }
 
-  // Récupérer le profil utilisateur
   async getProfile() {
     try {
-      const response = await fetch(`${API_BASE_URL}/profile`, {
+      const res = await fetch(`${API_BASE_URL}/profile`, {
         method: 'GET',
         headers: this.getHeaders(),
         credentials: 'include'
       });
+      const data = await res.json();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        this.user = data.user;
-        localStorage.setItem('user_data', JSON.stringify(data.user));
+      // backend renvoie directement l'objet user (pas { user: ... })
+      if (res.ok && data && typeof data === 'object') {
+        this.user = data;
+        localStorage.setItem('user_data', JSON.stringify(this.user));
         return { success: true, data };
-      } else {
-        // Si non authentifié, nettoyer les données locales
-        if (response.status === 401) {
-          this.logout();
-        }
-        return { success: false, error: data.error || 'Erreur lors de la récupération du profil' };
       }
-    } catch (error) {
-      console.error('Erreur réseau lors de la récupération du profil:', error);
+
+      if (res.status === 401) {
+        await this.logout();
+      }
+      return { success: false, error: data.error || 'Erreur lors de la récupération du profil' };
+    } catch {
       return { success: false, error: 'Erreur de connexion au serveur' };
     }
   }
 
-  // Vérifier si l'utilisateur est connecté
-  isAuthenticated() {
-    return this.user !== null;
+  async checkSession() {
+    const res = await fetch(`${API_BASE_URL}/check-auth`, {
+      credentials: 'include'
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.authenticated) {
+      if (data.user) {
+        this.user = data.user;
+        localStorage.setItem('user_data', JSON.stringify(this.user));
+      }
+      return true;
+    }
+    return false;
   }
 
-  // Obtenir les données de l'utilisateur actuel
-  getCurrentUser() {
-    return this.user;
-  }
-
-  // Mettre à jour les données utilisateur localement
+  isAuthenticated() { return this.user !== null; }
+  getCurrentUser() { return this.user; }
   updateUserData(userData) {
     this.user = { ...this.user, ...userData };
     localStorage.setItem('user_data', JSON.stringify(this.user));
   }
-
-  // Vérifier la validité de la session au démarrage de l'app
-  async checkSession() {
-    if (this.user) {
-      // Vérifier si la session est toujours valide
-      const result = await this.getProfile();
-      return result.success;
-    }
-    return false;
-  }
 }
 
-// Créer une instance unique du service
 const authService = new AuthService();
-
 export default authService;
