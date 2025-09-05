@@ -13,7 +13,7 @@
 // Service d'authentification pour connecter le frontend au backend
 // authService.js
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = 'https://r7zpuf5g.up.railway.app/api';
 
 class AuthService {
   constructor() {
