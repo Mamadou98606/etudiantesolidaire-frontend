@@ -1,5 +1,6 @@
 // src/services/authService.js
 // Utilise la session (cookies). Pas de Bearer token nécessaire.
+
 const API_ROOT = (import.meta.env.VITE_API_BASE_URL ?? 'https://api.etudiantesolidaire.com');
 const API_BASE_URL = `${API_ROOT}/api`;
 
@@ -23,9 +24,9 @@ class AuthService {
       const data = await res.json();
       if (!res.ok) return { success: false, error: data.error || "Erreur lors de l'inscription" };
 
-      // backend renvoie { message, user }
-      if (data.user) {
-        this.user = data.user;
+      const user = data?.user || null;
+      if (user) {
+        this.user = user;
         localStorage.setItem('user_data', JSON.stringify(this.user));
       }
       return { success: true, data };
@@ -45,9 +46,9 @@ class AuthService {
       const data = await res.json();
       if (!res.ok) return { success: false, error: data.error || 'Identifiants incorrects' };
 
-      // backend renvoie { message, user }
-      if (data.user) {
-        this.user = data.user;
+      const user = data?.user || null;
+      if (user) {
+        this.user = user;
         localStorage.setItem('user_data', JSON.stringify(this.user));
       }
       return { success: true, data };
@@ -79,11 +80,11 @@ class AuthService {
       });
       const data = await res.json();
 
-      // backend renvoie directement l'objet user (pas { user: ... })
       if (res.ok && data && typeof data === 'object') {
-        this.user = data;
+        const user = data?.user ?? data;
+        this.user = user;
         localStorage.setItem('user_data', JSON.stringify(this.user));
-        return { success: true, data };
+        return { success: true, data: user };
       }
 
       if (res.status === 401) {
