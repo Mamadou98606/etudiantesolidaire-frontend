@@ -214,30 +214,7 @@ function Orientation() {
           </Card>
         </section>
 
-        {/* Processus d'orientation */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Comment bien s'orienter ?</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {processSteps.map((step, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <div className="text-blue-600">
-                      {step.icon}
-                    </div>
-                  </div>
-                  <Badge variant="outline" className="w-fit mx-auto mb-2">
-                    Étape {step.step}
-                  </Badge>
-                  <CardTitle className="text-lg">{step.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{step.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
+
 
         {/* Types de formations */}
         <section className="mb-16">
@@ -316,168 +293,13 @@ function Orientation() {
           </div>
         </section>
 
-        {/* Dates importantes */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Dates importantes 2024-2025</h2>
-          <div className="space-y-4">
-            {importantDates.map((item, index) => (
-              <Card key={index} className={`border-l-4 ${
-                item.type === 'alert' ? 'border-l-red-500 bg-red-50' :
-                item.type === 'warning' ? 'border-l-orange-500 bg-orange-50' :
-                'border-l-blue-500 bg-blue-50'
-              }`}>
-                <CardContent className="py-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      {item.type === 'alert' ? (
-                        <AlertCircle className="h-5 w-5 text-red-600" />
-                      ) : item.type === 'warning' ? (
-                        <Clock className="h-5 w-5 text-orange-600" />
-                      ) : (
-                        <Info className="h-5 w-5 text-blue-600" />
-                      )}
-                      <div>
-                        <p className="font-semibold">{item.event}</p>
-                        <p className="text-sm text-muted-foreground">{item.date}</p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
 
-        {/* Outils d'aide */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Nos outils d'aide à l'orientation</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
-                  Test d'orientation
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Découvrez les formations qui correspondent à votre profil et vos aspirations.
-                </p>
-                <Button className="w-full">
-                  Faire le test
-                </Button>
-              </CardContent>
-            </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <BookOpen className="h-5 w-5 text-blue-600 mr-2" />
-                  Fiches métiers
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Explorez les métiers et leurs formations associées.
-                </p>
-                <Button variant="outline" className="w-full">
-                  Consulter les fiches
-                </Button>
-              </CardContent>
-            </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Users className="h-5 w-5 text-purple-600 mr-2" />
-                  Conseil personnalisé
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Bénéficiez d'un accompagnement individuel avec nos conseillers.
-                </p>
-                <Button variant="outline" className="w-full">
-                  Prendre RDV
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
 
-        {/* Ressources utiles */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Ressources utiles</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Sites officiels</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Parcoursup.fr</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Onisep.fr</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Etudiant.gouv.fr</a>
-                  </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Campus France</a>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Nos guides</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <BookOpen className="h-4 w-4 mr-2 text-green-600" />
-                    <span>Guide Parcoursup 2025</span>
-                  </li>
-                  <li className="flex items-center">
-                    <BookOpen className="h-4 w-4 mr-2 text-green-600" />
-                    <span>Choisir sa formation post-bac</span>
-                  </li>
-                  <li className="flex items-center">
-                    <BookOpen className="h-4 w-4 mr-2 text-green-600" />
-                    <span>Les métiers d'avenir</span>
-                  </li>
-                  <li className="flex items-center">
-                    <BookOpen className="h-4 w-4 mr-2 text-green-600" />
-                    <span>Financer ses études</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
 
-        {/* Checklist Parcoursup */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Checklist Parcoursup</h2>
-          <Card>
-            <CardContent className="pt-6">
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Créer mon compte et compléter mon profil</li>
-                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Renseigner mes bulletins et pièces</li>
-                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Rédiger mes projets de formation motivés</li>
-                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Confirmer mes vœux avant la date limite</li>
-                <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-600 mr-2" /> Suivre les réponses et respecter les délais</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
+
 
         {/* Tests d'orientation officiels */}
         <section className="mb-16">
@@ -623,7 +445,8 @@ function Orientation() {
                 salaire: '35-65k€/an',
                 emploi: '92% en 6 mois',
                 metiers: ['Développeur Web/Mobile', 'Data Scientist', 'Ingénieur Cybersécurité', 'Admin Réseau'],
-                formation: 'Master Informatique, Ingénieur, BTS SIO'
+                formation: 'Master Informatique, Ingénieur, BTS SIO',
+                onisepLink: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/informatique-et-telecoms'
               },
               {
                 secteur: 'Santé & Social',
@@ -632,7 +455,8 @@ function Orientation() {
                 salaire: '28-48k€/an',
                 emploi: '88% en 6 mois',
                 metiers: ['Infirmier', 'Aide-soignant', 'Psychologue', 'Travailleur Social'],
-                formation: 'Licence Santé, BTS SP3S, Diplôme d\'État'
+                formation: 'Licence Santé, BTS SP3S, Diplôme d\'État',
+                onisepLink: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/sante'
               },
               {
                 secteur: 'Finance & Banque',
@@ -641,7 +465,8 @@ function Orientation() {
                 salaire: '40-70k€/an',
                 emploi: '85% en 6 mois',
                 metiers: ['Analyste Financier', 'Gestionnaire Patrimoine', 'Contrôleur de Gestion', 'Auditeur'],
-                formation: 'Master Finance, Licence Économie, BTS Comptabilité'
+                formation: 'Master Finance, Licence Économie, BTS Comptabilité',
+                onisepLink: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/economie-commerce-gestion'
               },
               {
                 secteur: 'Commerce & Marketing',
@@ -650,7 +475,8 @@ function Orientation() {
                 salaire: '30-50k€/an',
                 emploi: '80% en 6 mois',
                 metiers: ['Commercial', 'Chef de Produit', 'Community Manager', 'Responsable Marketing'],
-                formation: 'Master Commerce, Licence Gestion, BTS MCO'
+                formation: 'Master Commerce, Licence Gestion, BTS MCO',
+                onisepLink: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/economie-commerce-gestion'
               },
               {
                 secteur: 'Ingénierie & BTP',
@@ -659,7 +485,8 @@ function Orientation() {
                 salaire: '40-65k€/an',
                 emploi: '90% en 6 mois',
                 metiers: ['Ingénieur Civil', 'Technicien BTP', 'Architecte', 'Chef de Projet'],
-                formation: 'École d\'Ingénieur, Master Génie Civil, BTS BTP'
+                formation: 'École d\'Ingénieur, Master Génie Civil, BTS BTP',
+                onisepLink: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/sciences-et-technologies'
               },
               {
                 secteur: 'Éducation & Recherche',
@@ -668,7 +495,8 @@ function Orientation() {
                 salaire: '32-55k€/an',
                 emploi: '78% en 6 mois',
                 metiers: ['Enseignant', 'Chercheur', 'Formateur', 'Doctorant'],
-                formation: 'Master MEEF, Doctorat, Agrégation'
+                formation: 'Master MEEF, Doctorat, Agrégation',
+                onisepLink: 'https://www.onisep.fr/formation/les-principaux-domaines-de-formation/lettres-et-langues'
               }
             ].map((item, idx) => (
               <Card key={idx} className={`bg-gradient-to-br ${item.couleur} border-2`}>
@@ -697,7 +525,7 @@ function Orientation() {
                       <p className="font-bold text-lg text-blue-600">{item.emploi}</p>
                     </div>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-semibold mb-2">Métiers qui recrutent:</p>
                     <ul className="space-y-1">
@@ -710,15 +538,22 @@ function Orientation() {
                     </ul>
                   </div>
 
-                  <div className="pt-3 border-t">
-                    <p className="text-xs text-muted-foreground mb-1">Formations recommandées:</p>
-                    <p className="text-sm font-semibold">{item.formation}</p>
+                  <div className="pt-3 border-t space-y-3">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Formations recommandées:</p>
+                      <p className="text-sm font-semibold">{item.formation}</p>
+                    </div>
+                    <Button variant="outline" className="w-full" asChild>
+                      <a href={item.onisepLink} target="_blank" rel="noreferrer">
+                        Voir les formations ONISEP →
+                      </a>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
-          
+
           <Card className="mt-8 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -819,7 +654,192 @@ function Orientation() {
           </Card>
         </section>
 
-        {/* Liens utiles */}
+        {/* Mon Plan d'Action Personnalisé */}
+        <section className="mb-16">
+          <Card className="bg-gradient-to-r from-indigo-50 to-blue-50 border-2 border-indigo-200">
+            <CardHeader>
+              <CardTitle className="text-3xl flex items-center">
+                <CheckCircle className="h-8 w-8 mr-3 text-indigo-600" />
+                Mon Plan d'Action Personnalisé
+              </CardTitle>
+              <CardDescription className="text-base text-indigo-800 mt-2">
+                Voici les étapes concrètes à suivre selon ton profil
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Pour étudiant étranger */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold flex items-center">
+                  <Badge className="bg-red-600 mr-2">PRIORITÉ 1</Badge>
+                  Si tu viens de l'étranger
+                </h3>
+                <div className="grid md:grid-cols-2 gap-4 ml-4">
+                  <Card className="border-red-200">
+                    <CardHeader>
+                      <CardTitle className="text-base">Étape 1: Visa étudiant</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2 text-sm">
+                      <p>📋 Avant tout, tu dois obtenir ton visa</p>
+                      <p>⏱️ <strong>Délai:</strong> 2-8 semaines avant le départ</p>
+                      <Button variant="outline" className="w-full mt-3" asChild>
+                        <a href="/demarches">Voir le guide visa →</a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-red-200">
+                    <CardHeader>
+                      <CardTitle className="text-base">Étape 2: Formation + inscription</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2 text-sm">
+                      <p>🎓 En MÊME temps, candidater aux formations</p>
+                      <p>📅 <strong>Parcoursup:</strong> Jan-Mar 2025</p>
+                      <p>📌 <strong>Candidatures directes:</strong> Toute l'année</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Pour tous */}
+              <div className="space-y-4 pt-4 border-t-2 border-indigo-200">
+                <h3 className="text-xl font-bold flex items-center">
+                  <Badge className="bg-blue-600 mr-2">ÉTAPES CLÉS</Badge>
+                  Pour tous les étudiants
+                </h3>
+                <div className="space-y-3 ml-4">
+                  {[
+                    {
+                      step: '1',
+                      title: 'Fais tes tests d\'orientation',
+                      action: 'ORI (L\'Étudiant), Quiz ONISEP',
+                      when: 'Maintenant'
+                    },
+                    {
+                      step: '2',
+                      title: 'Explore les débouchés',
+                      action: 'Vois les salaires & métiers qui recrutent',
+                      when: 'Pendant tes tests'
+                    },
+                    {
+                      step: '3',
+                      title: 'Consulte Parcoursup',
+                      action: 'Liste 10-15 vœux: sélectifs + accessibles',
+                      when: 'Jan-Mar 2025'
+                    },
+                    {
+                      step: '4',
+                      title: 'Rédige tes projets motivés',
+                      action: 'Personnalisé pour chaque vœu (max 1500 char)',
+                      when: 'Avant le 14 mars'
+                    },
+                    {
+                      step: '5',
+                      title: 'Valide ton dossier',
+                      action: 'Vérifies notes, pièces, confirme tes vœux',
+                      when: 'Avant le 4 avril'
+                    },
+                    {
+                      step: '6',
+                      title: 'Attends les réponses',
+                      action: 'Réponses à partir du 30 mai 2025',
+                      when: 'Juin 2025'
+                    }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-600 text-white font-bold">
+                          {item.step}
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold">{item.title}</h4>
+                        <p className="text-sm text-muted-foreground">{item.action}</p>
+                        <Badge variant="outline" className="mt-1">{item.when}</Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Prochaines étapes */}
+              <div className="space-y-4 pt-4 border-t-2 border-indigo-200">
+                <h3 className="text-xl font-bold flex items-center">
+                  <Badge className="bg-green-600 mr-2">APRÈS L'INSCRIPTION</Badge>
+                  Quand tu as ta formation
+                </h3>
+                <div className="grid md:grid-cols-3 gap-4 ml-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">📚 Prépare ta rentrée</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm">
+                      <ul className="space-y-1">
+                        <li>• Logement</li>
+                        <li>• Sécurité sociale</li>
+                        <li>• Transports</li>
+                        <li>• Budgets</li>
+                      </ul>
+                      <Button variant="outline" className="w-full mt-3" asChild>
+                        <a href="/vivre-en-france">Guide Vie →</a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">💼 Cherche des jobs/stages</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <Button variant="outline" className="w-full justify-start text-xs" asChild>
+                        <a href="https://jobs-stages.letudiant.fr/" target="_blank" rel="noreferrer">
+                          📌 L'Étudiant Jobs/Stages
+                        </a>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start text-xs" asChild>
+                        <a href="https://www.pole-emploi.fr/" target="_blank" rel="noreferrer">
+                          📌 Pôle Emploi
+                        </a>
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start text-xs" asChild>
+                        <a href="/travailler">Guide Emploi local →</a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">📋 Prépare ton diplôme</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm">
+                      <ul className="space-y-1">
+                        <li>• Système français</li>
+                        <li>• Équivalences</li>
+                        <li>• Bourses</li>
+                        <li>• Alternance</li>
+                      </ul>
+                      <Button variant="outline" className="w-full mt-3" asChild>
+                        <a href="/etudes">Guide Études →</a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t-2 border-indigo-200">
+                <Card className="bg-white border-indigo-300">
+                  <CardContent className="pt-6">
+                    <div className="flex gap-3">
+                      <Info className="h-6 w-6 text-indigo-600 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-semibold">💡 Conseil d'or</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Ne fais pas ces étapes seul(e). Parle avec un conseiller d'orientation (ONISEP, campus France, ton école actuelle). Ils sont là pour ça et c'est gratuit!
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
         <section className="mb-16">
           <h3 className="text-2xl font-semibold mb-4">Liens utiles</h3>
           <div className="grid md:grid-cols-2 gap-4">
