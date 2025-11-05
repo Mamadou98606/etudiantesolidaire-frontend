@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -13,12 +13,18 @@ import {
   ExternalLink,
   CheckCircle,
   AlertCircle,
-  Info
+  Info,
+  Target,
+  TrendingUp,
+  Calendar,
+  FileText
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function Orientation() {
   const navigate = useNavigate()
+  const [selectedFormation, setSelectedFormation] = useState(null)
+  const [testStep, setTestStep] = useState(0)
   const formations = [
     {
       type: "BTS",
