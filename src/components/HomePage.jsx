@@ -273,6 +273,82 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      {/* Ressources utiles - Liens vers sources officielles */}
+      <section className="py-16 px-4 bg-blue-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold">Ressources officielles & partenaires</h2>
+            <p className="text-xl text-muted-foreground">
+              Accédez directement aux sources pour les infos à jour
+            </p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-6">
+            {/* Campus France */}
+            <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer">
+              <Card className="hover:shadow-xl transition h-full hover:scale-105 transform duration-200">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                    CF
+                  </div>
+                  <CardTitle>Campus France</CardTitle>
+                  <CardDescription>Candidature & études</CardDescription>
+                </CardHeader>
+                <CardContent className="text-sm text-center text-muted-foreground">
+                  Admission, visa étudiant, calendrier, FAQ
+                </CardContent>
+              </Card>
+            </a>
+
+            {/* ONISEP */}
+            <a href="https://www.onisep.fr" target="_blank" rel="noopener noreferrer">
+              <Card className="hover:shadow-xl transition h-full hover:scale-105 transform duration-200">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-lg">
+                    ON
+                  </div>
+                  <CardTitle>ONISEP</CardTitle>
+                  <CardDescription>Formations & métiers</CardDescription>
+                </CardHeader>
+                <CardContent className="text-sm text-center text-muted-foreground">
+                  Toutes les formations, métiers, débouchés
+                </CardContent>
+              </Card>
+            </a>
+
+            {/* L'Étudiant */}
+            <a href="https://www.letudiant.fr" target="_blank" rel="noopener noreferrer">
+              <Card className="hover:shadow-xl transition h-full hover:scale-105 transform duration-200">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-lg">
+                    LE
+                  </div>
+                  <CardTitle>L'Étudiant</CardTitle>
+                  <CardDescription>Orientation & actualités</CardDescription>
+                </CardHeader>
+                <CardContent className="text-sm text-center text-muted-foreground">
+                  Tests, salons, conseils pratiques
+                </CardContent>
+              </Card>
+            </a>
+
+            {/* Études en France */}
+            <a href="https://www.etudes-en-france.fr" target="_blank" rel="noopener noreferrer">
+              <Card className="hover:shadow-xl transition h-full hover:scale-105 transform duration-200">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                    EF
+                  </div>
+                  <CardTitle>Études en France</CardTitle>
+                  <CardDescription>Système éducatif</CardDescription>
+                </CardHeader>
+                <CardContent className="text-sm text-center text-muted-foreground">
+                  Guide complet du système français
+                </CardContent>
+              </Card>
+            </a>
+          </div>
+        </div>
+      </section>
       {/* FAQ rapide */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
