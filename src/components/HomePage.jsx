@@ -875,7 +875,7 @@ export default function HomePage() {
                 className="border-white text-white hover:bg-white hover:text-blue-600"
                 onClick={() => handleServiceClick('/orientation')}
               >
-                Découvrir nos services
+                🚀 Découvrir nos services
               </Button>
             </div>
           </div>
