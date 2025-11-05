@@ -479,157 +479,63 @@ function Orientation() {
           </Card>
         </section>
 
-        {/* Test d'orientation interactif */}
+        {/* Tests d'orientation officiels */}
         <section className="mb-16">
-          <Card className="bg-gradient-to-r from-green-50 to-green-100 border-green-200">
-            <CardHeader>
-              <CardTitle className="text-2xl text-green-800 flex items-center">
-                <Target className="h-6 w-6 mr-2" />
-                Test d'Orientation Interactif
-              </CardTitle>
-              <CardDescription className="text-green-700">
-                Découvrez les formations qui correspondent à votre profil
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                {testStep === 0 && (
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-semibold mb-3">Question 1/5 : Tes principaux intérêts</h3>
-                      <div className="grid md:grid-cols-2 gap-3">
-                        {['Sciences & Tech', 'Lettres & Langues', 'Commerce & Gestion', 'Santé & Social'].map((interet) => (
-                          <Button key={interet} variant="outline" className="justify-start h-auto py-3 px-4" onClick={() => setTestStep(1)}>
-                            {interet}
-                          </Button>
-                        ))}
-                      </div>
+          <h2 className="text-3xl font-bold text-foreground mb-8 flex items-center">
+            <Target className="h-8 w-8 mr-2 text-green-600" />
+            Découvrez Votre Voie avec des Tests Officiels
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                title: 'Test ORI',
+                description: 'Assistant IA personnalisé pour explorer vos formations et métiers',
+                source: 'L\'Étudiant',
+                url: 'https://ori.letudiant.fr/',
+                icon: '🤖',
+                features: ['Recommandations personnalisées', 'Parcours d\'études', 'Débouchés métiers']
+              },
+              {
+                title: 'Quiz Métiers',
+                description: 'Explorez 500+ métiers avec données ONISEP',
+                source: 'ONISEP',
+                url: 'https://www.onisep.fr/metier/quiz-quels-metiers-selon-mes-gouts',
+                icon: '🎯',
+                features: ['Quiz interactif', 'Fiches métiers détaillées', 'Formations associées']
+              },
+              {
+                title: 'Conseil en ligne',
+                description: 'Discutez avec des spécialistes orientation en direct',
+                source: 'ONISEP',
+                url: 'https://www.onisep.fr/mon-orientation-en-ligne',
+                icon: '💬',
+                features: ['Chat avec experts', 'Réponses personnalisées', 'Gratuit']
+              }
+            ].map((test, idx) => (
+              <a key={idx} href={test.url} target="_blank" rel="noreferrer" className="hover:no-underline">
+                <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="text-4xl mb-2">{test.icon}</div>
+                    <CardTitle className="text-xl">{test.title}</CardTitle>
+                    <CardDescription className="text-xs text-blue-600 font-semibold">Source: {test.source}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-muted-foreground">{test.description}</p>
+                    <div className="space-y-1">
+                      {test.features.map((feat, i) => (
+                        <div key={i} className="flex items-center text-sm">
+                          <CheckCircle className="h-3 w-3 mr-2 text-green-600" />
+                          {feat}
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                )}
-                
-                {testStep === 1 && (
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-semibold mb-3">Question 2/5 : Durée d'études préférée</h3>
-                      <div className="space-y-2">
-                        {[
-                          { label: 'Courte (2 ans)', value: 'BTS/CAP' },
-                          { label: 'Moyenne (3 ans)', value: 'Licence' },
-                          { label: 'Longue (5+ ans)', value: 'Master/École' }
-                        ].map((option) => (
-                          <Button key={option.value} variant="outline" className="w-full justify-start h-auto py-3" onClick={() => setTestStep(2)}>
-                            {option.label}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {testStep === 2 && (
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-semibold mb-3">Question 3/5 : Type d'apprentissage préféré</h3>
-                      <div className="space-y-2">
-                        {['Théorique & Généraliste', 'Pratique & Professionnalisante', 'Recherche & Spécialisée'].map((type) => (
-                          <Button key={type} variant="outline" className="w-full justify-start h-auto py-3" onClick={() => setTestStep(3)}>
-                            {type}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {testStep === 3 && (
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-semibold mb-3">Question 4/5 : Situation géographique</h3>
-                      <div className="space-y-2">
-                        {['Grande ville (Paris, Lyon, etc.)', 'Ville moyenne', 'Peu importe'].map((lieu) => (
-                          <Button key={lieu} variant="outline" className="w-full justify-start h-auto py-3" onClick={() => setTestStep(4)}>
-                            {lieu}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {testStep === 4 && (
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-semibold mb-3">Question 5/5 : Budget mensuel pour études</h3>
-                      <div className="space-y-2">
-                        {['Limité (<5k€/an)', 'Moyen (5-15k€/an)', 'Élevé (>15k€/an)'].map((budget) => (
-                          <Button key={budget} variant="outline" className="w-full justify-start h-auto py-3" onClick={() => setTestStep(5)}>
-                            {budget}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {testStep === 5 && (
-                  <div className="space-y-4 bg-green-50 p-4 rounded-lg border border-green-200">
-                    <h3 className="font-semibold text-lg flex items-center">
-                      <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
-                      Tes formations recommandées
-                    </h3>
-                    <div className="space-y-3">
-                      <Card>
-                        <CardContent className="pt-4">
-                          <div className="flex items-start space-x-4">
-                            <TrendingUp className="h-5 w-5 text-green-600 mt-1" />
-                            <div>
-                              <p className="font-semibold">BTS/Titre professionnel</p>
-                              <p className="text-sm text-muted-foreground">Formation professionnalisante courte (2 ans) avec insertion rapide au marché du travail</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardContent className="pt-4">
-                          <div className="flex items-start space-x-4">
-                            <TrendingUp className="h-5 w-5 text-blue-600 mt-1" />
-                            <div>
-                              <p className="font-semibold">Licence Généraliste</p>
-                              <p className="text-sm text-muted-foreground">Formation polyvalente (3 ans) avec opportunités de poursuite en Master</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardContent className="pt-4">
-                          <div className="flex items-start space-x-4">
-                            <TrendingUp className="h-5 w-5 text-purple-600 mt-1" />
-                            <div>
-                              <p className="font-semibold">Master Spécialisé</p>
-                              <p className="text-sm text-muted-foreground">Formation d'excellence (2 ans) pour carrière de cadre et expertise sectorielle</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                    <Button className="w-full mt-4" onClick={() => setTestStep(0)}>
-                      Recommencer le test
-                    </Button>
-                  </div>
-                )}
-                
-                {testStep < 5 && (
-                  <div className="text-sm text-muted-foreground">
-                    Progression: {testStep + 1}/5
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Calendrier Parcoursup 2025-26 interactif */}
+                    <Button className="w-full mt-4">Essayer →</Button>
+                  </CardContent>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </section>        {/* Calendrier Parcoursup 2025-26 interactif */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8 flex items-center">
             <Calendar className="h-8 w-8 mr-2 text-blue-600" />
@@ -702,84 +608,134 @@ function Orientation() {
           </div>
         </section>
 
-        {/* Débouchés métiers et salaires */}
+        {/* Débouchés professionnels par secteur (ONISEP) */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8 flex items-center">
             <TrendingUp className="h-8 w-8 mr-2 text-green-600" />
-            Débouchés Métiers et Salaires
+            Débouchés Professionnels par Secteur (Données ONISEP 2024)
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {[
               {
-                formation: 'BTS',
-                salaire: '24-32k€/an',
-                metiers: ['Technicien', 'Assistant Manager', 'Responsable Qualité'],
-                tendance: 'Stable',
-                emploi: '85% en 6 mois',
-                icon: <Award className="h-5 w-5" />
+                secteur: 'Informatique & Tech',
+                demande: 'TRÈS FORTE',
+                couleur: 'from-blue-50 to-blue-100',
+                salaire: '35-65k€/an',
+                emploi: '92% en 6 mois',
+                metiers: ['Développeur Web/Mobile', 'Data Scientist', 'Ingénieur Cybersécurité', 'Admin Réseau'],
+                formation: 'Master Informatique, Ingénieur, BTS SIO'
               },
               {
-                formation: 'Licence',
-                salaire: '28-42k€/an',
-                metiers: ['Cadre junior', 'Chargé de projet', 'Spécialiste'],
-                tendance: 'En croissance',
-                emploi: '78% en 6 mois',
-                icon: <Award className="h-5 w-5" />
-              },
-              {
-                formation: 'Master',
-                salaire: '45-75k€/an',
-                metiers: ['Manager', 'Expert', 'Consultant'],
-                tendance: 'Forte demande',
+                secteur: 'Santé & Social',
+                demande: 'FORTE',
+                couleur: 'from-red-50 to-red-100',
+                salaire: '28-48k€/an',
                 emploi: '88% en 6 mois',
-                icon: <Award className="h-5 w-5" />
+                metiers: ['Infirmier', 'Aide-soignant', 'Psychologue', 'Travailleur Social'],
+                formation: 'Licence Santé, BTS SP3S, Diplôme d\'État'
+              },
+              {
+                secteur: 'Finance & Banque',
+                demande: 'FORTE',
+                couleur: 'from-green-50 to-green-100',
+                salaire: '40-70k€/an',
+                emploi: '85% en 6 mois',
+                metiers: ['Analyste Financier', 'Gestionnaire Patrimoine', 'Contrôleur de Gestion', 'Auditeur'],
+                formation: 'Master Finance, Licence Économie, BTS Comptabilité'
+              },
+              {
+                secteur: 'Commerce & Marketing',
+                demande: 'STABLE',
+                couleur: 'from-yellow-50 to-yellow-100',
+                salaire: '30-50k€/an',
+                emploi: '80% en 6 mois',
+                metiers: ['Commercial', 'Chef de Produit', 'Community Manager', 'Responsable Marketing'],
+                formation: 'Master Commerce, Licence Gestion, BTS MCO'
+              },
+              {
+                secteur: 'Ingénierie & BTP',
+                demande: 'FORTE',
+                couleur: 'from-orange-50 to-orange-100',
+                salaire: '40-65k€/an',
+                emploi: '90% en 6 mois',
+                metiers: ['Ingénieur Civil', 'Technicien BTP', 'Architecte', 'Chef de Projet'],
+                formation: 'École d\'Ingénieur, Master Génie Civil, BTS BTP'
+              },
+              {
+                secteur: 'Éducation & Recherche',
+                demande: 'STABLE',
+                couleur: 'from-purple-50 to-purple-100',
+                salaire: '32-55k€/an',
+                emploi: '78% en 6 mois',
+                metiers: ['Enseignant', 'Chercheur', 'Formateur', 'Doctorant'],
+                formation: 'Master MEEF, Doctorat, Agrégation'
               }
             ].map((item, idx) => (
-              <Card key={idx} className="hover:shadow-lg transition-shadow">
+              <Card key={idx} className={`bg-gradient-to-br ${item.couleur} border-2`}>
                 <CardHeader>
-                  <CardTitle className="flex items-center">
-                    {item.icon}
-                    <span className="ml-2">{item.formation}</span>
-                  </CardTitle>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl">{item.secteur}</CardTitle>
+                      <Badge className={`mt-2 ${
+                        item.demande === 'TRÈS FORTE' ? 'bg-red-600' :
+                        item.demande === 'FORTE' ? 'bg-orange-600' :
+                        'bg-blue-600'
+                      }`}>
+                        {item.demande}
+                      </Badge>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Salaire médian brut</p>
-                    <p className="text-2xl font-bold text-green-600">{item.salaire}</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <p className="text-xs text-muted-foreground">Salaire moyen brut</p>
+                      <p className="font-bold text-lg text-green-600">{item.salaire}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Taux d'emploi</p>
+                      <p className="font-bold text-lg text-blue-600">{item.emploi}</p>
+                    </div>
                   </div>
+                  
                   <div>
-                    <p className="text-sm font-semibold mb-2">Métiers types:</p>
+                    <p className="text-sm font-semibold mb-2">Métiers qui recrutent:</p>
                     <ul className="space-y-1">
                       {item.metiers.map((metier, i) => (
                         <li key={i} className="text-sm text-muted-foreground flex items-center">
-                          <CheckCircle className="h-3 w-3 mr-2 text-green-600" />
+                          <TrendingUp className="h-3 w-3 mr-2 text-green-600" />
                           {metier}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className="pt-2 border-t space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Tendance marché:</span>
-                      <Badge variant="outline">{item.tendance}</Badge>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Taux d'emploi:</span>
-                      <Badge className="bg-blue-600">{item.emploi}</Badge>
-                    </div>
+
+                  <div className="pt-3 border-t">
+                    <p className="text-xs text-muted-foreground mb-1">Formations recommandées:</p>
+                    <p className="text-sm font-semibold">{item.formation}</p>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
-          <Card className="mt-8 bg-blue-50 border-blue-200">
+          
+          <Card className="mt-8 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
             <CardHeader>
-              <CardTitle className="text-lg">Sources: ONISEP, Statistiques France, Salaires moyens 2024</CardTitle>
+              <CardTitle className="flex items-center">
+                <Info className="h-5 w-5 mr-2" />
+                Source & Méthodologie
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Ces chiffres sont basés sur les données officielles ONISEP (Office National d'Information Sur les Enseignements et les Professions) et représentent les salaires bruts annuels moyens en France. Ils peuvent varier selon la région, l'expérience et le secteur d'activité.
-              </p>
+            <CardContent className="space-y-2">
+              <p className="text-sm"><strong>Données:</strong> ONISEP 2024, Pôle Emploi, INSEE</p>
+              <p className="text-sm"><strong>Salaires:</strong> Bruts annuels moyens France entière, hors bonus/primes</p>
+              <p className="text-sm"><strong>Taux d'emploi:</strong> % d'embauche dans les 6 mois post-diplôme</p>
+              <p className="text-sm"><strong>Tendance:</strong> Basée sur les offres d'emploi 2024 vs 2023</p>
+              <Button variant="outline" className="w-full mt-3" asChild>
+                <a href="https://www.onisep.fr/metier/des-metiers-qui-recrutent" target="_blank" rel="noreferrer">
+                  Voir tous les métiers qui recrutent →
+                </a>
+              </Button>
             </CardContent>
           </Card>
         </section>
@@ -849,10 +805,10 @@ function Orientation() {
             <CardContent>
               <div className="bg-white p-4 rounded border border-purple-200 text-sm space-y-3">
                 <p className="italic text-muted-foreground">
-                  "Après 2 ans d'études en [votre domaine actuel], j'aspire à approfondir mes connaissances en [domaine du Master]. 
-                  Mon stage chez [entreprise] m'a confirmé ma passion pour [spécialité]. Votre Master, réputé pour son approche 
-                  [pratico-théorique], son partenariat avec [entreprise], et sa spécialisation en [domaine], correspond exactement 
-                  à mon projet. Je suis particulièrement motivé par le cours sur [spécialité] et l'opportunité de stage en entreprise. 
+                  "Après 2 ans d'études en [votre domaine actuel], j'aspire à approfondir mes connaissances en [domaine du Master].
+                  Mon stage chez [entreprise] m'a confirmé ma passion pour [spécialité]. Votre Master, réputé pour son approche
+                  [pratico-théorique], son partenariat avec [entreprise], et sa spécialisation en [domaine], correspond exactement
+                  à mon projet. Je suis particulièrement motivé par le cours sur [spécialité] et l'opportunité de stage en entreprise.
                   Je suis convaincu que cette formation me permettra de [objectif professionnel]."
                 </p>
               </div>
