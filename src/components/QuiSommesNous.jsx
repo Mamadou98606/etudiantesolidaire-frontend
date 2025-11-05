@@ -86,9 +86,9 @@ function QuiSommesNous() {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour à l'accueil
           </Button>
-          <h1 className="text-4xl font-bold text-foreground mb-4">Qui sommes-nous ?</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">✨ Qui sommes-nous ? ✨</h1>
           <p className="text-xl text-muted-foreground">
-            Découvrez etudiantesolidaire, votre partenaire de confiance pour réussir vos études en France
+            Bienvenue chez etudiantesolidaire - votre partenaire de confiance pour réussir vos études en France! 🚀
           </p>
         </div>
 
