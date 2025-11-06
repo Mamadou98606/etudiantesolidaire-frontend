@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
-import { 
-  BookOpen, 
-  Users, 
+import {
+  BookOpen,
+  Users,
   Award,
   Clock,
   MapPin,
@@ -16,16 +16,21 @@ import {
   Calendar,
   Laptop,
   Coffee,
-  Wifi
+  Wifi,
+  Globe,
+  AlertCircle,
+  Briefcase
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function Etudes() {
   const navigate = useNavigate()
+  const [studentType, setStudentType] = useState('eu')
+
   const etablissements = [
     {
       type: "Universités publiques",
-      description: "Formations généralistes et recherche",
+      description: "Formations généralistes et recherche de qualité",
       examples: [
         "Sorbonne Université",
         "Université Paris-Saclay",
@@ -33,89 +38,113 @@ function Etudes() {
         "Université de Bordeaux"
       ],
       advantages: [
-        "Frais de scolarité modérés",
-        "Large choix de formations",
+        "Frais de scolarité réduits pour internationaux",
+        "Large choix de formations en anglais",
         "Recherche de haut niveau",
-        "Campus internationaux"
+        "Campus internationaux bien établis"
       ],
-      cost: "170€-3770€/an selon nationalité"
+      costEU: "170€/an",
+      costNonEU: "2 770€/an (Licence), 3 770€/an (Master)"
     },
     {
       type: "Grandes écoles",
-      description: "Formations d'excellence sélectives",
+      description: "Formations d'excellence avec très bon prestige international",
       examples: [
-        "HEC Paris",
-        "École Polytechnique",
-        "Sciences Po",
-        "ESSEC Business School"
+        "HEC Paris (~12 000€/an)",
+        "École Polytechnique (~10 500€/an)",
+        "Sciences Po (~18 000€/an)",
+        "ESSEC Business School (~18 000€/an)"
       ],
       advantages: [
-        "Prestige international",
-        "Réseau alumni puissant",
-        "Insertion professionnelle excellente",
-        "Partenariats entreprises"
+        "Prestige international reconnu",
+        "Réseau alumni mondial très puissant",
+        "Insertion professionnelle excellente (90%+)",
+        "Partenariats avec grandes entreprises"
       ],
-      cost: "500€-20000€/an selon école"
+      costEU: "Variable selon école",
+      costNonEU: "8 000€ - 20 000€/an"
     },
     {
       type: "Écoles spécialisées",
-      description: "Formations techniques et professionnelles",
+      description: "Formations techniques et professionnelles de haut niveau",
       examples: [
-        "École 42 (Informatique)",
-        "Les Gobelins (Animation)",
-        "ESMOD (Mode)",
-        "Institut Paul Bocuse (Cuisine)"
+        "École 42 (Informatique - gratuite)",
+        "Les Gobelins (Animation - ~3 000€/an)",
+        "ESMOD (Mode - ~6 000€/an)",
+        "Institut Paul Bocuse (Cuisine - ~6 000€/an)"
       ],
       advantages: [
-        "Spécialisation poussée",
-        "Équipements professionnels",
-        "Liens avec l'industrie",
-        "Stages intégrés"
+        "Spécialisation reconnue mondialement",
+        "Équipements professionnels de pointe",
+        "Liens forts avec l'industrie",
+        "Stages et alternances intégrés"
       ],
-      cost: "Gratuit à 15000€/an"
+      costEU: "Gratuit à 6 000€/an",
+      costNonEU: "Gratuit à 8 000€/an"
     }
   ]
 
   const ressourcesEtudiantes = [
     {
-      category: "Bibliothèques",
-      title: "Accès aux ressources académiques",
+      category: "Accueil & Intégration",
+      title: "Services pour étudiants internationaux",
       resources: [
         {
-          name: "Bibliothèque nationale de France",
-          description: "Plus grande bibliothèque de France",
-          access: "Gratuit avec carte étudiant"
+          name: "Office d'accueil international",
+          description: "Service d'aide aux démarches administratives et visa",
+          access: "Gratuit - Contactez la scolarité"
         },
         {
-          name: "Bibliothèques universitaires",
-          description: "Ressources spécialisées par domaine",
-          access: "Accès libre pour les étudiants"
+          name: "Parrainage étudiant / Buddy system",
+          description: "Étudiant local pour vous guider et vous intégrer",
+          access: "Gratuit - Proposé par établissement"
         },
         {
-          name: "Bibliothèque Sainte-Geneviève",
-          description: "Spécialisée en lettres et sciences humaines",
-          access: "Gratuit sur inscription"
+          name: "Visite guidée du campus",
+          description: "Découvrir les installations et ressources académiques",
+          access: "Gratuit lors de l'orientation"
         }
       ]
     },
     {
-      category: "Numérique",
-      title: "Outils et plateformes en ligne",
+      category: "Bibliothèques & Ressources",
+      title: "Accès aux ressources académiques",
       resources: [
         {
-          name: "ENT (Espace Numérique de Travail)",
-          description: "Plateforme de votre établissement",
-          access: "Fourni par l'établissement"
+          name: "Bibliothèque nationale de France (BNF)",
+          description: "Plus grande bibliothèque, accès aux archives numériques",
+          access: "Gratuit avec carte étudiant"
         },
         {
-          name: "Cairn.info",
-          description: "Articles et ouvrages académiques",
-          access: "Gratuit via les universités"
+          name: "Bibliothèques universitaires",
+          description: "Ressources spécialisées par domaine, salles d'étude",
+          access: "Accès libre pour tous les étudiants"
         },
         {
-          name: "Microsoft Office 365",
-          description: "Suite bureautique complète",
-          access: "Gratuit pour les étudiants"
+          name: "Cairn.info, Persée, HAL",
+          description: "Bases de données académiques gratuites pour les universités",
+          access: "Gratuit via VPN universitaire"
+        }
+      ]
+    },
+    {
+      category: "Logement & Vie de campus",
+      title: "Ressources pour se loger et s'intégrer",
+      resources: [
+        {
+          name: "Résidences CROUS",
+          description: "Logements étudiants abordables et communautaires",
+          access: "~300-500€/mois - Candidature auprès CROUS"
+        },
+        {
+          name: "Office du logement de l'établissement",
+          description: "Aide pour trouver logement privé, bailleurs partenaires",
+          access: "Services gratuits, logements variables"
+        },
+        {
+          name: "Services de vie étudiante",
+          description: "Clubs, associations, événements culturels et sportifs",
+          access: "Gratuits ou peu coûteux"
         }
       ]
     }
@@ -154,36 +183,77 @@ function Etudes() {
     }
   ]
 
-  const aides = [
+  const aidesEU = [
     {
       type: "Bourses sur critères sociaux",
-      description: "Aide financière selon revenus familiaux",
-      montant: "1 084€ à 5 965€/an",
-      conditions: "Étudiants UE, revenus familiaux limités",
-      organisme: "CROUS"
+      description: "Pour étudiants UE en difficulté financière",
+      montant: "1 084€ - 5 965€/an",
+      conditions: "Revenus familiaux limités, projet d'études valide",
+      organisme: "CROUS",
+      url: "https://www.messervices.etudiant.gouv.fr/envole/"
     },
     {
       type: "Aide au mérite",
       description: "Complément pour excellents résultats",
       montant: "900€/an",
       conditions: "Mention TB au bac + bourse sur critères sociaux",
-      organisme: "CROUS"
+      organisme: "CROUS",
+      url: "https://www.crous-paris.fr/aides-et-services/"
     },
     {
       type: "Aide d'urgence",
-      description: "Soutien ponctuel en cas de difficulté",
+      description: "Soutien ponctuel en difficulté financière",
       montant: "Jusqu'à 2 597€",
-      conditions: "Situation d'urgence avérée",
-      organisme: "CROUS"
+      conditions: "Situation d'urgence avérée documentée",
+      organisme: "CROUS",
+      url: "https://www.crous-paris.fr/aides-et-services/"
     },
     {
-      type: "Bourses d'excellence",
-      description: "Pour étudiants internationaux méritants",
-      montant: "Variable selon programme",
-      conditions: "Excellence académique, projet d'études",
-      organisme: "Campus France, établissements"
+      type: "Bourses d'excellence (Erasmus+)",
+      description: "Mobilité académique dans UE pour études/stages",
+      montant: "200€ - 800€/mois",
+      conditions: "Inscription dans établissement UE, sélection",
+      organisme: "Établissement + Commission Européenne",
+      url: "https://www.france-education-international.fr/bourses-erasmus"
     }
   ]
+
+  const aidesNonEU = [
+    {
+      type: "Bourses Campus France",
+      description: "Bourses du gouvernement français pour pays prioritaires",
+      montant: "Variable selon programme",
+      conditions: "Pays d'origine prioritaire, excellence académique",
+      organisme: "Campus France / Ministère",
+      url: "https://www.campusfrance.org/fr/nos-bourses"
+    },
+    {
+      type: "Bourses des établissements",
+      description: "Aides offertes directement par les universités/écoles",
+      montant: "1 000€ - 15 000€/an",
+      conditions: "Excellence académique, projet d'études fort",
+      organisme: "Université / Grande école",
+      url: "https://www.messervices.etudiant.gouv.fr/"
+    },
+    {
+      type: "Bourses du gouvernement du pays d'origine",
+      description: "Bourses de votre gouvernement (au niveau national/régional)",
+      montant: "Variable selon pays",
+      conditions: "À vérifier auprès de votre gouvernement",
+      organisme: "Gouvernement pays d'origine",
+      url: "https://www.campusfrance.org/fr"
+    },
+    {
+      type: "Programmes de bourses internationales",
+      description: "Fondations, NGOs, organisations internationales",
+      montant: "Variable",
+      conditions: "Dépend du programme, excellence généralement requise",
+      organisme: "Diverses organisations",
+      url: "https://www.mastersportal.com/scholarships"
+    }
+  ]
+
+  const aides = studentType === 'eu' ? aidesEU : aidesNonEU
 
   const calendrierUniversitaire = [
     {
@@ -247,38 +317,67 @@ function Etudes() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => navigate('/')}
             className="mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour à l'accueil
           </Button>
-          <h1 className="text-4xl font-bold text-foreground mb-4">Études</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Études en France</h1>
           <p className="text-xl text-muted-foreground">
-            Tout pour réussir votre parcours académique en France
+            Guide complet pour choisir votre formation et financer vos études
           </p>
         </div>
 
-        {/* Introduction */}
-        <section className="mb-16">
-          <Card className="bg-gradient-to-r from-green-50 to-green-100 border-green-200">
-            <CardHeader>
-              <CardTitle className="text-2xl text-green-800 flex items-center">
-                <BookOpen className="h-6 w-6 mr-2" />
-                Excellence académique à la française
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-lg text-green-700 leading-relaxed">
-                Le système éducatif français offre une formation de qualité reconnue mondialement. 
-                Découvrez comment optimiser votre parcours d'études, accéder aux meilleures ressources 
-                et bénéficier des aides disponibles pour réussir vos études en France.
-              </p>
-            </CardContent>
-          </Card>
+        {/* Student Type Selector - Professional Tabs */}
+        <section className="mb-8">
+          <div className="flex border-b border-border">
+            <button
+              onClick={() => setStudentType('eu')}
+              className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
+                studentType === 'eu'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Globe className="h-4 w-4 inline mr-2" />
+              Étudiant Union Européenne
+            </button>
+            <button
+              onClick={() => setStudentType('non-eu')}
+              className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
+                studentType === 'non-eu'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Globe className="h-4 w-4 inline mr-2" />
+              Étudiant pays tiers
+            </button>
+          </div>
         </section>
+
+        {/* Information Alert */}
+        {studentType === 'non-eu' && (
+          <section className="mb-8">
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="pt-6">
+                <div className="flex items-start">
+                  <AlertCircle className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-blue-900">
+                      <strong>Important :</strong> Les frais d'inscription sont plus élevés pour les étudiants non-UE.
+                      Cependant, vous avez accès à des bourses du gouvernement français et des établissements.
+                      Consultez <a href="https://www.campusfrance.org/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">Campus France</a> pour les opportunités de financement.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        )}
 
         {/* Types d'établissements */}
         <section className="mb-16">
@@ -287,16 +386,16 @@ function Etudes() {
             {etablissements.map((etablissement, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-start justify-between mb-4 flex-wrap gap-2">
                     <div>
                       <CardTitle className="text-xl">{etablissement.type}</CardTitle>
                       <CardDescription className="text-base mt-2">
                         {etablissement.description}
                       </CardDescription>
                     </div>
-                    <Badge variant="outline">
+                    <Badge variant="default" className="text-xs">
                       <CreditCard className="h-3 w-3 mr-1" />
-                      {etablissement.cost}
+                      {studentType === 'eu' ? etablissement.costEU : etablissement.costNonEU}
                     </Badge>
                   </div>
                 </CardHeader>
@@ -357,7 +456,82 @@ function Etudes() {
           </div>
         </section>
 
-        {/* Méthodes d'étude */}
+        {/* Droits et obligations */}
+        {studentType === 'non-eu' && (
+          <section className="mb-16">
+            <h2 className="text-3xl font-bold text-foreground mb-8">Droits et obligations spéciales</h2>
+            <Card className="bg-amber-50 border-amber-200">
+              <CardHeader>
+                <CardTitle className="text-amber-900 flex items-center">
+                  <Info className="h-6 w-6 mr-2" />
+                  Ce que vous devez savoir
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 text-sm text-amber-900">
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-amber-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Droit de travail :</strong> 15-20h/semaine pendant les cours, illimité durant les vacances</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-amber-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Couverture sociale :</strong> Inscription automatique à la Sécurité Sociale française</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-amber-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Titre de séjour :</strong> Demande auprès de la Préfecture durant vos études (voir page Démarches)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-amber-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Logement :</strong> Réductions disponibles via CROUS et APL (aides au logement)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-amber-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Assurance santé :</strong> Incluse en Sécu, complémentaire recommandée (~50-150€/an)</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </section>
+        )}
+
+        {studentType === 'eu' && (
+          <section className="mb-16">
+            <h2 className="text-3xl font-bold text-foreground mb-8">Avantages pour étudiants UE</h2>
+            <Card className="bg-green-50 border-green-200">
+              <CardHeader>
+                <CardTitle className="text-green-900 flex items-center">
+                  <CheckCircle className="h-6 w-6 mr-2" />
+                  Vos privilèges en tant qu'étudiant UE
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 text-sm text-green-900">
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-green-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Frais réduits :</strong> Les frais d'inscription des universités publiques sont les mêmes pour tous UE</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-green-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Bourses CROUS :</strong> Vous pouvez candidater aux bourses sur critères sociaux</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-green-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Pas de visa :</strong> Liberté de circulation, juste inscription simple</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-green-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Erasmus+ :</strong> Mobilité académique et stages dans toute l'UE</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 mr-2 text-green-700 flex-shrink-0 mt-0.5" />
+                    <span><strong>Droits du travail :</strong> Mêmes droits que les étudiants français</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </section>
+        )}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Méthodes d'étude efficaces</h2>
           <div className="grid md:grid-cols-3 gap-6">
@@ -388,27 +562,42 @@ function Etudes() {
 
         {/* Aides financières */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Aides financières aux études</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">
+            {studentType === 'eu' ? 'Aides financières (Étudiants UE)' : 'Aides financières (Étudiants pays tiers)'}
+          </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {aides.map((aide, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                     <CardTitle className="text-lg">{aide.type}</CardTitle>
-                    <Badge variant="default">{aide.montant}</Badge>
+                    <Badge variant="default" className="text-xs">{aide.montant}</Badge>
                   </div>
                   <CardDescription>{aide.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div>
-                      <h4 className="font-semibold text-sm">Conditions :</h4>
+                      <h4 className="font-semibold text-sm mb-1">Conditions :</h4>
                       <p className="text-sm text-muted-foreground">{aide.conditions}</p>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm">Organisme :</h4>
+                      <h4 className="font-semibold text-sm mb-1">Organisme :</h4>
                       <p className="text-sm text-muted-foreground">{aide.organisme}</p>
                     </div>
+                    {aide.url && (
+                      <div>
+                        <a
+                          href={aide.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue-600 hover:underline flex items-center"
+                        >
+                          <ExternalLink className="h-3 w-3 mr-1" />
+                          Voir plus d'infos
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -571,29 +760,43 @@ function Etudes() {
 
         {/* Liens utiles */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Liens utiles</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Liens officiels essentiels</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Organismes officiels</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">CROUS (aides financières)</a>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.crous-paris.fr/aides-et-services/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      CROUS (Bourses et aides financières)
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Campus France</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.campusfrance.org/fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Campus France (Accueil et bourses internationaux)
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Ministère de l'Enseignement Supérieur</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.etudiant.gouv.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Étudiant.gouv.fr (Portail officiel du MESRI)
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Étudiant.gouv.fr</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.messervices.etudiant.gouv.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Mes Services Étudiant (Bourses, logement, dossiers)
+                    </a>
+                  </li>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.france-education-international.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      France Éducation International (Erasmus+ et mobilité)
+                    </a>
                   </li>
                 </ul>
               </CardContent>
@@ -601,25 +804,39 @@ function Etudes() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Ressources d'étude</CardTitle>
+                <CardTitle>Ressources académiques</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">BNF (Bibliothèque nationale)</a>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.bnf.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      BNF (Bibliothèque nationale de France)
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Cairn.info (articles académiques)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.cairn.info/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Cairn.info (Articles et ouvrages académiques)
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Persée (revues scientifiques)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.persee.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Persée (Revues scientifiques en libre accès)
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">HAL (archives ouvertes)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://hal.archives-ouvertes.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      HAL (Archives ouvertes scientifiques)
+                    </a>
+                  </li>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Google Scholar (Recherche académique mondiale)
+                    </a>
                   </li>
                 </ul>
               </CardContent>
