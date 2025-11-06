@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Input } from '@/components/ui/input.jsx'
 import {
-  ArrowLeft, 
-  Star, 
+  ArrowLeft,
+  Star,
   Quote,
   GraduationCap,
   MapPin,
@@ -24,18 +24,18 @@ function Temoignages() {
   const [sortBy, setSortBy] = useState('recent')
 
   // Utiliser le hook pour obtenir les témoignages filtrés
-  const { 
-    temoignages: temoignagesFiltres, 
-    topRated: temoignagesMieuxNotes, 
+  const {
+    temoignages: temoignagesFiltres,
+    topRated: temoignagesMieuxNotes,
     categories,
-    stats 
+    stats
   } = useTemoignagesData(searchTerm, selectedCategory, sortBy)
 
   const renderStars = (note) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <Star 
-        key={i} 
-        className={`h-4 w-4 ${i < note ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
+      <Star
+        key={i}
+        className={`h-4 w-4 ${i < note ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
       />
     ))
   }
@@ -45,8 +45,8 @@ function Temoignages() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => navigate('/')}
             className="mb-4"
           >
@@ -70,7 +70,7 @@ function Temoignages() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-green-700 leading-relaxed mb-4">
-                Chaque étudiant que nous accompagnons a une histoire unique. Découvrez comment 
+                Chaque étudiant que nous accompagnons a une histoire unique. Découvrez comment
                 etudiantesolidaire a contribué à leur réussite en France.
               </p>
               <div className="grid grid-cols-4 gap-4 mt-6">
@@ -171,7 +171,7 @@ function Temoignages() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <GraduationCap className="h-4 w-4 text-blue-600" />
@@ -183,7 +183,7 @@ function Temoignages() {
                       </div>
                     </div>
                   </CardHeader>
-                  
+
                   <CardContent>
                     <div className="mb-4">
                       <Quote className="h-5 w-5 text-muted-foreground mb-2" />
@@ -191,7 +191,7 @@ function Temoignages() {
                         "{temoignage.temoignage}"
                       </p>
                     </div>
-                    
+
                     <div>
                       <h4 className="font-semibold text-sm mb-2">Points forts :</h4>
                       <div className="space-y-1">
@@ -213,7 +213,7 @@ function Temoignages() {
                 <p className="text-muted-foreground mb-2">
                   Aucun témoignage ne correspond à ta recherche.
                 </p>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={() => {
                     setSearchTerm('')
@@ -235,7 +235,7 @@ function Temoignages() {
                 Vous aussi, écrivez votre histoire de réussite !
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Rejoignez les centaines d'étudiants qui ont réalisé leurs rêves d'études en France 
+                Rejoignez les centaines d'étudiants qui ont réalisé leurs rêves d'études en France
                 avec notre accompagnement personnalisé.
               </p>
               <div className="space-x-4">

@@ -20,6 +20,8 @@ import {
   Users
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useRDVData } from './priseRdv/useRDVData'
+import { infoContact, messages } from '@/data/rdvData'
 
 function PriseRDV() {
   const navigate = useNavigate()
@@ -30,69 +32,48 @@ function PriseRDV() {
     telephone: '',
     pays: '',
     typeRDV: '',
+    consultationType: '',
     sujet: '',
     datePreferee: '',
     heurePreferee: '',
     message: ''
   })
+  const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const typesRDV = [
-    {
-      id: 'orientation',
-      titre: 'Orientation scolaire',
-      description: 'Choisir la bonne formation',
-      duree: '45 min',
-      icon: <User className="h-5 w-5" />,
-      couleur: 'bg-blue-100 text-blue-800'
-    },
-    {
-      id: 'demarches',
-      titre: 'Démarches administratives',
-      description: 'Visa, titre de séjour, etc.',
-      duree: '30 min',
-      icon: <MessageSquare className="h-5 w-5" />,
-      couleur: 'bg-green-100 text-green-800'
-    },
-    {
-      id: 'logement',
-      titre: 'Aide au logement',
-      description: 'Trouver un logement étudiant',
-      duree: '30 min',
-      icon: <MapPin className="h-5 w-5" />,
-      couleur: 'bg-purple-100 text-purple-800'
-    },
-    {
-      id: 'emploi',
-      titre: 'Recherche d\'emploi',
-      description: 'CV, entretiens, stages',
-      duree: '45 min',
-      icon: <Users className="h-5 w-5" />,
-      couleur: 'bg-orange-100 text-orange-800'
-    },
-    {
-      id: 'integration',
-      titre: 'Intégration sociale',
-      description: 'Vie étudiante, culture française',
-      duree: '30 min',
-      icon: <Video className="h-5 w-5" />,
-      couleur: 'bg-pink-100 text-pink-800'
-    },
-    {
-      id: 'urgence',
-      titre: 'Consultation d\'urgence',
-      description: 'Problème urgent à résoudre',
-      duree: '20 min',
-      icon: <AlertCircle className="h-5 w-5" />,
-      couleur: 'bg-red-100 text-red-800'
-    }
-  ]
+  const {
+    typesRDV,
+    typeRDVDetails,
+    creneauxDisponibles,
+    consultationsDisponibles,
+    validateFormData,
+    getFormattedDate,
+    getHeureFinRDV
+  } = useRDVData(formData.typeRDV, formData.datePreferee, formData.consultationType)
 
-  const creneauxDisponibles = [
-    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-    '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00'
-  ]
+  // Récupérer l'icône pour un type RDV
+  const getIconForType = (iconName) => {
+    const iconMap = {
+      'User': <User className="h-5 w-5" />,
+      'MessageSquare': <MessageSquare className="h-5 w-5" />,
+      'MapPin': <MapPin className="h-5 w-5" />,
+      'Users': <Users className="h-5 w-5" />,
+      'Video': <Video className="h-5 w-5" />,
+      'AlertCircle': <AlertCircle className="h-5 w-5" />
+    }
+    return iconMap[iconName] || <User className="h-5 w-5" />
+  }
+
+  // Récupérer l'icône pour un type de consultation
+  const getIconForConsultation = (iconName) => {
+    const iconMap = {
+      'Video': <Video className="h-4 w-4" />,
+      'Phone': <Phone className="h-4 w-4" />,
+      'MapPin': <MapPin className="h-4 w-4" />
+    }
+    return iconMap[iconName] || null
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -100,10 +81,25 @@ function PriseRDV() {
       ...prev,
       [name]: value
     }))
+    // Effacer l'erreur pour ce champ
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }))
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Valider le formulaire
+    const formErrors = validateFormData(formData)
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors)
+      return
+    }
+
     setIsSubmitting(true)
 
     // Simulation d'envoi (remplacer par vraie API)
@@ -122,11 +118,10 @@ function PriseRDV() {
               <CardContent className="py-12">
                 <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-6" />
                 <h1 className="text-3xl font-bold text-green-800 mb-4">
-                  Rendez-vous confirmé !
+                  {messages.confirmation.titre}
                 </h1>
                 <p className="text-lg text-green-700 mb-6">
-                  Votre demande de rendez-vous a été envoyée avec succès. 
-                  Nous vous contacterons dans les 24h pour confirmer le créneau.
+                  {messages.confirmation.description}
                 </p>
                 <div className="space-y-4">
                   <Button onClick={() => navigate('/')} className="mr-4">
@@ -170,10 +165,10 @@ function PriseRDV() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Calendar className="h-5 w-5 mr-2" />
-                  Informations du rendez-vous
+                  {messages.form.titre}
                 </CardTitle>
                 <CardDescription>
-                  Remplissez ce formulaire pour réserver votre créneau
+                  {messages.form.description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -187,8 +182,10 @@ function PriseRDV() {
                         name="prenom"
                         value={formData.prenom}
                         onChange={handleInputChange}
+                        className={errors.prenom ? 'border-red-500' : ''}
                         required
                       />
+                      {errors.prenom && <p className="text-red-500 text-sm mt-1">{errors.prenom}</p>}
                     </div>
                     <div>
                       <Label htmlFor="nom">Nom *</Label>
@@ -197,8 +194,10 @@ function PriseRDV() {
                         name="nom"
                         value={formData.nom}
                         onChange={handleInputChange}
+                        className={errors.nom ? 'border-red-500' : ''}
                         required
                       />
+                      {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom}</p>}
                     </div>
                   </div>
 
@@ -211,8 +210,10 @@ function PriseRDV() {
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
+                        className={errors.email ? 'border-red-500' : ''}
                         required
                       />
+                      {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                     </div>
                     <div>
                       <Label htmlFor="telephone">Téléphone</Label>
@@ -232,8 +233,10 @@ function PriseRDV() {
                       name="pays"
                       value={formData.pays}
                       onChange={handleInputChange}
+                      className={errors.pays ? 'border-red-500' : ''}
                       required
                     />
+                    {errors.pays && <p className="text-red-500 text-sm mt-1">{errors.pays}</p>}
                   </div>
 
                   {/* Type de RDV */}
@@ -248,25 +251,65 @@ function PriseRDV() {
                               ? 'border-blue-500 bg-blue-50'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
-                          onClick={() => setFormData(prev => ({ ...prev, typeRDV: type.id }))}
+                          onClick={() => {
+                            setFormData(prev => ({ 
+                              ...prev, 
+                              typeRDV: type.id,
+                              consultationType: '' // Réinitialiser la sélection
+                            }))
+                            if (errors.typeRDV) {
+                              setErrors(prev => ({ ...prev, typeRDV: '' }))
+                            }
+                          }}
                         >
                           <div className="flex items-center space-x-3">
                             <div className={`p-2 rounded-full ${type.couleur}`}>
-                              {type.icon}
+                              {getIconForType(type.icon)}
                             </div>
                             <div>
                               <div className="font-medium">{type.titre}</div>
                               <div className="text-sm text-muted-foreground">{type.description}</div>
                               <Badge variant="outline" className="mt-1">
                                 <Clock className="h-3 w-3 mr-1" />
-                                {type.duree}
+                                {type.dureeFichier}
                               </Badge>
                             </div>
                           </div>
                         </div>
                       ))}
                     </div>
+                    {errors.typeRDV && <p className="text-red-500 text-sm mt-1">{errors.typeRDV}</p>}
                   </div>
+
+                  {/* Type de consultation si sélectionné */}
+                  {formData.typeRDV && consultationsDisponibles.length > 1 && (
+                    <div>
+                      <Label>Type de consultation</Label>
+                      <div className="grid md:grid-cols-3 gap-3 mt-2">
+                        {consultationsDisponibles.map((consultation) => (
+                          <div
+                            key={consultation.id}
+                            className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                              formData.consultationType === consultation.id
+                                ? 'border-blue-500 bg-blue-50'
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}
+                            onClick={() => setFormData(prev => ({
+                              ...prev,
+                              consultationType: consultation.id
+                            }))}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <div className={consultation.couleur}>
+                                {getIconForConsultation(consultation.icon)}
+                              </div>
+                              <span className="font-medium text-sm">{consultation.titre}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Date et heure */}
                   <div className="grid md:grid-cols-2 gap-4">
@@ -279,8 +322,10 @@ function PriseRDV() {
                         value={formData.datePreferee}
                         onChange={handleInputChange}
                         min={new Date().toISOString().split('T')[0]}
+                        className={errors.datePreferee ? 'border-red-500' : ''}
                         required
                       />
+                      {errors.datePreferee && <p className="text-red-500 text-sm mt-1">{errors.datePreferee}</p>}
                     </div>
                     <div>
                       <Label htmlFor="heurePreferee">Heure préférée *</Label>
@@ -289,16 +334,21 @@ function PriseRDV() {
                         name="heurePreferee"
                         value={formData.heurePreferee}
                         onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded-md"
+                        className={`w-full p-2 border rounded-md ${errors.heurePreferee ? 'border-red-500' : 'border-gray-300'}`}
                         required
                       >
                         <option value="">Choisir un créneau</option>
-                        {creneauxDisponibles.map((creneau) => (
-                          <option key={creneau} value={creneau}>
-                            {creneau}
-                          </option>
-                        ))}
+                        {creneauxDisponibles.length > 0 ? (
+                          creneauxDisponibles.map((creneau) => (
+                            <option key={creneau} value={creneau}>
+                              {creneau}
+                            </option>
+                          ))
+                        ) : (
+                          <option disabled>Aucun créneau disponible ce jour</option>
+                        )}
                       </select>
+                      {errors.heurePreferee && <p className="text-red-500 text-sm mt-1">{errors.heurePreferee}</p>}
                     </div>
                   </div>
 
@@ -345,7 +395,7 @@ function PriseRDV() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Clock className="h-5 w-5 mr-2" />
-                  Informations pratiques
+                  {messages.info.titre}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -379,7 +429,7 @@ function PriseRDV() {
                 <div>
                   <h4 className="font-semibold mb-2">Délai de réponse</h4>
                   <p className="text-sm text-muted-foreground">
-                    Nous vous confirmons votre rendez-vous dans les 24h ouvrées.
+                    {messages.confirmation.delaiReponse}
                   </p>
                 </div>
               </CardContent>
@@ -389,27 +439,27 @@ function PriseRDV() {
               <CardContent className="py-6">
                 <h4 className="font-semibold text-blue-800 mb-2">Consultation gratuite</h4>
                 <p className="text-sm text-blue-700">
-                  Votre premier rendez-vous de 30 minutes est entièrement gratuit et sans engagement.
+                  {messages.info.consultation_gratuite}
                 </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Besoin d'aide ?</CardTitle>
+                <CardTitle className="text-lg">{messages.info.besoin_aide}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center">
                     <Mail className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="mailto:contact@etudiantesolidaire.com" className="text-blue-600 hover:underline">
-                      contact@etudiantesolidaire.com
+                    <a href={`mailto:${infoContact.email}`} className="text-blue-600 hover:underline">
+                      {infoContact.email}
                     </a>
                   </div>
                   <div className="flex items-center">
                     <Phone className="h-4 w-4 mr-2 text-green-600" />
-                    <a href="tel:+33123456789" className="text-green-600 hover:underline">
-                      +33 1 23 45 67 89
+                    <a href={`tel:${infoContact.telephone}`} className="text-green-600 hover:underline">
+                      {infoContact.telephone}
                     </a>
                   </div>
                 </div>
