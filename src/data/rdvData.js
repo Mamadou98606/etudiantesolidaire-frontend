@@ -137,7 +137,7 @@ export const messages = {
 
 /**
  * TEMPLATE POUR AJOUTER UN NOUVEAU TYPE DE RDV
- * 
+ *
  * {
  *   id: 'identifiant-unique',
  *   titre: 'Titre affiché',
