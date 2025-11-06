@@ -1,16 +1,40 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { typesRDV, creneauxHoraires, horairesOuverture, typesConsultation } from '@/data/rdvData'
+import { getCreneauxOccupes } from '@/services/rdvService'
 
 /**
  * Hook personnalisé pour la gestion des rendez-vous
  * Fournit la logique de filtrage, validation et calcul des créneau disponibles
- * 
+ * Récupère aussi les créneau occupés depuis l'API
+ *
  * @param {string} selectedTypeRDV - ID du type de RDV sélectionné
  * @param {string} selectedDate - Date sélectionnée (format YYYY-MM-DD)
  * @param {string} selectedConsultationType - Type de consultation sélectionné
  * @returns {object} Données formatées et métadonnées RDV
  */
 export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedConsultationType = '') {
+  const [heuresOccupees, setHeuresOccupees] = useState([])
+  const [isLoadingOccupees, setIsLoadingOccupees] = useState(false)
+
+  // Récupérer les créneau occupés quand la date change
+  useEffect(() => {
+    if (!selectedDate) {
+      setHeuresOccupees([])
+      return
+    }
+
+    const fetchOccupees = async () => {
+      setIsLoadingOccupees(true)
+      const result = await getCreneauxOccupes(selectedDate)
+      if (result.success) {
+        setHeuresOccupees(result.heuresOccupees || [])
+      }
+      setIsLoadingOccupees(false)
+    }
+
+    fetchOccupees()
+  }, [selectedDate])
+
   return useMemo(() => {
     // Récupérer le type RDV sélectionné
     const typeRDVDetails = typesRDV.find(type => type.id === selectedTypeRDV) || null
@@ -30,7 +54,7 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
       return horairesOuverture[jour]?.ouvert === true
     }
 
-    // Obtenir les créneau disponibles pour une date donnée
+    // Obtenir les créneau disponibles pour une date donnée (excluant les occupés)
     const getCreneauxDisponibles = (dateString) => {
       if (!isDateOuvrable(dateString)) {
         return []
@@ -52,7 +76,7 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
         ...creneauxHoraires.apres_midi
       ]
 
-      // Filtrer les créneau en fonction des horaires du jour
+      // Filtrer les créneau en fonction des horaires du jour ET des créneau occupés
       return tousLesCreneaux.filter(creneau => {
         const [heure, minute] = creneau.split(':').map(Number)
         const creneauTime = heure * 60 + minute
@@ -61,7 +85,10 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
         const ouvertureTime = ouvertureH * 60 + ouvertureM
         const fermetureTime = fermetureH * 60 + fermetureM
 
-        return creneauTime >= ouvertureTime && creneauTime < fermetureTime
+        const isInOpeningHours = creneauTime >= ouvertureTime && creneauTime < fermetureTime
+        const isNotOccupied = !heuresOccupees.includes(creneau)
+
+        return isInOpeningHours && isNotOccupied
       })
     }
 
@@ -85,6 +112,9 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
       }
       if (!formData.typeRDV) {
         errors.typeRDV = 'Type de rendez-vous requis'
+      }
+      if (!formData.consultationType) {
+        errors.consultationType = 'Type de consultation requis'
       }
       if (!formData.datePreferee) {
         errors.datePreferee = 'Date préférée requise'
@@ -120,6 +150,11 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
       return `${String(heureFinH).padStart(2, '0')}:${String(heureFinM).padStart(2, '0')}`
     }
 
+    // Vérifier si un créneau spécifique est occupé
+    const isCreneauOccupied = (heure) => {
+      return heuresOccupees.includes(heure)
+    }
+
     return {
       // Types de RDV
       typesRDV: typesRDV.sort((a, b) => a.priorite - b.priorite),
@@ -131,6 +166,9 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
 
       // Créneau et horaires
       creneauxDisponibles: getCreneauxDisponibles(selectedDate),
+      heuresOccupees,
+      isLoadingOccupees,
+      isCreneauOccupied,
       horairesOuverture,
 
       // Validation
@@ -141,5 +179,5 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
       getFormattedDate,
       getHeureFinRDV
     }
-  }, [selectedTypeRDV, selectedDate, selectedConsultationType])
+  }, [selectedTypeRDV, selectedDate, selectedConsultationType, heuresOccupees, isLoadingOccupees])
 }
