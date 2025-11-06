@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -16,12 +16,54 @@ import {
   FileText,
   TrendingUp,
   Building,
-  GraduationCap
+  GraduationCap,
+  Globe,
+  AlertCircle
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function Travailler() {
   const navigate = useNavigate()
+  const [studentType, setStudentType] = useState('eu')
+  const droitsTravail = {
+    eu: [
+      {
+        titre: "Restrictions pendant études",
+        details: "Travail libre (sauf cumul avec formation",
+        limite: "Pas de limite d'heures"
+      },
+      {
+        titre: "Après diplôme",
+        details: "CDI/CDD sans restrictions administratives",
+        limite: "Changement de titre automatique"
+      },
+      {
+        titre: "Secteurs ouverts",
+        details: "TOUS les secteurs sans discrimination",
+        limite: "Aucune restriction"
+      }
+    ],
+    nonEu: [
+      {
+        titre: "Restrictions pendant études",
+        details: "15-20h/semaine pendant cours + illimité vacances",
+        limite: "Autorisé par titre de séjour étudiant"
+      },
+      {
+        titre: "Après diplôme",
+        details: "CDI/CDD avec changement de titre nécessaire",
+        limite: "Passeport talent ou changement titre séjour"
+      },
+      {
+        titre: "Secteurs ouverts",
+        details: "Selon domaine étude (Passeport Talent)",
+        limite: "Métiers en pénurie de main d'oeuvre prioritaires"
+      }
+    ]
+  }
+
+  const droitsActuels = studentType === 'eu' ? droitsTravail.eu : droitsTravail.nonEu
+
   const typesEmplois = [
     {
       type: "Job étudiant",
@@ -195,37 +237,43 @@ function Travailler() {
       nom: "LinkedIn",
       type: "Réseau professionnel",
       specialite: "Tous secteurs",
-      avantages: "Networking, visibilité, recruteurs"
+      avantages: "Networking, visibilité, recruteurs",
+      url: "https://www.linkedin.com/jobs/"
     },
     {
       nom: "Indeed",
       type: "Moteur de recherche",
       specialite: "Tous types d'emplois",
-      avantages: "Large choix, alertes, candidature facile"
+      avantages: "Large choix, alertes, candidature facile",
+      url: "https://fr.indeed.com/"
     },
     {
       nom: "Welcome to the Jungle",
       type: "Plateforme moderne",
       specialite: "Startup, tech, scale-up",
-      avantages: "Culture d'entreprise, vidéos, modernité"
-    },
-    {
-      nom: "Apec",
-      type: "Association cadres",
-      specialite: "Postes cadres",
-      avantages: "Conseil, accompagnement, expertise"
+      avantages: "Culture d'entreprise, vidéos, modernité",
+      url: "https://www.welcometothejungle.com/fr"
     },
     {
       nom: "Pôle emploi",
       type: "Service public",
       specialite: "Tous secteurs",
-      avantages: "Accompagnement, formations, aides"
+      avantages: "Accompagnement, formations, aides",
+      url: "https://www.francetravail.fr/"
+    },
+    {
+      nom: "APEC",
+      type: "Association pour cadres",
+      specialite: "Postes cadres",
+      avantages: "Conseil, accompagnement, expertise",
+      url: "https://www.apec.fr/"
     },
     {
       nom: "JobTeaser",
       type: "Plateforme étudiante",
       specialite: "Stages, premiers emplois",
-      avantages: "Spécialisé jeunes diplômés, partenariats écoles"
+      avantages: "Spécialisé jeunes diplômés, partenariats écoles",
+      url: "https://www.jobteaser.com/fr"
     }
   ]
 
@@ -305,29 +353,87 @@ function Travailler() {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour à l'accueil
           </Button>
-          <h1 className="text-4xl font-bold text-foreground mb-4">Travailler</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Travailler en France</h1>
           <p className="text-xl text-muted-foreground">
-            Préparez votre insertion professionnelle et trouvez l'emploi de vos rêves en France
+            Guide complet pour naviguer le marché du travail français et lancer votre carrière
           </p>
         </div>
 
-        {/* Introduction */}
+        {/* Student Type Selector - Professional Tabs */}
+        <section className="mb-8">
+          <div className="flex border-b border-border">
+            <button
+              onClick={() => setStudentType('eu')}
+              className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
+                studentType === 'eu'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Globe className="h-4 w-4 inline mr-2" />
+              Étudiant Union Européenne
+            </button>
+            <button
+              onClick={() => setStudentType('non-eu')}
+              className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
+                studentType === 'non-eu'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Globe className="h-4 w-4 inline mr-2" />
+              Étudiant pays tiers
+            </button>
+          </div>
+        </section>
+
+        {/* Information Alert for Non-EU */}
+        {studentType === 'non-eu' && (
+          <section className="mb-8">
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="pt-6">
+                <div className="flex items-start">
+                  <AlertCircle className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-blue-900">
+                      <strong>Important :</strong> Vos droits de travail dépendent de votre titre de séjour. 
+                      Vous pouvez travailler 15-20h/semaine pendant vos études. Après votre diplôme, vous pouvez 
+                      demander un changement de titre pour rester en France (Passeport Talent, VLS-TS salarié ou changement de titre).
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        )}
+
+        {/* Droits de travail par statut */}
         <section className="mb-16">
-          <Card className="bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200">
-            <CardHeader>
-              <CardTitle className="text-2xl text-purple-800 flex items-center">
-                <Briefcase className="h-6 w-6 mr-2" />
-                Votre carrière en France commence ici
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-lg text-purple-700 leading-relaxed">
-                La France offre de nombreuses opportunités professionnelles aux étudiants étrangers. 
-                Du job étudiant au CDI post-diplôme, découvrez comment naviguer le marché du travail français, 
-                développer vos compétences et réussir votre insertion professionnelle.
-              </p>
-            </CardContent>
-          </Card>
+          <h2 className="text-3xl font-bold text-foreground mb-8">
+            {studentType === 'eu' ? 'Vos droits de travail (Étudiant UE)' : 'Vos droits de travail (Étudiant pays tiers)'}
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {droitsActuels.map((droit, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-lg">{droit.titre}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-sm font-semibold text-blue-600 mb-1">Situation :</p>
+                      <p className="text-sm text-muted-foreground">{droit.details}</p>
+                    </div>
+                    <div className="bg-blue-50 p-2 rounded">
+                      <p className="text-xs font-semibold text-blue-900">
+                        {droit.limite}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </section>
 
         {/* Types d'emplois */}
@@ -488,11 +594,16 @@ function Travailler() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">{plateforme.avantages}</p>
-                  <Button variant="outline" size="sm" className="w-full mt-3">
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    Visiter
-                  </Button>
+                  <p className="text-sm text-muted-foreground mb-3">{plateforme.avantages}</p>
+                  <a 
+                    href={plateforme.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-blue-600 hover:underline text-sm"
+                  >
+                    <ExternalLink className="h-3 w-3 mr-1" />
+                    Visiter le site
+                  </a>
                 </CardContent>
               </Card>
             ))}
@@ -614,66 +725,101 @@ function Travailler() {
           </div>
         </section>
 
-        {/* Changement de statut */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Changement de statut étudiant → salarié</h2>
-          <Card className="bg-orange-50 border-orange-200">
-            <CardHeader>
-              <CardTitle className="text-orange-800 flex items-center">
-                <Info className="h-5 w-5 mr-2" />
-                Démarches administratives importantes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-semibold">Conditions :</h4>
-                  <ul className="text-sm text-orange-700 mt-2 space-y-1">
-                    <li>• Diplôme obtenu en France (minimum Bac+3)</li>
-                    <li>• Contrat de travail ou promesse d'embauche</li>
-                    <li>• Salaire au moins égal à 1,5 fois le SMIC</li>
-                    <li>• Emploi en rapport avec la formation</li>
-                  </ul>
+        {/* Changement de statut - Section détaillée */}
+        {studentType === 'non-eu' && (
+          <section className="mb-16">
+            <h2 className="text-3xl font-bold text-foreground mb-8">Rester en France après vos études</h2>
+            <Card className="bg-green-50 border-green-200 mb-6">
+              <CardHeader>
+                <CardTitle className="text-green-800 flex items-center">
+                  <CheckCircle className="h-6 w-6 mr-2" />
+                  Options pour prolonger votre séjour
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="border-l-4 border-green-600 pl-4">
+                    <h4 className="font-semibold text-green-900">Passeport Talent (VLS-TS Salarié)</h4>
+                    <ul className="text-sm text-green-800 mt-2 space-y-1">
+                      <li>• Durée: 4 ans renouvelable</li>
+                      <li>• Condition: CDI dans secteur à forte demande</li>
+                      <li>• Salaire: Au minimum 1,5 × SMIC</li>
+                      <li>• Formation: Bac+3 minimum</li>
+                    </ul>
+                  </div>
+                  <div className="border-l-4 border-blue-600 pl-4">
+                    <h4 className="font-semibold text-blue-900">Changement titre de séjour étudiant</h4>
+                    <ul className="text-sm text-blue-800 mt-2 space-y-1">
+                      <li>• Durée: 1 an initialement</li>
+                      <li>• Condition: Contrat de travail + permis de travail</li>
+                      <li>• Démarche: Avant fin du titre étudiant</li>
+                      <li>• Auprès: Préfecture de votre département</li>
+                    </ul>
+                  </div>
+                  <div className="border-l-4 border-purple-600 pl-4">
+                    <h4 className="font-semibold text-purple-900">Stage post-diplôme (APS)</h4>
+                    <ul className="text-sm text-purple-800 mt-2 space-y-1">
+                      <li>• Durée: 6 mois à 1 an</li>
+                      <li>• Condition: Moins de 6 mois après diplôme</li>
+                      <li>• Permet: Recherche d'emploi ou fin de stage</li>
+                      <li>• Travail: Autorisé si lié à formation</li>
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold">Délais :</h4>
-                  <p className="text-sm text-orange-700 mt-1">
-                    Demande à effectuer 2 mois avant la fin du titre de séjour étudiant
-                  </p>
-                </div>
-                <Button variant="outline" className="border-orange-300 text-orange-700 hover:bg-orange-100">
-                  Guide détaillé du changement de statut
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-orange-50 border-orange-200">
+              <CardHeader>
+                <CardTitle className="text-orange-800 flex items-center">
+                  <AlertCircle className="h-5 w-5 mr-2" />
+                  Démarches importantes
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="text-sm text-orange-900 space-y-2">
+                  <li>✓ Commencez vos démarches 2-3 mois AVANT la fin de votre titre étudiant</li>
+                  <li>✓ Contactez <a href="https://www.campusfrance.org/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">Campus France</a> pour les options</li>
+                  <li>✓ Consultez la <a href="https://www.interieur.gouv.fr/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">Direction générale des finances publiques</a> pour conditions spécifiques</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </section>
+        )}
 
         {/* Ressources utiles */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Ressources utiles</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Ressources officielles</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Organismes d'aide</CardTitle>
+                <CardTitle>Organismes d'aide à l'emploi</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Pôle emploi</a>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.francetravail.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      France Travail (anciennement Pôle emploi) - Accompagnement et offres d'emploi
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">APEC (cadres)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.apec.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      APEC - Association pour emploi cadres
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Mission locale</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.jeunes.gouv.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Mission locale (16-25 ans) - Orientation et emploi
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Cap emploi</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.campusfrance.org/fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Campus France - Aide spéciale étudiants étrangers
+                    </a>
                   </li>
                 </ul>
               </CardContent>
@@ -684,22 +830,30 @@ function Travailler() {
                 <CardTitle>Outils et formations</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Mon compte formation</a>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.moncompteformation.gouv.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Mon compte formation - Formations gratuites et certifications
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">OpenClassrooms</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.openclassrooms.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      OpenClassrooms - Formations en ligne gratuites et payantes
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">France Travail</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.mesfichesmetiers.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Mes fiches métiers - Guide des métiers et formations
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Coursera</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.service-public.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Service-Public.fr - Démarches administratives
+                    </a>
                   </li>
                 </ul>
               </CardContent>
