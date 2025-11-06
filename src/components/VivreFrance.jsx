@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -19,12 +19,15 @@ import {
   Coffee,
   Music,
   Camera,
-  Utensils
+  Utensils,
+  AlertCircle,
+  Globe
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function VivreFrance() {
   const navigate = useNavigate()
+  const [studentType, setStudentType] = useState('eu')
   const aspectsVie = [
     {
       categorie: "Logement",
@@ -128,36 +131,77 @@ function VivreFrance() {
     }
   ]
 
-  const aidesLogement = [
+  const aidesLogementEU = [
     {
       aide: "APL (Aide Personnalisée au Logement)",
-      montant: "50-300€/mois",
-      conditions: "Selon revenus et type de logement",
+      montant: "50-400€/mois",
+      conditions: "Logement conventionné, selon revenus",
       organisme: "CAF",
-      description: "Aide pour réduire le coût du loyer"
+      url: "https://www.caf.fr/",
+      description: "Aide principale pour réduire le loyer"
     },
     {
-      aide: "ALS (Allocation de Logement Social)",
+      aide: "ALS (Allocation Logement Social)",
       montant: "50-250€/mois",
       conditions: "Logements non conventionnés",
       organisme: "CAF",
-      description: "Alternative à l'APL pour certains logements"
+      url: "https://www.caf.fr/",
+      description: "Alternative à APL pour certains logements"
     },
     {
       aide: "Garantie Visale",
       montant: "Gratuit",
-      conditions: "Étudiants de moins de 30 ans",
+      conditions: "Moins de 30 ans, étudiants",
       organisme: "Action Logement",
+      url: "https://www.actionlogement.fr/",
       description: "Caution gratuite pour la location"
     },
     {
-      aide: "Aide Mobili-Jeune",
-      montant: "10-100€/mois",
-      conditions: "Alternants de moins de 30 ans",
+      aide: "Aide mobilité Loca-Pass",
+      montant: "Jusqu'à 1 300€",
+      conditions: "Premier logement, salarié moins de 30 ans",
       organisme: "Action Logement",
-      description: "Subvention loyer pour apprentis"
+      url: "https://www.actionlogement.fr/",
+      description: "Aide pour dépôt de garantie + caution"
     }
   ]
+
+  const aidesLogementNonEU = [
+    {
+      aide: "APL (Aide Personnalisée au Logement)",
+      montant: "50-300€/mois",
+      conditions: "Titre de séjour valide + logement conventionné",
+      organisme: "CAF",
+      url: "https://www.caf.fr/",
+      description: "Aide principale - nécessite titre étudiant ou salarié"
+    },
+    {
+      aide: "Garantie Visale International",
+      montant: "Gratuit",
+      conditions: "Moins de 30 ans, étudiant étranger",
+      organisme: "Action Logement",
+      url: "https://www.actionlogement.fr/",
+      description: "Caution gratuite - spécifique aux internationaux"
+    },
+    {
+      aide: "Caution Loca-Pass International",
+      montant: "Jusqu'à 1 300€",
+      conditions: "Premier logement, titre séjour valide",
+      organisme: "Action Logement",
+      url: "https://www.actionlogement.fr/",
+      description: "Aide dépôt garantie + caution pour étrangers"
+    },
+    {
+      aide: "Aides régionales/municipales",
+      montant: "Variable",
+      conditions: "Selon région/ville et statut",
+      organisme: "Mairie / Conseil régional",
+      url: "https://www.service-public.fr/",
+      description: "Consulter auprès de votre commune"
+    }
+  ]
+
+  const aidesLogement = studentType === 'eu' ? aidesLogementEU : aidesLogementNonEU
 
   const cultureActivites = [
     {
@@ -328,28 +372,57 @@ function VivreFrance() {
           </Button>
           <h1 className="text-4xl font-bold text-foreground mb-4">Vivre en France</h1>
           <p className="text-xl text-muted-foreground">
-            Tout pour réussir votre intégration et vous épanouir en France
+            Guide complet pour vivre, vous intégrer et vous épanouir en France
           </p>
         </div>
 
-        {/* Introduction */}
-        <section className="mb-16">
-          <Card className="bg-gradient-to-r from-pink-50 to-pink-100 border-pink-200">
-            <CardHeader>
-              <CardTitle className="text-2xl text-pink-800 flex items-center">
-                <Heart className="h-6 w-6 mr-2" />
-                Votre nouvelle vie en France
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-lg text-pink-700 leading-relaxed">
-                Vivre en France, c'est bien plus que suivre des cours. C'est découvrir une culture riche,
-                créer des liens durables, et construire votre avenir dans un environnement stimulant.
-                Nous vous accompagnons dans tous les aspects de votre vie quotidienne.
-              </p>
-            </CardContent>
-          </Card>
+        {/* Student Type Selector - Professional Tabs */}
+        <section className="mb-8">
+          <div className="flex border-b border-border">
+            <button
+              onClick={() => setStudentType('eu')}
+              className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
+                studentType === 'eu'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Globe className="h-4 w-4 inline mr-2" />
+              Étudiant Union Européenne
+            </button>
+            <button
+              onClick={() => setStudentType('non-eu')}
+              className={`px-6 py-3 font-semibold border-b-2 transition-colors ${
+                studentType === 'non-eu'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Globe className="h-4 w-4 inline mr-2" />
+              Étudiant pays tiers
+            </button>
+          </div>
         </section>
+
+        {/* Information Alert for Non-EU */}
+        {studentType === 'non-eu' && (
+          <section className="mb-8">
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="pt-6">
+                <div className="flex items-start">
+                  <AlertCircle className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-blue-900">
+                      <strong>À savoir :</strong> Comme étudiant étranger, vous avez accès à la plupart des services français.
+                      Certaines aides (APL, CAF) nécessitent un titre de séjour valide. Vous bénéficiez automatiquement
+                      de la Sécurité Sociale. Les aides au logement sont spécifiques - consultez la CAF rapidement!
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        )}
 
         {/* Aspects de la vie */}
         <section className="mb-16">
@@ -419,19 +492,21 @@ function VivreFrance() {
 
         {/* Aides au logement */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Aides au logement</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">
+            {studentType === 'eu' ? 'Aides au logement (Étudiant UE)' : 'Aides au logement (Étudiant pays tiers)'}
+          </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {aidesLogement.map((aide, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                     <CardTitle className="text-lg">{aide.aide}</CardTitle>
-                    <Badge variant="default">{aide.montant}</Badge>
+                    <Badge variant="default" className="text-xs">{aide.montant}</Badge>
                   </div>
                   <CardDescription>{aide.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div>
                       <h4 className="font-semibold text-sm">Conditions :</h4>
                       <p className="text-sm text-muted-foreground">{aide.conditions}</p>
@@ -440,6 +515,17 @@ function VivreFrance() {
                       <h4 className="font-semibold text-sm">Organisme :</h4>
                       <p className="text-sm text-muted-foreground">{aide.organisme}</p>
                     </div>
+                    {aide.url && (
+                      <a
+                        href={aide.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:underline flex items-center inline-block"
+                      >
+                        <ExternalLink className="h-3 w-3 mr-1" />
+                        Site officiel
+                      </a>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -649,29 +735,37 @@ function VivreFrance() {
 
         {/* Ressources utiles */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Ressources utiles</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Ressources officielles</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Services publics</CardTitle>
+                <CardTitle>Services publics essentiels</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">CAF (aides logement)</a>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.caf.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      CAF.fr - Aides logement (APL, ALS) - ESSENTIEL!
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Ameli.fr (sécurité sociale)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.ameli.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Ameli.fr - Sécurité Sociale et santé
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Service-public.fr</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.service-public.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Service-Public.fr - Démarches administratives officielles
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Impots.gouv.fr</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.impots.gouv.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Impots.gouv.fr - Déclaration d'impôts
+                    </a>
                   </li>
                 </ul>
               </CardContent>
@@ -679,47 +773,38 @@ function VivreFrance() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Vie pratique</CardTitle>
+                <CardTitle>Vie pratique et transports</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Leboncoin (petites annonces)</a>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.actionlogement.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Action Logement - Garantie Visale et aides logement
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Citymapper (transports)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.leboncoin.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      LeBonCoin - Petites annonces logement
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Doctolib (rendez-vous médicaux)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.doctolib.fr/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Doctolib - Rendez-vous médicaux en ligne
+                    </a>
                   </li>
-                  <li className="flex items-center">
-                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600" />
-                    <a href="#" className="text-blue-600 hover:underline">Meetup (rencontres)</a>
+                  <li className="flex items-start">
+                    <ExternalLink className="h-4 w-4 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a href="https://www.meetup.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">
+                      Meetup - Rencontres et événements sociaux
+                    </a>
                   </li>
                 </ul>
               </CardContent>
             </Card>
           </div>
-        </section>
-
-        {/* Budget mensuel indicatif */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Budget mensuel indicatif</h2>
-          <Card>
-            <CardContent className="pt-6">
-              <ul className="space-y-2">
-                <li className="flex justify-between"><span>Logement</span><span className="font-medium">400–900€</span></li>
-                <li className="flex justify-between"><span>Transport</span><span className="font-medium">20–75€</span></li>
-                <li className="flex justify-between"><span>Nourriture</span><span className="font-medium">150–300€</span></li>
-                <li className="flex justify-between"><span>Assurances / santé</span><span className="font-medium">15–50€</span></li>
-                <li className="flex justify-between"><span>Loisirs / télécom</span><span className="font-medium">30–80€</span></li>
-              </ul>
-              <p className="mt-4 text-sm text-muted-foreground">Varie selon la ville (Paris plus élevé).</p>
-            </CardContent>
-          </Card>
         </section>
 
         {/* Numéros utiles */}
