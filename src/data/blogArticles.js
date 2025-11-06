@@ -140,7 +140,6 @@ export const blogArticles = [
     id: 1,
     title: "Guide complet Parcoursup 2024 : Dates et stratégies",
     excerpt: "Tout ce que vous devez savoir sur Parcoursup 2024, les dates importantes et nos conseils pour maximiser vos chances d'admission.",
-    content: "Parcoursup est la plateforme nationale de préinscription en première année de l'enseignement supérieur en France...",
     author: "Marie Dubois",
     date: "2024-01-15",
     category: "Orientation",
@@ -148,13 +147,38 @@ export const blogArticles = [
     views: 1250,
     comments: 23,
     readTime: "8 min",
-    tags: ["Parcoursup", "Orientation", "Études supérieures"]
+    tags: ["Parcoursup", "Orientation", "Études supérieures"],
+    sections: [
+      {
+        heading: "Qu'est-ce que Parcoursup?",
+        paragraphs: [
+          "Parcoursup est la plateforme nationale de préinscription en première année de l'enseignement supérieur en France. Elle permet aux lycéens et aux étudiants de formuler leurs candidatures pour des formations post-bac."
+        ]
+      },
+      {
+        heading: "Calendrier 2024",
+        bullets: [
+          "Novembre 2023: Ouverture de la plateforme",
+          "Janvier-Mars 2024: Période de saisie des candidatures",
+          "Avril-Juin 2024: Phase principale de réception des réponses",
+          "Juillet 2024: Phase complémentaire"
+        ]
+      },
+      {
+        heading: "Conseils pour réussir",
+        bullets: [
+          "Formez au moins 3-5 vœux réalistes",
+          "Écrivez des lettres de motivation personnalisées",
+          "Mettez à jour vos bulletins scolaires",
+          "Répondez aux appels d'informations"
+        ]
+      }
+    ]
   },
   {
     id: 2,
     title: "Visa étudiant 2024 : Nouvelles procédures simplifiées",
     excerpt: "Les dernières modifications des procédures de visa étudiant et comment optimiser votre dossier pour une réponse rapide.",
-    content: "Les procédures de visa étudiant ont été simplifiées en 2024. Voici tout ce que vous devez savoir...",
     author: "Ahmed Benali",
     date: "2024-01-10",
     category: "Démarches",
@@ -162,7 +186,41 @@ export const blogArticles = [
     views: 980,
     comments: 15,
     readTime: "6 min",
-    tags: ["Visa", "Démarches", "Immigration"]
+    tags: ["Visa", "Démarches", "Immigration"],
+    sections: [
+      {
+        heading: "Types de visas pour les étudiants",
+        bullets: [
+          "VLS-TS (Visa Long Séjour Temporaire Étudiant): valable 1 an renouvelable",
+          "Visa national: pour séjour de plus de 3 mois",
+          "Visa de court séjour: pour moins de 90 jours"
+        ]
+      },
+      {
+        heading: "Documents obligatoires",
+        bullets: [
+          "Passeport valide (au moins 15 mois)",
+          "Lettre d'acceptation de l'établissement",
+          "Preuve de ressources financières",
+          "Preuve de couverture sociale",
+          "Photo d'identité aux normes"
+        ]
+      },
+      {
+        heading: "Procédure simplifiée 2024",
+        paragraphs: [
+          "En 2024, les procédures ont été simplifiées. Les délais de traitement ont été réduits et certains documents ne sont plus nécessaires. Consultez le site du consulat français pour les détails spécifiques à votre pays."
+        ]
+      },
+      {
+        heading: "Délais recommandés",
+        bullets: [
+          "Commencer les démarches 3-4 mois avant le départ",
+          "Prévoir 2-4 semaines pour le traitement du dossier",
+          "Vérifier les délais spécifiques au consulat de votre pays"
+        ]
+      }
+    ]
   }
 ]
 
