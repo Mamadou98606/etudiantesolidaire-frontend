@@ -115,7 +115,7 @@ function PriseRDV() {
     // Appeler l'API pour réserver
     const submitRDV = async () => {
       const result = await reserverRDV(formData)
-      
+
       if (result.success) {
         setApiSuccess(result.message)
         setFormData({
@@ -132,7 +132,7 @@ function PriseRDV() {
           message: ''
         })
         setErrors({})
-        
+
         // Attendre 2s puis afficher le message de confirmation
         setTimeout(() => {
           setIsSubmitting(false)
@@ -290,8 +290,8 @@ function PriseRDV() {
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                           onClick={() => {
-                            setFormData(prev => ({ 
-                              ...prev, 
+                            setFormData(prev => ({
+                              ...prev,
                               type_rdv: type.id,
                               consultation_type: '' // Réinitialiser la sélection
                             }))
