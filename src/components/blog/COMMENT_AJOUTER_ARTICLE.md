@@ -251,7 +251,7 @@ R: Pour l'instant, utilise juste un emoji dans `image`. Une image réelle c'est 
 **Q: L'article n'apparaît pas?**
 R: Vérifie:
 1. As-tu sauvegardé (Ctrl+S)?
-2. La virgule avant ton article? 
+2. La virgule avant ton article?
 3. Les guillemets partout?
 4. Le fichier: `src/data/blogArticles.js`?
 
