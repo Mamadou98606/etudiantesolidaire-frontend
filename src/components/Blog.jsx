@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import BlogPost from './BlogPost'
+import { useBlogData } from './blog/useBlogData'
 
 function Blog() {
   const navigate = useNavigate()
@@ -24,8 +25,18 @@ function Blog() {
   const [selectedCategory, setSelectedCategory] = useState('tous')
   const [selectedPost, setSelectedPost] = useState(null)
 
-  // Articles (exemples + vos 2 articles structurés)
-  const articles = [
+  // Utiliser le hook pour obtenir les articles filtrés
+  const { articles: articlesFiltres, popular: articlesPopulaires, categories } = useBlogData(searchTerm, selectedCategory)
+
+  // Liste complète des articles (pour le compte total)
+  const { articles: tousLesArticles } = useBlogData('', 'tous')
+
+  if (selectedPost) {
+    return <BlogPost post={selectedPost} onBack={() => setSelectedPost(null)} />
+  }
+
+  // Articles (exemples + vos 2 articles structurés) - DEPRECATED (maintenant dans src/data/blogArticles.js)
+  const articlesOld = [
     {
       id: 8,
       title: "Étudier en France: le guide express pour bien démarrer (2025)",
@@ -178,31 +189,6 @@ function Blog() {
     }
   ]
 
-  if (selectedPost) {
-    return <BlogPost post={selectedPost} onBack={() => setSelectedPost(null)} />
-  }
-
-  const categories = [
-    { id: 'tous', label: 'Tous les articles', count: articles.length },
-    { id: 'Orientation', label: 'Orientation', count: articles.filter(a => a.category === 'Orientation').length },
-    { id: 'Démarches', label: 'Démarches', count: articles.filter(a => a.category === 'Démarches').length },
-    { id: 'Vie étudiante', label: 'Vie étudiante', count: articles.filter(a => a.category === 'Vie étudiante').length },
-    { id: 'Emploi', label: 'Emploi', count: articles.filter(a => a.category === 'Emploi').length },
-    { id: 'Financement', label: 'Financement', count: articles.filter(a => a.category === 'Financement').length }
-  ]
-
-  // Trier du plus récent au plus ancien
-  const articlesSorted = [...articles].sort((a, b) => new Date(b.date) - new Date(a.date))
-
-  const articlesFiltres = articlesSorted.filter(article => {
-    const matchCategory = selectedCategory === 'tous' || article.category === selectedCategory
-    const haystack = (article.title + ' ' + article.excerpt + ' ' + (article.tags || []).join(' ')).toLowerCase()
-    const matchSearch = haystack.includes(searchTerm.toLowerCase())
-    return matchCategory && matchSearch
-  })
-
-  const articlesPopulaires = [...articlesSorted].sort((a, b) => b.views - a.views).slice(0, 3)
-
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
@@ -236,7 +222,7 @@ function Blog() {
                   </p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-800">{articles.length}</div>
+                  <div className="text-3xl font-bold text-blue-800">{tousLesArticles.length}</div>
                   <div className="text-sm text-blue-600">Articles publiés</div>
                 </div>
                 <div className="text-center">

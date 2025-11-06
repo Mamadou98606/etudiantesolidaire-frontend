@@ -1,11 +1,11 @@
 /**
  * 📝 Toutes les données des articles blog
- * 
+ *
  * Pour AJOUTER UN ARTICLE:
  * 1. Copier le template ci-dessous
  * 2. Remplir les champs (title, excerpt, author, etc)
  * 3. C'est tout! L'article apparaîtra automatiquement dans le blog
- * 
+ *
  * Format section:
  * {
  *   heading: "Titre de la section",
@@ -168,9 +168,9 @@ export const blogArticles = [
 
 /**
  * ✨ TEMPLATE POUR AJOUTER UN NOUVEL ARTICLE
- * 
+ *
  * Copiez ceci et complétez les champs:
- * 
+ *
  * {
  *   id: 9,                              // Numéro unique (id max + 1)
  *   title: "Titre de l'article",
