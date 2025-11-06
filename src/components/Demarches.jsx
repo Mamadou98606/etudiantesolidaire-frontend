@@ -261,9 +261,9 @@ function Demarches() {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour accueil
           </Button>
-          <h1 className="text-4xl font-bold mb-4">Démarches: Guide étudiant international</h1>
+          <h1 className="text-4xl font-bold mb-4">Démarches administratives</h1>
           <p className="text-xl text-muted-foreground">
-            Visa, titre séjour, banque, santé, logement - Tout ce que tu dois savoir
+            Guide complet pour étudiants internationaux - Visa, titre de séjour, santé, logement
           </p>
         </div>
 
@@ -285,39 +285,32 @@ function Demarches() {
           </Card>
         </section>
 
-        {/* SELECT PROFIL */}
+        {/* TABS PROFESSIONNEL */}
         <section className="mb-12">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-xl">C'est quel ton cas?</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-4">
-                <Button
-                  size="lg"
-                  variant={studentType === 'eu' ? 'default' : 'outline'}
-                  onClick={() => setStudentType('eu')}
-                  className="text-base h-20"
-                >
-                  <div className="text-left">
-                    <p className="font-bold">🇪🇺 Européen (UE/EEE)</p>
-                    <p className="text-xs">Procédure simple</p>
-                  </div>
-                </Button>
-                <Button
-                  size="lg"
-                  variant={studentType === 'non-eu' ? 'default' : 'outline'}
-                  onClick={() => setStudentType('non-eu')}
-                  className="text-base h-20"
-                >
-                  <div className="text-left">
-                    <p className="font-bold">🌍 Non-Européen</p>
-                    <p className="text-xs">Visa + Titre séjour</p>
-                  </div>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="flex gap-2 border-b border-gray-200 mb-8">
+            <button
+              onClick={() => setStudentType('eu')}
+              className={`px-6 py-3 font-semibold text-sm transition-all ${
+                studentType === 'eu'
+                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <span className="text-lg mr-2">🇪🇺</span>
+              Union Européenne
+            </button>
+            <button
+              onClick={() => setStudentType('non-eu')}
+              className={`px-6 py-3 font-semibold text-sm transition-all ${
+                studentType === 'non-eu'
+                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <span className="text-lg mr-2">🌍</span>
+              Pays tiers
+            </button>
+          </div>
         </section>
 
         {/* TIMELINE */}
