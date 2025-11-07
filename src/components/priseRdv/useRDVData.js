@@ -110,19 +110,19 @@ export function useRDVData(selectedTypeRDV = '', selectedDate = '', selectedCons
       if (!formData.pays || formData.pays.trim() === '') {
         errors.pays = 'Pays requis'
       }
-      if (!formData.typeRDV) {
-        errors.typeRDV = 'Type de rendez-vous requis'
+      if (!formData.type_rdv) {
+        errors.type_rdv = 'Type de rendez-vous requis'
       }
-      if (!formData.consultationType) {
-        errors.consultationType = 'Type de consultation requis'
+      if (!formData.consultation_type) {
+        errors.consultation_type = 'Type de consultation requis'
       }
-      if (!formData.datePreferee) {
-        errors.datePreferee = 'Date préférée requise'
-      } else if (!isDateOuvrable(formData.datePreferee)) {
-        errors.datePreferee = 'Cette date est fermée'
+      if (!formData.date_rdv) {
+        errors.date_rdv = 'Date préférée requise'
+      } else if (!isDateOuvrable(formData.date_rdv)) {
+        errors.date_rdv = 'Cette date est fermée'
       }
-      if (!formData.heurePreferee) {
-        errors.heurePreferee = 'Heure préférée requise'
+      if (!formData.heure_rdv) {
+        errors.heure_rdv = 'Heure préférée requise'
       }
 
       return errors
