@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, Eye, EyeOff, User, Mail, Lock, Globe, GraduationCap, BookOpen } from 'lucide-react';
+import { X, Eye, EyeOff, User, Mail, Lock, Globe, GraduationCap, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { validatePasswordStrength } from '../utils/passwordValidator';
 
 const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode }) => {
   const { login, register, error, clearError } = useAuth();
@@ -23,6 +24,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
   const [formErrors, setFormErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [submitting, setSubmitting] = useState(false); // spinner local fiable
+  const [passwordStrength, setPasswordStrength] = useState({ isValid: false, errors: [] }); // Validation mdp en temps réel
 
   // Options pour les sélecteurs
   const studyLevels = [
@@ -76,6 +78,11 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
     if (formErrors[name]) {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
     }
+
+    // Valider la force du mot de passe en temps réel si on est en mode register
+    if (name === 'password' && mode === 'register') {
+      setPasswordStrength(validatePasswordStrength(value));
+    }
   };
 
   const handleSelectChange = (name, value) => {
@@ -98,8 +105,12 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
       }
       if (!formData.password) {
         errors.password = 'Le mot de passe est requis';
-      } else if (formData.password.length < 6) {
-        errors.password = 'Le mot de passe doit contenir au moins 6 caractères';
+      } else {
+        // Vérifier la force du mot de passe
+        const { isValid, errors: strengthErrors } = validatePasswordStrength(formData.password);
+        if (!isValid) {
+          errors.password = strengthErrors.join(', ');
+        }
       }
       if (!formData.confirmPassword) {
         errors.confirmPassword = 'Veuillez confirmer le mot de passe';
@@ -352,6 +363,22 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                   </button>
                 </div>
                 {formErrors.password && <p className="mt-1 text-sm text-red-600">{formErrors.password}</p>}
+
+                {/* Affichage de la validation de force du mot de passe (inscription seulement) */}
+                {mode === 'register' && formData.password && (
+                  <div className="mt-2 p-2 bg-gray-50 rounded-md border border-gray-200">
+                    {passwordStrength.errors.map((error, idx) => (
+                      <div key={idx} className={`text-xs flex items-center gap-2 ${passwordStrength.isValid ? 'text-green-600' : 'text-gray-600'}`}>
+                        {passwordStrength.isValid && error === '✅ Mot de passe acceptable' ? (
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                        ) : (
+                          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                        )}
+                        <span>{error}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Confirmation mot de passe (inscription seulement) */}
