@@ -53,8 +53,10 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
     });
     setFormErrors({});
     setSuccessMessage('');
-    clearError();
-  }, [mode, clearError]);
+    if (clearError) {
+      clearError();
+    }
+  }, [mode]);
 
   // Fermer le modal quand on clique à l'extérieur / ESC
   useEffect(() => {
@@ -156,14 +158,17 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
       }
 
       if (result.success) {
-        setSuccessMessage(mode === 'register' ? 'Compte créé avec succès !' : 'Connexion réussie !');
-        setTimeout(() => onSuccess(), 900);
+        setSuccessMessage(mode === 'register' ? 'Compte créé avec succès ! Redirection...' : 'Connexion réussie ! Redirection...');
+        // Attendre un peu avant de fermer la modal pour que l'utilisateur voit le message
+        setTimeout(() => {
+          onSuccess();
+        }, 1500);
       } else {
         setSuccessMessage(result.error || (mode === 'register' ? "Erreur lors de l'inscription" : 'Erreur lors de la connexion'));
+        setSubmitting(false);
       }
     } catch (err) {
       setSuccessMessage("Erreur réseau. Réessayez.");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -202,7 +207,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
                 <p className="text-green-700 text-sm">{successMessage}</p>
               </div>
             )}
-            {error && (
+            {error && !successMessage && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-700 text-sm">{error}</p>
               </div>
