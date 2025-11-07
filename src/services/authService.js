@@ -7,21 +7,68 @@ const API_BASE_URL = `${API_ROOT}/api`;
 class AuthService {
   constructor() {
     this.user = JSON.parse(localStorage.getItem('user_data') || 'null');
+    this.csrfToken = null;
   }
 
-  getHeaders() {
-    return { 'Content-Type': 'application/json' };
+  getHeaders(includeCSRF = false) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (includeCSRF && this.csrfToken) {
+      headers['X-CSRF-Token'] = this.csrfToken;
+    }
+    return headers;
+  }
+
+  async getCsrfToken() {
+    try {
+      const res = await fetch(`${API_BASE_URL}/csrf-token`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (res.ok && data.csrf_token) {
+        this.csrfToken = data.csrf_token;
+        return data.csrf_token;
+      }
+      throw new Error('Impossible de récupérer le token CSRF');
+    } catch (error) {
+      console.error('Erreur lors de la récupération du token CSRF:', error);
+      throw error;
+    }
   }
 
   async register(userData) {
     try {
+      // Récupérer le token CSRF
+      const csrfToken = await this.getCsrfToken();
+      
       const res = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
-        headers: this.getHeaders(),
+        headers: this.getHeaders(true),
         credentials: 'include',
-        body: JSON.stringify(userData)
+        body: JSON.stringify({ ...userData, csrf_token: csrfToken })
       });
       const data = await res.json();
+      
+      // Si token CSRF invalide, essayer une nouvelle fois
+      if (res.status === 403 && data.error === 'CSRF token invalide') {
+        const newToken = await this.getCsrfToken();
+        const retryRes = await fetch(`${API_BASE_URL}/register`, {
+          method: 'POST',
+          headers: this.getHeaders(true),
+          credentials: 'include',
+          body: JSON.stringify({ ...userData, csrf_token: newToken })
+        });
+        const retryData = await retryRes.json();
+        if (!retryRes.ok) return { success: false, error: retryData.error || "Erreur lors de l'inscription" };
+        
+        const user = retryData?.user || null;
+        if (user) {
+          this.user = user;
+          localStorage.setItem('user_data', JSON.stringify(this.user));
+        }
+        return { success: true, data: retryData };
+      }
+      
       if (!res.ok) return { success: false, error: data.error || "Erreur lors de l'inscription" };
 
       const user = data?.user || null;
@@ -37,13 +84,37 @@ class AuthService {
 
   async login(credentials) {
     try {
+      // Récupérer le token CSRF
+      const csrfToken = await this.getCsrfToken();
+      
       const res = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
-        headers: this.getHeaders(),
+        headers: this.getHeaders(true),
         credentials: 'include',
-        body: JSON.stringify(credentials)
+        body: JSON.stringify({ ...credentials, csrf_token: csrfToken })
       });
       const data = await res.json();
+      
+      // Si token CSRF invalide, essayer une nouvelle fois
+      if (res.status === 403 && data.error === 'CSRF token invalide') {
+        const newToken = await this.getCsrfToken();
+        const retryRes = await fetch(`${API_BASE_URL}/login`, {
+          method: 'POST',
+          headers: this.getHeaders(true),
+          credentials: 'include',
+          body: JSON.stringify({ ...credentials, csrf_token: newToken })
+        });
+        const retryData = await retryRes.json();
+        if (!retryRes.ok) return { success: false, error: retryData.error || 'Identifiants incorrects' };
+
+        const user = retryData?.user || null;
+        if (user) {
+          this.user = user;
+          localStorage.setItem('user_data', JSON.stringify(this.user));
+        }
+        return { success: true, data: retryData };
+      }
+      
       if (!res.ok) return { success: false, error: data.error || 'Identifiants incorrects' };
 
       const user = data?.user || null;
