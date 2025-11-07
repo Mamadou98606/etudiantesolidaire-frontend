@@ -12,7 +12,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
  */
 export async function reserverRDV(formData) {
   try {
-    const response = await fetch(`${API_BASE_URL}/rdv/reserver`, {
+    const response = await fetch(`${API_BASE_URL}/api/rdv/reserver`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export async function reserverRDV(formData) {
  */
 export async function getCreneauxOccupes(date) {
   try {
-    const response = await fetch(`${API_BASE_URL}/rdv/disponibilites/${date}`, {
+    const response = await fetch(`${API_BASE_URL}/api/rdv/disponibilites/${date}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export async function getCreneauxOccupes(date) {
  */
 export async function getMesReservations(email) {
   try {
-    const response = await fetch(`${API_BASE_URL}/rdv/mes-reservations?email=${encodeURIComponent(email)}`, {
+    const response = await fetch(`${API_BASE_URL}/api/rdv/mes-reservations?email=${encodeURIComponent(email)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ export async function getMesReservations(email) {
  */
 export async function annulerRDV(rdvId, email) {
   try {
-    const response = await fetch(`${API_BASE_URL}/rdv/annuler/${rdvId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/rdv/annuler/${rdvId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
