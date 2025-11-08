@@ -40,7 +40,7 @@ class AuthService {
     try {
       // Récupérer le token CSRF
       const csrfToken = await this.getCsrfToken();
-      
+
       const res = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
         headers: this.getHeaders(true),
@@ -48,7 +48,7 @@ class AuthService {
         body: JSON.stringify({ ...userData, csrf_token: csrfToken })
       });
       const data = await res.json();
-      
+
       // Si token CSRF invalide, essayer une nouvelle fois
       if (res.status === 403 && data.error === 'CSRF token invalide') {
         const newToken = await this.getCsrfToken();
@@ -60,7 +60,7 @@ class AuthService {
         });
         const retryData = await retryRes.json();
         if (!retryRes.ok) return { success: false, error: retryData.error || "Erreur lors de l'inscription" };
-        
+
         const user = retryData?.user || null;
         if (user) {
           this.user = user;
@@ -68,7 +68,7 @@ class AuthService {
         }
         return { success: true, data: retryData };
       }
-      
+
       if (!res.ok) return { success: false, error: data.error || "Erreur lors de l'inscription" };
 
       const user = data?.user || null;
@@ -86,7 +86,7 @@ class AuthService {
     try {
       // Récupérer le token CSRF
       const csrfToken = await this.getCsrfToken();
-      
+
       const res = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: this.getHeaders(true),
@@ -94,7 +94,7 @@ class AuthService {
         body: JSON.stringify({ ...credentials, csrf_token: csrfToken })
       });
       const data = await res.json();
-      
+
       // Si token CSRF invalide, essayer une nouvelle fois
       if (res.status === 403 && data.error === 'CSRF token invalide') {
         const newToken = await this.getCsrfToken();
@@ -114,7 +114,7 @@ class AuthService {
         }
         return { success: true, data: retryData };
       }
-      
+
       if (!res.ok) return { success: false, error: data.error || 'Identifiants incorrects' };
 
       const user = data?.user || null;

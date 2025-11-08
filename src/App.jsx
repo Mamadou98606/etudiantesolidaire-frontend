@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ChangePassword from './components/ChangePassword';
 import EditProfile from './components/EditProfile';
 import Bookmarks from './components/Bookmarks';
+import SessionExpirationWarning from './components/SessionExpirationWarning';
 
 // Composants existants
 import HomePage from './components/HomePage';
@@ -385,6 +386,7 @@ const AppContent = () => {
   return (
     <Router>
       <ScrollToTop />
+      <SessionExpirationWarning />
       <div className="flex flex-col min-h-screen">
         <Header
           onLoginClick={handleLoginClick}
