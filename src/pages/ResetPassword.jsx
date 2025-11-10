@@ -80,7 +80,7 @@ export default function ResetPassword() {
       <div className="auth-modal-overlay">
         <div className="auth-modal">
           <div className="auth-header">
-            <button 
+            <button
               onClick={() => navigate('/')}
               className="auth-close-btn"
               title="Fermer"
@@ -116,7 +116,7 @@ export default function ResetPassword() {
       <div className="auth-modal-overlay">
         <div className="auth-modal">
           <div className="auth-header">
-            <button 
+            <button
               onClick={() => navigate('/')}
               className="auth-close-btn"
               title="Fermer"
@@ -151,7 +151,7 @@ export default function ResetPassword() {
     <div className="auth-modal-overlay">
       <div className="auth-modal">
         <div className="auth-header">
-          <button 
+          <button
             onClick={() => navigate('/')}
             className="auth-close-btn"
             title="Fermer"
@@ -177,10 +177,10 @@ export default function ResetPassword() {
             <div className="auth-input-group">
               <label htmlFor="new-password" className="auth-label">Nouveau mot de passe</label>
               <div style={{ position: 'relative' }}>
-                <Lock style={{ 
-                  position: 'absolute', 
-                  left: '12px', 
-                  top: '50%', 
+                <Lock style={{
+                  position: 'absolute',
+                  left: '12px',
+                  top: '50%',
                   transform: 'translateY(-50%)',
                   width: '18px',
                   height: '18px',
@@ -238,10 +238,10 @@ export default function ResetPassword() {
             <div className="auth-input-group" style={{ marginTop: '20px' }}>
               <label htmlFor="confirm-password" className="auth-label">Confirmer le mot de passe</label>
               <div style={{ position: 'relative' }}>
-                <Lock style={{ 
-                  position: 'absolute', 
-                  left: '12px', 
-                  top: '50%', 
+                <Lock style={{
+                  position: 'absolute',
+                  left: '12px',
+                  top: '50%',
                   transform: 'translateY(-50%)',
                   width: '18px',
                   height: '18px',

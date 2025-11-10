@@ -37,7 +37,7 @@ export default function ForgotPassword() {
       <div className="auth-modal-overlay">
         <div className="auth-modal">
           <div className="auth-header">
-            <button 
+            <button
               onClick={() => navigate('/')}
               className="auth-close-btn"
               title="Retour"
@@ -55,10 +55,10 @@ export default function ForgotPassword() {
               </p>
             </div>
 
-            <div style={{ 
-              backgroundColor: '#f0f8ff', 
-              padding: '15px', 
-              borderRadius: '8px', 
+            <div style={{
+              backgroundColor: '#f0f8ff',
+              padding: '15px',
+              borderRadius: '8px',
               marginBottom: '20px',
               fontSize: '13px',
               color: '#666'
@@ -83,7 +83,7 @@ export default function ForgotPassword() {
     <div className="auth-modal-overlay">
       <div className="auth-modal">
         <div className="auth-header">
-          <button 
+          <button
             onClick={() => navigate('/')}
             className="auth-close-btn"
             title="Retour"
@@ -108,10 +108,10 @@ export default function ForgotPassword() {
             <div className="auth-input-group">
               <label htmlFor="email" className="auth-label">Email</label>
               <div style={{ position: 'relative' }}>
-                <Mail style={{ 
-                  position: 'absolute', 
-                  left: '12px', 
-                  top: '50%', 
+                <Mail style={{
+                  position: 'absolute',
+                  left: '12px',
+                  top: '50%',
                   transform: 'translateY(-50%)',
                   width: '18px',
                   height: '18px',
