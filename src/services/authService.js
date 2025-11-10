@@ -190,7 +190,7 @@ class AuthService {
         credentials: 'include'
       });
       const data = await res.json();
-      
+
       if (res.ok) {
         const user = data?.user || null;
         if (user) {
@@ -214,7 +214,7 @@ class AuthService {
         body: JSON.stringify({ email })
       });
       const data = await res.json();
-      
+
       if (res.ok) {
         return { success: true, message: data.message };
       }

@@ -115,14 +115,14 @@ export const AuthProvider = ({ children }) => {
         const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
         setSessionExpiresAt(expiresAt);
         setShowExpirationWarning(false);
-        
+
         // ============ ÉTAPE 6 : Afficher modal de vérification ============
         if (!authService.getCurrentUser()?.email_verified) {
           setPendingVerificationEmail(authService.getCurrentUser()?.email);
           setShowEmailVerification(true);
         }
         // ============ FIN ÉTAPE 6 ============
-        
+
         return { success: true, message: 'Inscription réussie ! Veuillez vérifier votre email.' };
       } else {
         setError(result.error);
