@@ -182,6 +182,49 @@ class AuthService {
     return false;
   }
 
+  // ============ ÉTAPE 6 : Email Verification ============
+  async verifyEmail(token) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/verify-email/${token}`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+      const data = await res.json();
+      
+      if (res.ok) {
+        const user = data?.user || null;
+        if (user) {
+          this.user = user;
+          localStorage.setItem('user_data', JSON.stringify(this.user));
+        }
+        return { success: true, data };
+      }
+      return { success: false, error: data.error || 'Erreur lors de la vérification' };
+    } catch (error) {
+      return { success: false, error: 'Erreur de connexion au serveur' };
+    }
+  }
+
+  async resendVerificationEmail(email) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/resend-verification-email`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        credentials: 'include',
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      
+      if (res.ok) {
+        return { success: true, message: data.message };
+      }
+      return { success: false, error: data.error || 'Erreur lors de l\'envoi' };
+    } catch (error) {
+      return { success: false, error: 'Erreur de connexion au serveur' };
+    }
+  }
+  // ============ FIN ÉTAPE 6 ============
+
   isAuthenticated() { return this.user !== null; }
   getCurrentUser() { return this.user; }
   updateUserData(userData) {

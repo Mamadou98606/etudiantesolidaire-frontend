@@ -7,6 +7,7 @@ import ChangePassword from './components/ChangePassword';
 import EditProfile from './components/EditProfile';
 import Bookmarks from './components/Bookmarks';
 import SessionExpirationWarning from './components/SessionExpirationWarning';
+import EmailVerificationModal from './components/EmailVerificationModal';
 
 // Composants existants
 import HomePage from './components/HomePage';
@@ -368,6 +369,7 @@ const CookieBanner = () => {
 const AppContent = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login');
+  const { showEmailVerification, pendingVerificationEmail, setShowEmailVerification } = useAuth();
 
   const handleLoginClick = () => {
     setAuthModalMode('login');
@@ -443,6 +445,15 @@ const AppContent = () => {
             mode={authModalMode}
             onSuccess={handleAuthSuccess}
             onSwitchMode={(mode) => setAuthModalMode(mode)}
+          />
+        )}
+
+        {/* Modal de vérification email */}
+        {showEmailVerification && pendingVerificationEmail && (
+          <EmailVerificationModal
+            userEmail={pendingVerificationEmail}
+            onClose={() => setShowEmailVerification(false)}
+            onVerified={() => setShowEmailVerification(false)}
           />
         )}
 

@@ -23,6 +23,8 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [sessionExpiresAt, setSessionExpiresAt] = useState(null);
   const [showExpirationWarning, setShowExpirationWarning] = useState(false);
+  const [showEmailVerification, setShowEmailVerification] = useState(false);
+  const [pendingVerificationEmail, setPendingVerificationEmail] = useState(null);
 
   // Vérifier la session au chargement de l'application
   useEffect(() => {
@@ -113,7 +115,15 @@ export const AuthProvider = ({ children }) => {
         const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
         setSessionExpiresAt(expiresAt);
         setShowExpirationWarning(false);
-        return { success: true, message: 'Inscription réussie !' };
+        
+        // ============ ÉTAPE 6 : Afficher modal de vérification ============
+        if (!authService.getCurrentUser()?.email_verified) {
+          setPendingVerificationEmail(authService.getCurrentUser()?.email);
+          setShowEmailVerification(true);
+        }
+        // ============ FIN ÉTAPE 6 ============
+        
+        return { success: true, message: 'Inscription réussie ! Veuillez vérifier votre email.' };
       } else {
         setError(result.error);
         return { success: false, error: result.error };
@@ -237,6 +247,8 @@ export const AuthProvider = ({ children }) => {
     error,
     sessionExpiresAt,
     showExpirationWarning,
+    showEmailVerification,
+    pendingVerificationEmail,
     isAuthenticated: isAuthenticated(),
 
     // Actions
@@ -245,7 +257,8 @@ export const AuthProvider = ({ children }) => {
     logout,
     updateProfile,
     refreshUser,
-    clearError
+    clearError,
+    setShowEmailVerification
   };
 
   return (
