@@ -432,6 +432,22 @@ const AuthModal = ({ isOpen, onClose, mode = 'login', onSuccess, onSwitchMode })
               </button>
             </form>
 
+            {/* Lien "Mot de passe oublié" - seulement en mode login */}
+            {mode === 'login' && (
+              <div className="mt-4 text-right">
+                <button
+                  onClick={() => {
+                    onClose();
+                    // Naviguer vers la page de mot de passe oublié
+                    window.location.href = '/forgot-password';
+                  }}
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Mot de passe oublié ?
+                </button>
+              </div>
+            )}
+
             {/* Lien pour changer de mode */}
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">

@@ -225,6 +225,51 @@ class AuthService {
   }
   // ============ FIN ÉTAPE 6 ============
 
+  // ============ ÉTAPE 7 : Password Reset ============
+  async forgotPassword(email) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/forgot-password`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        credentials: 'include',
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        return { success: true, message: data.message };
+      }
+      throw new Error(data.error || 'Erreur lors de la demande');
+    } catch (error) {
+      throw new Error(error.message || 'Erreur de connexion au serveur');
+    }
+  }
+
+  async resetPassword(token, newPassword) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/reset-password/${token}`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        credentials: 'include',
+        body: JSON.stringify({ new_password: newPassword })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        // Mettre à jour les données utilisateur si le mot de passe a été réinitialisé
+        if (data.user) {
+          this.user = data.user;
+          localStorage.setItem('user_data', JSON.stringify(this.user));
+        }
+        return { success: true, message: data.message };
+      }
+      throw new Error(data.error || 'Erreur lors de la réinitialisation');
+    } catch (error) {
+      throw new Error(error.message || 'Erreur de connexion au serveur');
+    }
+  }
+  // ============ FIN ÉTAPE 7 ============
+
   isAuthenticated() { return this.user !== null; }
   getCurrentUser() { return this.user; }
   updateUserData(userData) {

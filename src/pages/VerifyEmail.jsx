@@ -27,7 +27,7 @@ export const VerifyEmail = () => {
         if (result.success) {
           setStatus('success');
           setMessage('🎉 Votre email a été vérifié avec succès !');
-          
+
           // Rediriger vers la page d'accueil après 3 secondes
           setTimeout(() => {
             navigate('/');
@@ -80,7 +80,7 @@ export const VerifyEmail = () => {
             </div>
             <h1 className="text-2xl font-bold text-gray-800 mb-4">Erreur</h1>
             <p className="text-red-600 mb-6 font-semibold">{error}</p>
-            
+
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
               <p className="text-gray-700 text-sm mb-3">
                 <strong>Raisons possibles :</strong>
