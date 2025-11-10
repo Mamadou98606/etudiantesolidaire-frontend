@@ -8,6 +8,7 @@ import EditProfile from './components/EditProfile';
 import Bookmarks from './components/Bookmarks';
 import SessionExpirationWarning from './components/SessionExpirationWarning';
 import EmailVerificationModal from './components/EmailVerificationModal';
+import VerifyEmail from './pages/VerifyEmail';
 
 // Composants existants
 import HomePage from './components/HomePage';
@@ -403,6 +404,7 @@ const AppContent = () => {
             <Route path="/etudes" element={<Etudes />} />
             <Route path="/travailler" element={<Travailler />} />
             <Route path="/vivre-en-france" element={<VivreFrance />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/espace-perso" element={
               <ProtectedRoute>
                 <UserDashboard />
