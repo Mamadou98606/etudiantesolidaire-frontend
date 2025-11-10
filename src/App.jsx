@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation 
 
 // Authentification
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { CookieConsentProvider } from './contexts/CookieConsentContext';
 import ChangePassword from './components/ChangePassword';
 import EditProfile from './components/EditProfile';
 import Bookmarks from './components/Bookmarks';
@@ -11,6 +12,8 @@ import EmailVerificationModal from './components/EmailVerificationModal';
 import VerifyEmail from './pages/VerifyEmail';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import CookiePreferences from './pages/CookiePreferences';
+import CookieConsent from './components/CookieConsent';
 
 // Composants existants
 import HomePage from './components/HomePage';
@@ -409,6 +412,7 @@ const AppContent = () => {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/cookie-preferences" element={<CookiePreferences />} />
             <Route path="/espace-perso" element={
               <ProtectedRoute>
                 <UserDashboard />
@@ -463,7 +467,7 @@ const AppContent = () => {
           />
         )}
 
-        <CookieBanner />
+        <CookieConsent />
       </div>
     </Router>
   );
@@ -472,8 +476,12 @@ const AppContent = () => {
 // App principal avec AuthProvider
 export default function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <CookieConsentProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </CookieConsentProvider>
   );
 }
+
+
